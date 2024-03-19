@@ -1,0 +1,698 @@
+﻿UIC;Gare enquêtée;CSP;Pourcentage;Année
+484006;Angers Saint Laud;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2015
+583005;Angoulême;Militaire;4.0;2012
+583005;Angoulême;Ouvrier, Employé;22.0;2012
+318964;Avignon TGV;Ouvrier, Employé;15.0;2015
+271494;Aéroport Charles de Gaulle 2 TGV;Ouvrier, Employé;5.0;2013
+271494;Aéroport Charles de Gaulle 2 TGV;Sans emploi;0.8;2013
+673004;Bayonne;Retraité;17.0;2013
+300822;Belfort Montbéliard TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;38.0;2015
+673400;Biarritz;Ouvrier, Employé;20.0;2016
+713040;Dijon;Retraité;12.0;2015
+747006;Grenoble;Etudiant (après le bac);21.0;2015
+723197;Lyon Part Dieu;Militaire;1.0;2011
+722025;Lyon Perrache;Retraité;8.0;2011
+762906;Lyon Saint Exupery TGV;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2016
+393702;Massy TGV;Autre;0.5;2013
+393702;Massy TGV;Militaire;0.4;2013
+192039;Metz;Technicien, Agent de maîtrise;5.0;2011
+192039;Metz;Militaire;0.8;2016
+192039;Metz;Sans emploi;6.0;2016
+192039;Metz;Technicien, Agent de maîtrise;5.0;2016
+773002;Montpellier Saint-Roch;Sans emploi;5.0;2015
+547000;Paris Austerlitz;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2013
+;Paris Bercy;Etudiant (après le bac);6.0;2012
+;Paris Bercy;Technicien, Agent de maîtrise;25.0;2012
+113001;Paris Est;Militaire;0.9;2012
+686006;Paris Gare de Lyon;Enseignant, Professeur;1.0;2012
+271007;Paris Nord;Autre;0.2;2012
+271007;Paris Nord;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;21.0;2012
+271007;Paris Nord;Retraité;3.0;2012
+384008;Paris St Lazare;Retraité;4.0;2013
+171009;Reims;Agriculteur, Exploitant agricole;0.30000000000000004;2016
+471003;Rennes;Militaire;1.0;2014
+471003;Rennes;Retraité;10.0;2014
+212027;Strasbourg;Enseignant, Professeur;4.0;2016
+212027;Strasbourg;Scolaire (avant le bac);6.0;2016
+118000;Troyes;Retraité;10.0;2015
+118000;Troyes;Technicien, Agent de maîtrise;7.0;2015
+319012;Aix en Provence-TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;38.0;2015
+319012;Aix en Provence-TGV;Ouvrier, Employé;15.0;2015
+753657;Arles;Agriculteur, Exploitant agricole;0.8;2014
+318964;Avignon TGV;Scolaire (avant le bac);2.0;2015
+673400;Biarritz;Agriculteur, Exploitant agricole;0.2;2016
+581009;Bordeaux Saint-Jean;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;15.0;2014
+713040;Dijon;Ouvrier, Employé;27.0;2015
+747006;Grenoble;Retraité;7.0;2015
+396002;Le Mans;Ouvrier, Employé;24.0;2015
+345025;Lens;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2016
+142109;Lorraine TGV;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2017
+142109;Lorraine TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;34.0;2017
+142109;Lorraine TGV;Etudiant (après le bac);7.0;2017
+723197;Lyon Part Dieu;Enseignant, Professeur;2.0;2011
+723197;Lyon Part Dieu;Technicien, Agent de maîtrise;6.0;2011
+722025;Lyon Perrache;Ouvrier, Employé;27.0;2011
+111849;Marne la Vallée Chessy;Agriculteur, Exploitant agricole;0.2;2013
+751008;Marseille Saint-Charles;Agriculteur, Exploitant agricole;0.30000000000000004;2013
+751008;Marseille Saint-Charles;Technicien, Agent de maîtrise;6.0;2013
+393702;Massy TGV;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2013
+393702;Massy TGV;Technicien, Agent de maîtrise;13.0;2013
+192039;Metz;Scolaire (avant le bac);8.0;2011
+192039;Metz;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2016
+756056;Nice;Retraité;13.0;2014
+756056;Nice;Scolaire (avant le bac);4.0;2014
+775007;Nîmes;Ouvrier, Employé;22.0;2014
+;Paris Bercy;Retraité;11.0;2012
+686006;Paris Gare de Lyon;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2012
+686006;Paris Gare de Lyon;Militaire;0.4;2012
+784009;Perpignan;Technicien, Agent de maîtrise;4.0;2016
+471003;Rennes;Scolaire (avant le bac);3.0;2014
+212027;Strasbourg;Ouvrier, Employé;24.0;2016
+755009;Toulon;Technicien, Agent de maîtrise;4.0;2014
+611004;Toulouse Matabiau;Agriculteur, Exploitant agricole;0.30000000000000004;2014
+611004;Toulouse Matabiau;Ouvrier, Employé;20.0;2014
+611004;Toulouse Matabiau;Sans emploi;9.0;2014
+313874;Amiens;Militaire;0.5;2015
+313874;Amiens;Scolaire (avant le bac);14.0;2015
+484006;Angers Saint Laud;Technicien, Agent de maîtrise;5.0;2015
+318964;Avignon TGV;Technicien, Agent de maîtrise;8.0;2015
+300822;Belfort Montbéliard TGV;Etudiant (après le bac);6.0;2015
+673400;Biarritz;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;17.0;2016
+581009;Bordeaux Saint-Jean;Retraité;12.0;2014
+757625;Cannes;Ouvrier, Employé;26.0;2015
+444877;Cherbourg;Etudiant (après le bac);11.0;2015
+747006;Grenoble;Autre;5.0;2015
+478404;Laval;Scolaire (avant le bac);5.0;2011
+286005;Lille Flandres;Retraité;5.0;2013
+723197;Lyon Part Dieu;Etudiant (après le bac);20.0;2011
+762906;Lyon Saint Exupery TGV;Enseignant, Professeur;3.0;2016
+751008;Marseille Saint-Charles;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;20.0;2013
+393702;Massy TGV;Enseignant, Professeur;5.0;2013
+393702;Massy TGV;Scolaire (avant le bac);3.0;2013
+192039;Metz;Enseignant, Professeur;4.0;2011
+192039;Metz;Sans emploi;5.0;2011
+192039;Metz;Retraité;9.0;2016
+756056;Nice;Artisan, Commerçant, Chef d'entreprise TPE;5.0;2014
+;Paris Bercy;Enseignant, Professeur;5.0;2012
+686006;Paris Gare de Lyon;Etudiant (après le bac);4.0;2012
+686006;Paris Gare de Lyon;Technicien, Agent de maîtrise;3.0;2012
+784009;Perpignan;Retraité;20.0;2016
+411017;Rouen Rive Droite;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2014
+411017;Rouen Rive Droite;Technicien, Agent de maîtrise;5.0;2014
+212027;Strasbourg;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;18.0;2016
+611004;Toulouse Matabiau;Enseignant, Professeur;3.0;2014
+611004;Toulouse Matabiau;Etudiant (après le bac);23.0;2014
+118000;Troyes;Ouvrier, Employé;16.0;2015
+319012;Aix en Provence-TGV;Technicien, Agent de maîtrise;5.0;2015
+686006;Paris Gare de Lyon;Autre;0.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Autre;0.2;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Militaire;1.0;2012
+784009;Perpignan;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2016
+471003;Rennes;Enseignant, Professeur;7.0;2014
+471003;Rennes;Ouvrier, Employé;16.0;2014
+763029;Valence TGV Rhône-Alpes Sud;Artisan, Commerçant, Chef d'entreprise TPE;7.0;2015
+763029;Valence TGV Rhône-Alpes Sud;Militaire;1.0;2015
+763029;Valence TGV Rhône-Alpes Sud;Sans emploi;5.0;2015
+318964;Avignon TGV;Enseignant, Professeur;4.0;2015
+751008;Marseille Saint-Charles;Autre;1.0;2013
+722025;Lyon Perrache;Agriculteur, Exploitant agricole;0.30000000000000004;2011
+762906;Lyon Saint Exupery TGV;Ouvrier, Employé;14.0;2016
+722025;Lyon Perrache;Non communiqué;0.1;2011
+396002;Le Mans;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2015
+345025;Lens;Scolaire (avant le bac);13.0;2016
+345025;Lens;Ouvrier, Employé;28.0;2016
+182014;Colmar;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;11.0;2017
+182014;Colmar;Agriculteur, Exploitant agricole;0.1;2017
+757625;Cannes;Scolaire (avant le bac);21.0;2015
+444877;Cherbourg;Sans emploi;3.0;2015
+773002;Montpellier Saint-Roch;Enseignant, Professeur;5.0;2015
+773002;Montpellier Saint-Roch;Militaire;0.5;2015
+182063;Mulhouse;Sans emploi;8.0;2014
+581009;Bordeaux Saint-Jean;Autre;0.6000000000000001;2014
+286005;Lille Flandres;Ouvrier, Employé;27.0;2013
+286005;Lille Flandres;Militaire;0.5;2013
+476002;Lorient;Autre;1.0;2010
+300863;Besançon Franche-Comté TGV;Enseignant, Professeur;7.0;2015
+757625;Cannes;Autre;0.4;2015
+182014;Colmar;Etudiant (après le bac);21.0;2017
+747006;Grenoble;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;23.0;2015
+747006;Grenoble;Enseignant, Professeur;5.0;2015
+747006;Grenoble;Technicien, Agent de maîtrise;5.0;2015
+677005;Hendaye;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2016
+223263;Lille Europe;Etudiant (après le bac);12.0;2013
+722025;Lyon Perrache;Etudiant (après le bac);18.0;2011
+111849;Marne la Vallée Chessy;Technicien, Agent de maîtrise;1.0;2013
+192039;Metz;Ouvrier, Employé;32.0;2011
+182063;Mulhouse;Etudiant (après le bac);21.0;2014
+481002;Nantes;Autre;6.0;2014
+481002;Nantes;Sans emploi;5.0;2014
+547000;Paris Austerlitz;Technicien, Agent de maîtrise;9.0;2013
+113001;Paris Est;Retraité;5.0;2012
+686006;Paris Gare de Lyon;Retraité;3.0;2012
+171009;Reims;Etudiant (après le bac);14.0;2016
+171009;Reims;Sans emploi;8.0;2016
+755009;Toulon;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2014
+571000;Tours;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;18.0;2016
+484006;Angers Saint Laud;Scolaire (avant le bac);7.0;2015
+318964;Avignon TGV;Agriculteur, Exploitant agricole;1.0;2015
+673004;Bayonne;Agriculteur, Exploitant agricole;0.1;2013
+300822;Belfort Montbéliard TGV;Autre;4.0;2015
+673400;Biarritz;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2016
+581009;Bordeaux Saint-Jean;Etudiant (après le bac);20.0;2014
+444877;Cherbourg;Autre;3.0;2015
+476002;Lorient;Militaire;0.8;2010
+751008;Marseille Saint-Charles;Sans emploi;6.0;2013
+192039;Metz;Non communiqué;0.9;2011
+192039;Metz;Ouvrier, Employé;28.0;2016
+182063;Mulhouse;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;15.0;2014
+481002;Nantes;Retraité;12.0;2014
+756056;Nice;Etudiant (après le bac);21.0;2014
+547000;Paris Austerlitz;Non communiqué;0.6000000000000001;2013
+113001;Paris Est;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2012
+271007;Paris Nord;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2012
+384008;Paris St Lazare;Agriculteur, Exploitant agricole;0.2;2013
+575001;Poitiers;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2015
+575001;Poitiers;Etudiant (après le bac);19.0;2015
+171009;Reims;Ouvrier, Employé;23.0;2016
+755009;Toulon;Retraité;16.0;2014
+118000;Troyes;Sans emploi;7.0;2015
+763029;Valence TGV Rhône-Alpes Sud;Agriculteur, Exploitant agricole;1.0;2015
+763029;Valence TGV Rhône-Alpes Sud;Enseignant, Professeur;4.0;2015
+763029;Valence TGV Rhône-Alpes Sud;Technicien, Agent de maîtrise;5.0;2015
+319012;Aix en Provence-TGV;Etudiant (après le bac);5.0;2015
+444000;Caen;Militaire;0.7000000000000001;2012
+747006;Grenoble;Sans emploi;3.0;2015
+677005;Hendaye;Technicien, Agent de maîtrise;3.0;2016
+478404;Laval;Technicien, Agent de maîtrise;3.0;2011
+396002;Le Mans;Retraité;10.0;2015
+223263;Lille Europe;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;36.0;2013
+223263;Lille Europe;Retraité;10.0;2013
+723197;Lyon Part Dieu;Ouvrier, Employé;27.0;2011
+762906;Lyon Saint Exupery TGV;Retraité;6.0;2016
+111849;Marne la Vallée Chessy;Artisan, Commerçant, Chef d'entreprise TPE;1.0;2013
+111849;Marne la Vallée Chessy;Enseignant, Professeur;0.2;2013
+751008;Marseille Saint-Charles;Etudiant (après le bac);20.0;2013
+393702;Massy TGV;Non communiqué;0.4;2013
+393702;Massy TGV;Agriculteur, Exploitant agricole;2.0;2013
+393702;Massy TGV;Ouvrier, Employé;19.0;2013
+192039;Metz;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;16.0;2016
+773002;Montpellier Saint-Roch;Non communiqué;0.2;2015
+141002;Nancy;Enseignant, Professeur;4.0;2014
+481002;Nantes;Militaire;0.9;2014
+471003;Rennes;Agriculteur, Exploitant agricole;0.2;2014
+571000;Tours;Sans emploi;5.0;2016
+313874;Amiens;Artisan, Commerçant, Chef d'entreprise TPE;0.8;2015
+583005;Angoulême;Retraité;16.0;2012
+583005;Angoulême;Sans emploi;6.0;2012
+271494;Aéroport Charles de Gaulle 2 TGV;Enseignant, Professeur;1.0;2013
+673004;Bayonne;Scolaire (avant le bac);7.0;2013
+300822;Belfort Montbéliard TGV;Retraité;11.0;2015
+757625;Cannes;Retraité;18.0;2015
+444877;Cherbourg;Agriculteur, Exploitant agricole;1.0;2015
+478404;Laval;Autre;2.0;2011
+142109;Lorraine TGV;Ouvrier, Employé;16.0;2017
+773002;Montpellier Saint-Roch;Ouvrier, Employé;19.0;2015
+141002;Nancy;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;15.0;2014
+547000;Paris Austerlitz;Autre;0.30000000000000004;2013
+547000;Paris Austerlitz;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;26.0;2013
+547000;Paris Austerlitz;Retraité;9.0;2013
+686006;Paris Gare de Lyon;Agriculteur, Exploitant agricole;0.2;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Etudiant (après le bac);14.0;2012
+271007;Paris Nord;Scolaire (avant le bac);2.0;2012
+384008;Paris St Lazare;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2013
+384008;Paris St Lazare;Enseignant, Professeur;3.0;2013
+384008;Paris St Lazare;Etudiant (après le bac);13.0;2013
+784009;Perpignan;Autre;0.9;2016
+575001;Poitiers;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;21.0;2015
+575001;Poitiers;Technicien, Agent de maîtrise;4.0;2015
+171009;Reims;Enseignant, Professeur;4.0;2016
+611004;Toulouse Matabiau;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;12.0;2014
+571000;Tours;Etudiant (après le bac);15.0;2016
+118000;Troyes;Etudiant (après le bac);16.0;2015
+319012;Aix en Provence-TGV;Scolaire (avant le bac);0.30000000000000004;2015
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Non communiqué;6.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Ouvrier, Employé;23.0;2012
+271007;Paris Nord;Etudiant (après le bac);12.0;2012
+384008;Paris St Lazare;Sans emploi;3.0;2013
+784009;Perpignan;Sans emploi;7.0;2016
+784009;Perpignan;Scolaire (avant le bac);13.0;2016
+575001;Poitiers;Agriculteur, Exploitant agricole;0.30000000000000004;2015
+411017;Rouen Rive Droite;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;14.0;2014
+212027;Strasbourg;Retraité;6.0;2016
+212027;Strasbourg;Technicien, Agent de maîtrise;4.0;2016
+763029;Valence TGV Rhône-Alpes Sud;Etudiant (après le bac);7.0;2015
+677005;Hendaye;Enseignant, Professeur;2.0;2016
+677005;Hendaye;Sans emploi;7.0;2016
+775007;Nîmes;Technicien, Agent de maîtrise;2.0;2014
+547000;Paris Austerlitz;Sans emploi;3.0;2013
+751008;Marseille Saint-Charles;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2013
+111849;Marne la Vallée Chessy;Scolaire (avant le bac);0.0;2013
+396002;Le Mans;Enseignant, Professeur;5.0;2015
+182014;Colmar;Enseignant, Professeur;7.0;2017
+481002;Nantes;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;24.0;2014
+481002;Nantes;Technicien, Agent de maîtrise;7.0;2014
+481002;Nantes;Enseignant, Professeur;3.0;2014
+756056;Nice;Ouvrier, Employé;29.0;2014
+773002;Montpellier Saint-Roch;Etudiant (après le bac);28.0;2015
+481002;Nantes;Agriculteur, Exploitant agricole;0.4;2014
+673400;Biarritz;Technicien, Agent de maîtrise;2.0;2016
+673400;Biarritz;Sans emploi;3.0;2016
+286005;Lille Flandres;Etudiant (après le bac);27.0;2013
+223263;Lille Europe;Autre;0.9;2013
+271494;Aéroport Charles de Gaulle 2 TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;11.0;2013
+300822;Belfort Montbéliard TGV;Artisan, Commerçant, Chef d'entreprise TPE;6.0;2015
+271494;Aéroport Charles de Gaulle 2 TGV;Technicien, Agent de maîtrise;3.0;2013
+300822;Belfort Montbéliard TGV;Technicien, Agent de maîtrise;5.0;2015
+673004;Bayonne;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2013
+300863;Besançon Franche-Comté TGV;Retraité;12.0;2015
+313874;Amiens;Etudiant (après le bac);37.0;2015
+271494;Aéroport Charles de Gaulle 2 TGV;Scolaire (avant le bac);0.2;2013
+300822;Belfort Montbéliard TGV;Scolaire (avant le bac);2.0;2015
+300863;Besançon Franche-Comté TGV;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2015
+300863;Besançon Franche-Comté TGV;Etudiant (après le bac);17.0;2015
+300863;Besançon Franche-Comté TGV;Ouvrier, Employé;11.0;2015
+300863;Besançon Franche-Comté TGV;Sans emploi;4.0;2015
+718007;Besançon-Viotte;Non communiqué;0.0;2012
+581009;Bordeaux Saint-Jean;Agriculteur, Exploitant agricole;0.4;2014
+444000;Caen;Non communiqué;1.0;2012
+757625;Cannes;Technicien, Agent de maîtrise;4.0;2015
+444877;Cherbourg;Retraité;11.0;2015
+713040;Dijon;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;15.0;2015
+713040;Dijon;Militaire;0.7000000000000001;2015
+713040;Dijon;Sans emploi;5.0;2015
+747006;Grenoble;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2015
+677005;Hendaye;Agriculteur, Exploitant agricole;0.2;2016
+396002;Le Mans;Sans emploi;8.0;2015
+286005;Lille Flandres;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;19.0;2013
+286005;Lille Flandres;Enseignant, Professeur;5.0;2013
+476002;Lorient;Agriculteur, Exploitant agricole;0.1;2010
+722025;Lyon Perrache;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2011
+762906;Lyon Saint Exupery TGV;Etudiant (après le bac);13.0;2016
+182063;Mulhouse;Enseignant, Professeur;4.0;2014
+141002;Nancy;Scolaire (avant le bac);7.0;2014
+784009;Perpignan;Etudiant (après le bac);14.0;2016
+319012;Aix en Provence-TGV;Enseignant, Professeur;3.0;2015
+313874;Amiens;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;10.0;2015
+484006;Angers Saint Laud;Autre;5.0;2015
+484006;Angers Saint Laud;Enseignant, Professeur;5.0;2015
+318964;Avignon TGV;Artisan, Commerçant, Chef d'entreprise TPE;11.0;2015
+271494;Aéroport Charles de Gaulle 2 TGV;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2013
+757625;Cannes;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2015
+444877;Cherbourg;Scolaire (avant le bac);3.0;2015
+182014;Colmar;Technicien, Agent de maîtrise;3.0;2017
+713040;Dijon;Scolaire (avant le bac);12.0;2015
+478404;Laval;Retraité;17.0;2011
+396002;Le Mans;Technicien, Agent de maîtrise;6.0;2015
+476002;Lorient;Enseignant, Professeur;4.0;2010
+142109;Lorraine TGV;Retraité;22.0;2017
+751008;Marseille Saint-Charles;Ouvrier, Employé;25.0;2013
+751008;Marseille Saint-Charles;Retraité;9.0;2013
+192039;Metz;Autre;4.0;2016
+773002;Montpellier Saint-Roch;Agriculteur, Exploitant agricole;0.6000000000000001;2015
+481002;Nantes;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2014
+775007;Nîmes;Etudiant (après le bac);15.0;2014
+547000;Paris Austerlitz;Agriculteur, Exploitant agricole;0.4;2013
+686006;Paris Gare de Lyon;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;11.0;2012
+575001;Poitiers;Sans emploi;8.0;2015
+171009;Reims;Technicien, Agent de maîtrise;5.0;2016
+411017;Rouen Rive Droite;Autre;6.0;2014
+212027;Strasbourg;Sans emploi;3.0;2016
+755009;Toulon;Sans emploi;7.0;2014
+755009;Toulon;Scolaire (avant le bac);9.0;2014
+571000;Tours;Ouvrier, Employé;25.0;2016
+118000;Troyes;Militaire;3.0;2015
+753657;Arles;Scolaire (avant le bac);6.0;2014
+673004;Bayonne;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;13.0;2013
+673004;Bayonne;Militaire;0.7000000000000001;2013
+286005;Lille Flandres;Technicien, Agent de maîtrise;5.0;2013
+723197;Lyon Part Dieu;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2011
+723197;Lyon Part Dieu;Retraité;7.0;2011
+723197;Lyon Part Dieu;Sans emploi;7.0;2011
+723197;Lyon Part Dieu;Scolaire (avant le bac);3.0;2011
+762906;Lyon Saint Exupery TGV;Autre;3.0;2016
+751008;Marseille Saint-Charles;Scolaire (avant le bac);5.0;2013
+192039;Metz;Artisan, Commerçant, Chef d'entreprise TPE;1.0;2011
+192039;Metz;Scolaire (avant le bac);7.0;2016
+;Paris Bercy;Autre;2.0;2012
+;Paris Bercy;Sans emploi;3.0;2012
+411017;Rouen Rive Droite;Etudiant (après le bac);23.0;2014
+611004;Toulouse Matabiau;Technicien, Agent de maîtrise;5.0;2014
+763029;Valence TGV Rhône-Alpes Sud;Non communiqué;0.9;2015
+313874;Amiens;Ouvrier, Employé;21.0;2015
+313874;Amiens;Technicien, Agent de maîtrise;2.0;2015
+300822;Belfort Montbéliard TGV;Sans emploi;4.0;2015
+300863;Besançon Franche-Comté TGV;Technicien, Agent de maîtrise;6.0;2015
+757625;Cannes;Enseignant, Professeur;1.0;2015
+757625;Cannes;Sans emploi;4.0;2015
+182014;Colmar;Artisan, Commerçant, Chef d'entreprise TPE;1.0;2017
+345025;Lens;Retraité;6.0;2016
+286005;Lille Flandres;Agriculteur, Exploitant agricole;0.5;2013
+286005;Lille Flandres;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2013
+286005;Lille Flandres;Scolaire (avant le bac);2.0;2013
+476002;Lorient;Retraité;16.0;2010
+762906;Lyon Saint Exupery TGV;Scolaire (avant le bac);0.5;2016
+756056;Nice;Sans emploi;5.0;2014
+775007;Nîmes;Militaire;2.0;2014
+547000;Paris Austerlitz;Scolaire (avant le bac);2.0;2013
+113001;Paris Est;Enseignant, Professeur;3.0;2012
+113001;Paris Est;Scolaire (avant le bac);2.0;2012
+686006;Paris Gare de Lyon;Non communiqué;64.0;2012
+384008;Paris St Lazare;Autre;0.0;2013
+575001;Poitiers;Enseignant, Professeur;4.0;2015
+171009;Reims;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;16.0;2016
+471003;Rennes;Autre;1.0;2014
+411017;Rouen Rive Droite;Enseignant, Professeur;5.0;2014
+411017;Rouen Rive Droite;Militaire;0.9;2014
+755009;Toulon;Etudiant (après le bac);14.0;2014
+755009;Toulon;Militaire;9.0;2014
+611004;Toulouse Matabiau;Scolaire (avant le bac);3.0;2014
+571000;Tours;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2016
+113001;Paris Est;Autre;0.7000000000000001;2012
+113001;Paris Est;Etudiant (après le bac);12.0;2012
+384008;Paris St Lazare;Ouvrier, Employé;38.0;2013
+575001;Poitiers;Scolaire (avant le bac);6.0;2015
+171009;Reims;Militaire;0.7000000000000001;2016
+411017;Rouen Rive Droite;Scolaire (avant le bac);5.0;2014
+212027;Strasbourg;Autre;0.7000000000000001;2010
+755009;Toulon;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;9.0;2014
+611004;Toulouse Matabiau;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2014
+118000;Troyes;Scolaire (avant le bac);11.0;2015
+478404;Laval;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;25.0;2011
+478404;Laval;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2011
+677005;Hendaye;Etudiant (après le bac);7.0;2016
+747006;Grenoble;Militaire;0.5;2015
+775007;Nîmes;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;14.0;2014
+318964;Avignon TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;18.0;2015
+271494;Aéroport Charles de Gaulle 2 TGV;Non communiqué;69.0;2013
+271494;Aéroport Charles de Gaulle 2 TGV;Autre;0.2;2013
+484006;Angers Saint Laud;Militaire;1.0;2015
+318964;Avignon TGV;Sans emploi;8.0;2015
+773002;Montpellier Saint-Roch;Artisan, Commerçant, Chef d'entreprise TPE;5.0;2015
+751008;Marseille Saint-Charles;Militaire;1.0;2013
+142109;Lorraine TGV;Technicien, Agent de maîtrise;5.0;2017
+476002;Lorient;Scolaire (avant le bac);11.0;2010
+396002;Le Mans;Etudiant (après le bac);11.0;2015
+396002;Le Mans;Militaire;1.0;2015
+444000;Caen;Technicien, Agent de maîtrise;6.0;2012
+182014;Colmar;Retraité;6.0;2017
+481002;Nantes;Etudiant (après le bac);13.0;2014
+481002;Nantes;Ouvrier, Employé;19.0;2014
+182063;Mulhouse;Retraité;4.0;2014
+141002;Nancy;Militaire;2.0;2014
+444000;Caen;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;23.0;2012
+444000;Caen;Etudiant (après le bac);20.0;2012
+223263;Lille Europe;Scolaire (avant le bac);2.0;2013
+484006;Angers Saint Laud;Etudiant (après le bac);14.0;2015
+484006;Angers Saint Laud;Retraité;12.0;2015
+583005;Angoulême;Enseignant, Professeur;3.0;2012
+753657;Arles;Militaire;0.8;2014
+753657;Arles;Retraité;16.0;2014
+753657;Arles;Sans emploi;4.0;2014
+673004;Bayonne;Sans emploi;5.0;2013
+444000;Caen;Artisan, Commerçant, Chef d'entreprise TPE;1.0;2012
+478404;Laval;Ouvrier, Employé;20.0;2011
+345025;Lens;Etudiant (après le bac);24.0;2016
+223263;Lille Europe;Militaire;2.0;2013
+142109;Lorraine TGV;Sans emploi;4.0;2017
+762906;Lyon Saint Exupery TGV;Agriculteur, Exploitant agricole;0.5;2016
+762906;Lyon Saint Exupery TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;45.0;2016
+111849;Marne la Vallée Chessy;Sans emploi;0.30000000000000004;2013
+393702;Massy TGV;Etudiant (après le bac);7.0;2013
+192039;Metz;Etudiant (après le bac);17.0;2011
+113001;Paris Est;Ouvrier, Employé;29.0;2012
+686006;Paris Gare de Lyon;Ouvrier, Employé;10.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Retraité;11.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Sans emploi;3.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Technicien, Agent de maîtrise;6.0;2012
+384008;Paris St Lazare;Technicien, Agent de maîtrise;7.0;2013
+575001;Poitiers;Autre;3.0;2015
+212027;Strasbourg;Etudiant (après le bac);26.0;2016
+755009;Toulon;Enseignant, Professeur;3.0;2014
+118000;Troyes;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;16.0;2015
+581009;Bordeaux Saint-Jean;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2014
+444877;Cherbourg;Militaire;2.0;2015
+182014;Colmar;Militaire;2.0;2017
+677005;Hendaye;Retraité;40.0;2016
+345025;Lens;Agriculteur, Exploitant agricole;0.5;2016
+111849;Marne la Vallée Chessy;Ouvrier, Employé;3.0;2013
+182063;Mulhouse;Agriculteur, Exploitant agricole;0.6000000000000001;2014
+182063;Mulhouse;Militaire;2.0;2014
+182063;Mulhouse;Ouvrier, Employé;26.0;2014
+775007;Nîmes;Agriculteur, Exploitant agricole;0.5;2014
+113001;Paris Est;Non communiqué;12.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Artisan, Commerçant, Chef d'entreprise TPE;5.0;2012
+271007;Paris Nord;Non communiqué;15.0;2012
+271007;Paris Nord;Ouvrier, Employé;31.0;2012
+384008;Paris St Lazare;Militaire;0.30000000000000004;2013
+575001;Poitiers;Militaire;3.0;2015
+471003;Rennes;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2014
+411017;Rouen Rive Droite;Retraité;9.0;2014
+212027;Strasbourg;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;9.0;2010
+212027;Strasbourg;Etudiant (après le bac);13.0;2010
+571000;Tours;Enseignant, Professeur;4.0;2016
+118000;Troyes;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2015
+313874;Amiens;Agriculteur, Exploitant agricole;0.0;2015
+484006;Angers Saint Laud;Sans emploi;6.0;2015
+583005;Angoulême;Scolaire (avant le bac);6.0;2012
+753657;Arles;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;19.0;2014
+318964;Avignon TGV;Militaire;1.0;2015
+673004;Bayonne;Enseignant, Professeur;6.0;2013
+673004;Bayonne;Etudiant (après le bac);18.0;2013
+300863;Besançon Franche-Comté TGV;Scolaire (avant le bac);3.0;2015
+757625;Cannes;Etudiant (après le bac);16.0;2015
+444877;Cherbourg;Technicien, Agent de maîtrise;9.0;2015
+713040;Dijon;Enseignant, Professeur;4.0;2015
+677005;Hendaye;Scolaire (avant le bac);5.0;2016
+223263;Lille Europe;Technicien, Agent de maîtrise;7.0;2013
+476002;Lorient;Ouvrier, Employé;12.0;2010
+142109;Lorraine TGV;Autre;0.7000000000000001;2017
+393702;Massy TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;38.0;2013
+773002;Montpellier Saint-Roch;Technicien, Agent de maîtrise;3.0;2015
+141002;Nancy;Etudiant (après le bac);27.0;2014
+547000;Paris Austerlitz;Enseignant, Professeur;4.0;2013
+547000;Paris Austerlitz;Etudiant (après le bac);12.0;2013
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Agriculteur, Exploitant agricole;0.4;2012
+784009;Perpignan;Enseignant, Professeur;2.0;2016
+171009;Reims;Autre;3.0;2016
+471003;Rennes;Etudiant (après le bac);20.0;2014
+411017;Rouen Rive Droite;Ouvrier, Employé;25.0;2014
+212027;Strasbourg;Scolaire (avant le bac);4.0;2010
+212027;Strasbourg;Agriculteur, Exploitant agricole;0.30000000000000004;2016
+212027;Strasbourg;Militaire;1.0;2016
+763029;Valence TGV Rhône-Alpes Sud;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;36.0;2015
+763029;Valence TGV Rhône-Alpes Sud;Retraité;15.0;2015
+319012;Aix en Provence-TGV;Artisan, Commerçant, Chef d'entreprise TPE;7.0;2015
+319012;Aix en Provence-TGV;Sans emploi;4.0;2015
+313874;Amiens;Enseignant, Professeur;2.0;2015
+484006;Angers Saint Laud;Ouvrier, Employé;20.0;2015
+753657;Arles;Etudiant (après le bac);12.0;2014
+753657;Arles;Ouvrier, Employé;28.0;2014
+300863;Besançon Franche-Comté TGV;Autre;1.0;2015
+300863;Besançon Franche-Comté TGV;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;33.0;2015
+673400;Biarritz;Etudiant (après le bac);12.0;2016
+581009;Bordeaux Saint-Jean;Sans emploi;9.0;2014
+747006;Grenoble;Scolaire (avant le bac);3.0;2015
+677005;Hendaye;Ouvrier, Employé;25.0;2016
+396002;Le Mans;Scolaire (avant le bac);7.0;2015
+223263;Lille Europe;Agriculteur, Exploitant agricole;0.1;2013
+762906;Lyon Saint Exupery TGV;Technicien, Agent de maîtrise;7.0;2016
+111849;Marne la Vallée Chessy;Militaire;0.2;2013
+192039;Metz;Enseignant, Professeur;3.0;2016
+773002;Montpellier Saint-Roch;Retraité;12.0;2015
+756056;Nice;Agriculteur, Exploitant agricole;0.1;2014
+775007;Nîmes;Retraité;13.0;2014
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;26.0;2012
+212027;Strasbourg;Sans emploi;2.0;2010
+571000;Tours;Scolaire (avant le bac);10.0;2016
+763029;Valence TGV Rhône-Alpes Sud;Ouvrier, Employé;18.0;2015
+313874;Amiens;Autre;1.0;2015
+113001;Paris Est;Technicien, Agent de maîtrise;6.0;2012
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Enseignant, Professeur;4.0;2012
+784009;Perpignan;Agriculteur, Exploitant agricole;0.1;2016
+784009;Perpignan;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;12.0;2016
+471003;Rennes;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;27.0;2014
+611004;Toulouse Matabiau;Autre;8.0;2014
+677005;Hendaye;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;9.0;2016
+713040;Dijon;Etudiant (après le bac);19.0;2015
+478404;Laval;Sans emploi;4.0;2011
+;Paris Bercy;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;36.0;2012
+;Paris Bercy;Militaire;1.0;2012
+271494;Aéroport Charles de Gaulle 2 TGV;Agriculteur, Exploitant agricole;0.2;2013
+583005;Angoulême;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2012
+318964;Avignon TGV;Retraité;22.0;2015
+773002;Montpellier Saint-Roch;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;17.0;2015
+751008;Marseille Saint-Charles;Enseignant, Professeur;4.0;2013
+192039;Metz;Etudiant (après le bac);19.0;2016
+393702;Massy TGV;Sans emploi;1.0;2013
+393702;Massy TGV;Retraité;8.0;2013
+142109;Lorraine TGV;Enseignant, Professeur;4.0;2017
+142109;Lorraine TGV;Militaire;2.0;2017
+223263;Lille Europe;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2013
+345025;Lens;Enseignant, Professeur;3.0;2016
+757625;Cannes;Militaire;0.1;2015
+775007;Nîmes;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2014
+756056;Nice;Technicien, Agent de maîtrise;4.0;2014
+481002;Nantes;Scolaire (avant le bac);2.0;2014
+141002;Nancy;Technicien, Agent de maîtrise;4.0;2014
+182063;Mulhouse;Scolaire (avant le bac);13.0;2014
+581009;Bordeaux Saint-Jean;Enseignant, Professeur;4.0;2014
+444000;Caen;Retraité;9.0;2012
+476002;Lorient;Artisan, Commerçant, Chef d'entreprise TPE;7.0;2010
+223263;Lille Europe;Sans emploi;4.0;2013
+286005;Lille Flandres;Autre;0.5;2013
+319012;Aix en Provence-TGV;Agriculteur, Exploitant agricole;0.2;2015
+319012;Aix en Provence-TGV;Militaire;2.0;2015
+673400;Biarritz;Militaire;0.4;2016
+581009;Bordeaux Saint-Jean;Militaire;2.0;2014
+444000;Caen;Ouvrier, Employé;18.0;2012
+444877;Cherbourg;Ouvrier, Employé;20.0;2015
+182014;Colmar;Ouvrier, Employé;14.0;2017
+713040;Dijon;Agriculteur, Exploitant agricole;0.2;2015
+478404;Laval;Enseignant, Professeur;4.0;2011
+396002;Le Mans;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;21.0;2015
+345025;Lens;Sans emploi;10.0;2016
+223263;Lille Europe;Enseignant, Professeur;3.0;2013
+476002;Lorient;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;16.0;2010
+142109;Lorraine TGV;Scolaire (avant le bac);0.5;2017
+723197;Lyon Part Dieu;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;23.0;2011
+722025;Lyon Perrache;Enseignant, Professeur;4.0;2011
+111849;Marne la Vallée Chessy;Non communiqué;85.0;2013
+111849;Marne la Vallée Chessy;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;7.0;2013
+384008;Paris St Lazare;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;23.0;2013
+784009;Perpignan;Militaire;0.9;2016
+575001;Poitiers;Retraité;10.0;2015
+755009;Toulon;Agriculteur, Exploitant agricole;0.4;2014
+313874;Amiens;Retraité;5.0;2015
+583005;Angoulême;Etudiant (après le bac);19.0;2012
+583005;Angoulême;Technicien, Agent de maîtrise;3.0;2012
+300822;Belfort Montbéliard TGV;Agriculteur, Exploitant agricole;2.0;2015
+182014;Colmar;Autre;4.0;2017
+182014;Colmar;Sans emploi;7.0;2017
+478404;Laval;Etudiant (après le bac);16.0;2011
+396002;Le Mans;Autre;3.0;2015
+722025;Lyon Perrache;Militaire;0.8;2011
+722025;Lyon Perrache;Scolaire (avant le bac);5.0;2011
+182063;Mulhouse;Technicien, Agent de maîtrise;4.0;2014
+756056;Nice;Autre;2.0;2014
+756056;Nice;Enseignant, Professeur;4.0;2014
+391003;Paris Montparnasse 1 et 2 + Vaugirard;Scolaire (avant le bac);2.0;2012
+271007;Paris Nord;Militaire;0.2;2012
+575001;Poitiers;Ouvrier, Employé;19.0;2015
+611004;Toulouse Matabiau;Retraité;12.0;2014
+571000;Tours;Agriculteur, Exploitant agricole;0.0;2016
+571000;Tours;Militaire;0.9;2016
+319012;Aix en Provence-TGV;Retraité;21.0;2015
+484006;Angers Saint Laud;Agriculteur, Exploitant agricole;0.7000000000000001;2015
+484006;Angers Saint Laud;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;21.0;2015
+583005;Angoulême;Agriculteur, Exploitant agricole;0.30000000000000004;2012
+583005;Angoulême;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;18.0;2012
+753657;Arles;Technicien, Agent de maîtrise;4.0;2014
+673004;Bayonne;Ouvrier, Employé;28.0;2013
+300822;Belfort Montbéliard TGV;Enseignant, Professeur;3.0;2015
+300863;Besançon Franche-Comté TGV;Militaire;1.0;2015
+581009;Bordeaux Saint-Jean;Scolaire (avant le bac);7.0;2014
+444000;Caen;Agriculteur, Exploitant agricole;0.1;2012
+444000;Caen;Enseignant, Professeur;7.0;2012
+182014;Colmar;Scolaire (avant le bac);23.0;2017
+478404;Laval;Agriculteur, Exploitant agricole;0.4;2011
+345025;Lens;Militaire;0.4;2016
+722025;Lyon Perrache;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;23.0;2011
+762906;Lyon Saint Exupery TGV;Militaire;0.1;2016
+762906;Lyon Saint Exupery TGV;Sans emploi;4.0;2016
+141002;Nancy;Retraité;9.0;2014
+756056;Nice;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;13.0;2014
+686006;Paris Gare de Lyon;Scolaire (avant le bac);0.4;2012
+271007;Paris Nord;Enseignant, Professeur;3.0;2012
+271007;Paris Nord;Sans emploi;4.0;2012
+271007;Paris Nord;Technicien, Agent de maîtrise;5.0;2012
+784009;Perpignan;Ouvrier, Employé;24.0;2016
+471003;Rennes;Technicien, Agent de maîtrise;7.0;2014
+411017;Rouen Rive Droite;Sans emploi;5.0;2014
+571000;Tours;Autre;3.0;2016
+753657;Arles;Artisan, Commerçant, Chef d'entreprise TPE;5.0;2014
+318964;Avignon TGV;Etudiant (après le bac);10.0;2015
+271494;Aéroport Charles de Gaulle 2 TGV;Retraité;4.0;2013
+757625;Cannes;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;6.0;2015
+444877;Cherbourg;Enseignant, Professeur;5.0;2015
+713040;Dijon;Technicien, Agent de maîtrise;3.0;2015
+286005;Lille Flandres;Sans emploi;4.0;2013
+723197;Lyon Part Dieu;Agriculteur, Exploitant agricole;0.30000000000000004;2011
+722025;Lyon Perrache;Technicien, Agent de maîtrise;8.0;2011
+192039;Metz;Agriculteur, Exploitant agricole;0.1;2011
+192039;Metz;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;17.0;2011
+192039;Metz;Militaire;2.0;2011
+773002;Montpellier Saint-Roch;Scolaire (avant le bac);4.0;2015
+141002;Nancy;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2014
+141002;Nancy;Ouvrier, Employé;22.0;2014
+141002;Nancy;Sans emploi;6.0;2014
+;Paris Bercy;Agriculteur, Exploitant agricole;1.0;2012
+113001;Paris Est;Sans emploi;3.0;2012
+171009;Reims;Retraité;8.0;2016
+212027;Strasbourg;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2010
+212027;Strasbourg;Ouvrier, Employé;11.0;2010
+755009;Toulon;Ouvrier, Employé;26.0;2014
+571000;Tours;Retraité;12.0;2016
+571000;Tours;Technicien, Agent de maîtrise;4.0;2016
+118000;Troyes;Agriculteur, Exploitant agricole;0.2;2015
+763029;Valence TGV Rhône-Alpes Sud;Scolaire (avant le bac);0.9;2015
+313874;Amiens;Sans emploi;4.0;2015
+686006;Paris Gare de Lyon;Sans emploi;2.0;2012
+271007;Paris Nord;Agriculteur, Exploitant agricole;0.4;2012
+471003;Rennes;Sans emploi;7.0;2014
+212027;Strasbourg;Enseignant, Professeur;2.0;2010
+212027;Strasbourg;Technicien, Agent de maîtrise;5.0;2010
+212027;Strasbourg;Autre;5.0;2016
+118000;Troyes;Autre;8.0;2015
+118000;Troyes;Enseignant, Professeur;5.0;2015
+478404;Laval;Militaire;1.0;2011
+547000;Paris Austerlitz;Ouvrier, Employé;30.0;2013
+;Paris Bercy;Artisan, Commerçant, Chef d'entreprise TPE;8.0;2012
+;Paris Bercy;Scolaire (avant le bac);0.5;2012
+753657;Arles;Enseignant, Professeur;5.0;2014
+111849;Marne la Vallée Chessy;Retraité;1.0;2013
+722025;Lyon Perrache;Sans emploi;3.0;2011
+476002;Lorient;Sans emploi;9.0;2010
+345025;Lens;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;8.0;2016
+345025;Lens;Technicien, Agent de maîtrise;5.0;2016
+444877;Cherbourg;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2015
+444000;Caen;Scolaire (avant le bac);6.0;2012
+756056;Nice;Militaire;0.2;2014
+481002;Nantes;Non communiqué;3.0;2014
+581009;Bordeaux Saint-Jean;Ouvrier, Employé;20.0;2014
+673400;Biarritz;Retraité;31.0;2016
+444000;Caen;Autre;3.0;2012
+223263;Lille Europe;Ouvrier, Employé;18.0;2013
+271494;Aéroport Charles de Gaulle 2 TGV;Etudiant (après le bac);2.0;2013
+300822;Belfort Montbéliard TGV;Ouvrier, Employé;14.0;2015
+673004;Bayonne;Technicien, Agent de maîtrise;3.0;2013
+271494;Aéroport Charles de Gaulle 2 TGV;Militaire;0.5;2013
+300822;Belfort Montbéliard TGV;Militaire;4.0;2015
+673400;Biarritz;Enseignant, Professeur;2.0;2016
+673400;Biarritz;Scolaire (avant le bac);11.0;2016
+581009;Bordeaux Saint-Jean;Technicien, Agent de maîtrise;6.0;2014
+444000;Caen;Sans emploi;3.0;2012
+444877;Cherbourg;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;28.0;2015
+713040;Dijon;Artisan, Commerçant, Chef d'entreprise TPE;1.0;2015
+747006;Grenoble;Ouvrier, Employé;24.0;2015
+396002;Le Mans;Agriculteur, Exploitant agricole;0.7000000000000001;2015
+345025;Lens;Autre;1.0;2016
+476002;Lorient;Etudiant (après le bac);14.0;2010
+476002;Lorient;Technicien, Agent de maîtrise;8.0;2010
+111849;Marne la Vallée Chessy;Etudiant (après le bac);1.0;2013
+192039;Metz;Retraité;8.0;2011
+182063;Mulhouse;Artisan, Commerçant, Chef d'entreprise TPE;4.0;2014
+775007;Nîmes;Enseignant, Professeur;4.0;2014
+775007;Nîmes;Sans emploi;9.0;2014
+775007;Nîmes;Scolaire (avant le bac);15.0;2014
+547000;Paris Austerlitz;Militaire;0.8;2013
+113001;Paris Est;Agriculteur, Exploitant agricole;0.1;2012
+113001;Paris Est;Cadre, Profession libérale ou intellectuelle, Chef d'entreprise > 10 salariés;25.0;2012
+384008;Paris St Lazare;Non communiqué;3.0;2013
+384008;Paris St Lazare;Scolaire (avant le bac);2.0;2013
+171009;Reims;Artisan, Commerçant, Chef d'entreprise TPE;3.0;2016
+171009;Reims;Scolaire (avant le bac);14.0;2016
+212027;Strasbourg;Non communiqué;44.0;2010
+212027;Strasbourg;Agriculteur, Exploitant agricole;0.1;2010
+212027;Strasbourg;Retraité;6.0;2010
+212027;Strasbourg;Artisan, Commerçant, Chef d'entreprise TPE;2.0;2016
+611004;Toulouse Matabiau;Militaire;2.0;2014
