@@ -21,7 +21,7 @@ Ces données sont toutes archivées sur le site web : [Data SCNF](https://data.s
 |07 | timing_reception | Discrète | YYYY-MM-DD-HH-MM-SS | 6,7 |
 |08 | nb_voyageurs | Discrète | Integer | 2 |
 |09 | age | Ordinale | String | 5 |
-|10 | pourcentage_csp | Continue | % | 5 |
+|10 | pourcentage_age | Continue | % | 5 |
 |11 | csp | Nominale | String | 4 |
 |12 | pourcentage_csp | Continue | % | 4 |
 |13 | motif_deplacement | Nominale | String | 3 |
