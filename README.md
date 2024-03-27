@@ -76,5 +76,5 @@ De même, les données voyageurs sont assez faibles et l'équipe extrapolera sû
 
 [Maxence Jaulin](https://github.com/maxencejaulin)
 [Louis Prodhon](https://github.com/Grexiem)
-[Mathis Girod]()
-[Zezhong Wang]()
+[Mathis Girod](https://github.com/girodmat)
+[Zezhong Wang](https://github.com/RubiesWzz)
