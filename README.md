@@ -59,6 +59,7 @@ Nous nous concentrerons ensuite sur une analyse des voyageurs puis celles des ob
 - [] Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
 - [] Quel est le voyageur moyen de la SNCF ?
 - [] Comment ce voyageur diffère en fonction des gares ?
+- [] Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
 
 ### Objets
 
