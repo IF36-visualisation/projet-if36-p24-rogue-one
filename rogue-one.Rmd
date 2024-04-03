@@ -1,0 +1,42 @@
+---
+title : "Rogue One project"
+author : "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
+output:
+  html_document
+---
+
+```{r setup}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(readr)
+```
+
+# Projet Rogue One
+
+Récupération des jeux de données SNCF :
+
+```{r}
+gares <- read_delim(file = "data/dataset1-gares-de-voyageurs.csv", delim=";")
+summary(gares)
+
+frequentations <- read_delim(file = "data/dataset2-frequentation-gares.csv", delim=";")
+summary(frequentations)
+```
+Premier test de visualisation de la fréquentation des gares
+```{r}
+frequentations <- frequentations %>%
+  select(gare = "Nom de la gare", voyageurs = "Total Voyageurs + Non voyageurs 2022") %>%
+  filter(voyageurs > 20000000)
+
+ggplot(data = frequentations, mapping=aes(x=voyageurs,y=gare))+geom_col()
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
