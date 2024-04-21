@@ -15,22 +15,51 @@ library(readr)
 
 # Projet Rogue One
 
+Ce projet a pour but de découvrir, traiter et analyser les données provenant de différents jeux de données provenants de la SNCF.
+
+### Première étape : du CSV aux datasets
+
 Récupération des jeux de données SNCF :
+
+-   Gares de voyageurs : gares
+
+-   Fréquentation des gares : frequentation
+
+-   Motif de déplacement des voyageurs : motif_depl
+
+-   Catégorie socio-professionelle des voyageurs : CSP_voya
+
+-   Classe d'âge des voyageurs : age_voya
+
+-   Objets perdus : obj_perdus
+
+-   Objets trouvés : obj_trouves
 
 ```{r}
 gares <- read_delim(file = "data/dataset1-gares-de-voyageurs.csv", delim=";")
-summary(gares)
 
-frequentations <- read_delim(file = "data/dataset2-frequentation-gares.csv", delim=";")
-summary(frequentations)
+frequentation <- read_delim(file = "data/dataset2-frequentation-gares.csv", delim=";")
+
+motif_depl <- read_delim(file = "data/dataset3-motif-deplacement.csv", delim=";")
+
+CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
+
+age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
+
+obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+
+obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+
 ```
+
 Premier test de visualisation de la fréquentation des gares
+
 ```{r}
-frequentations <- frequentations %>%
+frequentation <- frequentation %>%
   select(gare = "Nom de la gare", voyageurs = "Total Voyageurs + Non voyageurs 2022") %>%
   filter(voyageurs > 20000000)
 
-ggplot(data = frequentations, mapping=aes(x=voyageurs,y=gare))+geom_col()
+ggplot(data = frequentation, mapping=aes(x=voyageurs,y=gare))+geom_col()
 ```
 
 ```{r}

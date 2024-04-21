@@ -37,8 +37,8 @@ Ces données sont toutes archivées sur le site web : [Data SNCF](https://data.s
 - [dataset3-motif-deplacement.csv](https://data.sncf.com/explore/dataset/motif-deplacement/export/) (284)
 - [dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/) (697)
 - [dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/) (375)
-- [dataset6-objets-trouves-gares.csv](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/)(1.844.912)
-- [dataset7-objets-trouves-restitution.csv](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/) (858.180)
+- [dataset6-objets-trouves-gares.csv](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)(1.844.912)
+- [dataset7-objets-trouves-restitution.csv](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/) (858.180)
 
 Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets.
 Nous pouvons segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
