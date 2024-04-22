@@ -1,8 +1,9 @@
 ---
-title : "Rogue One project"
-author : "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
+title: "Rogue One project"
+author: "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
 output:
-  html_document
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup}
@@ -46,25 +47,58 @@ CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartiti
 
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
 
-obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+#obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
 
-obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+#obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 ```
 
 Premier test de visualisation de la fréquentation des gares
 
 ```{r}
-frequentation <- frequentation %>%
+freq <- frequentation %>%
   select(gare = "Nom de la gare", voyageurs = "Total Voyageurs + Non voyageurs 2022") %>%
   filter(voyageurs > 20000000)
 
-ggplot(data = frequentation, mapping=aes(x=voyageurs,y=gare))+geom_col()
+ggplot(data = freq, mapping=aes(x=voyageurs,y=gare))+geom_col()
 ```
 
 ```{r}
+colnames(frequentation)
 
 ```
+
+Nombre de voyageurs total par départements (2022)
+
+```{r}
+freq <- frequentation %>%
+  rename(code_postal = 'Code postal')
+
+freq <- freq %>%
+  rename(passagers2022 = 'Total Voyageurs 2022')
+
+freq <- freq %>%
+  mutate(code_postal = as.character(code_postal))
+
+frequentation <- freq %>%
+  mutate(departement = substr(code_postal, 1, 2))
+
+departement_passagers <- frequentation %>%
+  group_by(departement) %>%
+  summarize(total_passagers = sum(passagers2022))
+
+ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Répartition des voyageurs entre les départements en 2022",
+       x = "Nombre total de passagers",
+       y = "Département")
+
+```
+
+
+
+
+
 
 ```{r}
 
