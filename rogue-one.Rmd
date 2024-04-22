@@ -2,7 +2,6 @@
 title: "Rogue One project"
 author: "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
 output:
-  pdf_document: default
   html_document: default
 ---
 
@@ -12,6 +11,8 @@ library(dplyr)
 library(tidyr)
 library(tibble)
 library(readr)
+library(lubridate)
+library(forcats)
 ```
 
 # Projet Rogue One
@@ -47,9 +48,9 @@ CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartiti
 
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
 
-#obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
 
-#obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 ```
 
@@ -95,11 +96,48 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
 
 ```
 
-
-
-
-
-
 ```{r}
 
+```
+
+## Objets perdus/restitués
+
+Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
+
+Tout d'abord, petite visualisation du dataset obj_perdus
+
+```{r}
+head(obj_perdus)
+summary(obj_perdus)
+```
+
+Quelque chose m'interpelle dès le début : c'est la colonne "Type d'enregistrement", il semble que celle-ci est toujours remplie de la même manière
+
+```{r}
+enregistrement <- obj_perdus %>%
+  select(en = `Type d'enregistrement`)
+diff_enre <- n_distinct(enregistrement)
+```
+
+C'est donc le cas, donc nous n'utiliserons pas cette colonne.
+
+On distingue aussi que de nombreuses gares ne sont pas présentes.
+
+Nous voulons effectuer plusieurs réductions sur ce jeu de données. Tout d'abord, les informations que nous avons datent de 2019 jusqu'à nos jours. Si nous voulons faire des recoupements avec le dataset de voyageur, nous allons restreindre les dates à 2019 seulement car les années 2020 et 2021 ne sont pas forcément représentatives du traffic ferroviaire normal. L'année 2022 sera analysée prochainement pour voir si une tendance peut commencer à apparaître.
+
+```{r}
+obj_perdus_2019 <- obj_perdus %>%
+  select(date = `Date de la déclaration de perte`, gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets") %>%
+  filter(date < ymd(20200101)) %>% 
+  filter(date > ymd(20190101))
+count(obj_perdus_2019)
+```
+
+Nous avons donc maintenant 185 065 entrées dans notre dataframe.
+
+Découvrons ce que celui-ci nous cache dans la répartition des objets perdus :
+
+```{r}
+obj_perdus_2019 %>% 
+  ggplot(aes(y=fct_infreq(type))) + geom_bar()
 ```
