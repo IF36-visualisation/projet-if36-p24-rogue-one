@@ -139,5 +139,17 @@ Découvrons ce que celui-ci nous cache dans la répartition des objets perdus :
 
 ```{r}
 obj_perdus_2019 %>% 
-  ggplot(aes(y=fct_infreq(type))) + geom_bar()
+  ggplot(aes(y=fct_rev(fct_infreq(type)))) +
+  geom_bar() +
+  labs(title = "Nombre d'objets perdus par type d'objets en 2019",
+       y = "Type d'objet",
+       x = "Nombre d'objets perdus en unité")
 ```
+
+Sans surprise, les objets les plus couramment perdus sont donc dans l'ordre :
+
+-   Bagages
+
+-   Appareils électroniques
+
+-   Vêtements
