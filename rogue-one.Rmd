@@ -39,22 +39,16 @@ Récupération des jeux de données SNCF :
 
 ```{r}
 gares <- read_delim(file = "data/dataset1-gares-de-voyageurs.csv", delim=";")
-
 frequentation <- read_delim(file = "data/dataset2-frequentation-gares.csv", delim=";")
-
 motif_depl <- read_delim(file = "data/dataset3-motif-deplacement.csv", delim=";")
-
 CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
-
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
-
-obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
-
-obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+#obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+#obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 ```
 
-Premier test de visualisation de la fréquentation des gares
+**Fréquentation des gares**
 
 ```{r}
 freq <- frequentation %>%
@@ -69,7 +63,15 @@ colnames(frequentation)
 
 ```
 
-Nombre de voyageurs total par départements (2022)
+## Voyageurs
+
+Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
+
+Dans un premier temps, nous analysons le nombre de voyageurs par département, pour nous intéresser ensuite à la proportion de voyageurs dans les gares d'un même département.
+
+*Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?*
+
+**Nombre de voyageurs total par département (2022)**
 
 ```{r}
 freq <- frequentation %>%
@@ -96,7 +98,24 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
 
 ```
 
+**Répartition du nombre de voyageurs dans les gares d'un même département.** Exemple département (77)
+
+Grâce à cette visusalisation, on peut connaître les gares les plus importantes en termes de fréquentation dans chacun des départements.
+
+Dans le cas du département 77 et du premier jet de visualisation, on observe que la gare de Melun est très fréquentée comparé aux autres gares.
+
 ```{r}
+freq <- frequentation %>%
+  rename(gare = 'Nom de la gare')
+
+gares_77 <- freq %>%
+  filter(departement == "77")
+
+ggplot(gares_77, aes(x = passagers2022, y = gare)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Repartition des voyageurs dans les gares du département 77",
+       x = "Nombre de passagers",
+       y = "Gare")
 
 ```
 
