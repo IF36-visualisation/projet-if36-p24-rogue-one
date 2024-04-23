@@ -94,7 +94,8 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
   geom_bar(stat = "identity") +
   labs(title = "Répartition des voyageurs entre les départements en 2022",
        x = "Nombre total de passagers",
-       y = "Département")
+       y = "Département") +
+  theme(axis.text.y = element_text(size = 8))
 
 ```
 
@@ -111,11 +112,14 @@ freq <- frequentation %>%
 gares_77 <- freq %>%
   filter(departement == "77")
 
-ggplot(gares_77, aes(x = passagers2022, y = gare)) +
+ggplot(gares_77, aes(x = gare, y = passagers2022)) +
   geom_bar(stat = "identity") +
   labs(title = "Repartition des voyageurs dans les gares du département 77",
-       x = "Nombre de passagers",
-       y = "Gare")
+       x = "Gare",
+       y = "Nombre de passagers") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+
 
 ```
 
