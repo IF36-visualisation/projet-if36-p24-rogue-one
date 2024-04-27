@@ -43,8 +43,8 @@ frequentation <- read_delim(file = "data/dataset2-frequentation-gares.csv", deli
 motif_depl <- read_delim(file = "data/dataset3-motif-deplacement.csv", delim=";")
 CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
-#obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
-#obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 ```
 
@@ -127,6 +127,8 @@ ggplot(gares_77, aes(x = gare, y = passagers2022)) +
 
 Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
 
+#### Objets perdus
+
 Tout d'abord, petite visualisation du dataset obj_perdus
 
 ```{r}
@@ -176,3 +178,123 @@ Sans surprise, les objets les plus couramment perdus sont donc dans l'ordre :
 -   Appareils électroniques
 
 -   Vêtements
+
+```{r}
+obj_perdus_trouves <- obj_perdus_2019 %>%
+  filter(is.na(gare) == FALSE)
+
+count(obj_perdus_trouves)
+```
+
+```{r}
+obj_perdus_trouves %>% 
+  ggplot(aes(y=fct_rev(fct_infreq(type)))) +
+  geom_bar() +
+  labs(title = "Nombre d'objets perdus retrouvés par type d'objets en 2019",
+       y = "Type d'objet",
+       x = "Nombre d'objets perdus en unité")
+```
+
+#### Objets restitués
+
+Nous allons ensuite parcourir le dataset 7 : obj_trouves
+
+```{r}
+obj_trouves_2019 <- obj_trouves %>%
+  select(date = `Date`,restitution = `Date et heure de restitution` ,gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets") %>%
+  filter(date < ymd(20200101)) %>% 
+  filter(date > ymd(20190101))
+count(obj_trouves_2019)
+```
+
+On découvre donc qu'il y a plus d'objets trouvés que d'objets perdus rendus. Cela veut donc dire que tous les objets récupérés ne sont pas forcément déclarés comme perdus au préalable.
+
+```{r}
+obj_trouves_rendus <- obj_trouves_2019 %>%
+  filter(is.na(UIC) == FALSE)
+
+count(obj_trouves_rendus)
+
+```
+
+On voit qu'il y a 19 objets rendus qui n'ont pas été identifiés par des code UIC ce qui est étrange. Voyons cela de plus près :
+
+```{r}
+obj_trouves_sans_UIC <- obj_trouves_2019 %>%
+  filter(is.na(UIC) == TRUE)
+
+obj_trouves_sans_UIC
+```
+
+En voyant que la gare n'est pas présente non plus, on peut juger ce rendu comme ayant été entré dans la database sans qu'il n'ait été rendu dans une gare. On peut supposer un rendu dans le train juste après la perte.
+
+Nous allons maintenant essayer de comprendre ce qu'est ce code UIC et s'il y a une relation entre les codes UIC des pertes et des objets trouvés.
+
+Nous allons donc comparer les 2 listes de code UIC
+
+```{r}
+liste_UIC_perdus <- obj_perdus_trouves %>%
+  select(UIC)
+liste_UIC_trouves <- obj_trouves_rendus %>%
+  select(UIC)
+count(intersect(liste_UIC_perdus, liste_UIC_trouves))
+count(setdiff(liste_UIC_perdus,liste_UIC_trouves))
+```
+
+Il semble que seulement 146 code UIC différents et après quelques recherches en ligne, le code UIC est l'ID des gares. Donc cette colonne ne nous est pas forcément utile.
+
+Nous allons donc maintenant essayer de mettre en relation plutôt les dates entre les 2 datasets :
+
+```{r}
+liste_date_perdus <- obj_perdus_trouves %>%
+  select(date)
+liste_date_trouves <- obj_trouves_rendus %>%
+  select(date)
+intersect(liste_date_perdus, liste_date_trouves)
+setdiff(liste_date_perdus,liste_date_trouves)
+```
+
+Nous avons donc seulement 302 dates en commun entre les 2 jeux de données ce qui est très faible. On peut donc supposer que les 2 datasets ne sont pas liés et les dates ne correspondent pas. On peut supposer que la date des objets perdus provient du questionnaire de perte que les voyageurs remplissent, tandis que la date des objets trouvés provient du formulaire remplit par les agents SNCF.
+
+Nous ne pouvons donc pas faire de relation directe entre un objet déclaré comme perdu et un objet déclaré comme trouvé.
+
+Il est donc difficile de faire des hypothèses très spécifique sur les probabilités de retrouver un objet perdu. La façon de faire ça serait de connaître un nombre précis de pertes et sur ces pertes savoir combien d'entre elles ont été rendues. Sans le lien entre les pertes et les objets rendus, énormément de biais peuvent apparaître. Pour faire les prochaines probabilités, nous allons faire l'hypothèse que l'ensemble des objets rendus ont fait l'objet d'une entrée dans le formulaire de perte.
+
+#### Probabilité de retrouver un objet perdu
+
+Pour cette première probabilité nous allons faire un calcul simple :
+
+(Nombre d'objets retrouvés / Nombre d'objets perdus) \*100
+
+Cela s'exprime ainsi :
+
+```{r}
+proba_commune <- (count(obj_trouves_2019) / count(obj_perdus_2019) * 100)
+proba_commune
+```
+
+Je trouve la probabilité relativement élevée car pas très éloignée du 50%. Peut-être aussi que le postulat personnel avant le calcul était relativement pessimiste.
+
+#### Probabilité de retrouver un objet selon son type
+
+Afin d'avoir une probabilité selon le type il faut donc que nous effectuons la même opération que précédemment avec comme paramètre le type de l'objet.
+
+N.B. la "nature" dans l'intitulé de la question a été changé en type car la nature entrée dans le formulaire des objets trouvés est trop spécifique.
+
+```{r}
+type_obj_perdus <- obj_perdus_2019 %>%
+  select(type)
+type_obj_trouves <- obj_trouves_2019 %>%
+  select(type)
+occurences_perdus <- table(type_obj_perdus)
+occurences_trouves <- table(type_obj_trouves)
+probas_types <- occurences_trouves / occurences_perdus * 100
+probas_types <- as.data.frame.table(probas_types)
+colnames(probas_types)
+probas_types %>% 
+  ggplot(aes(y=type_obj_trouves, x=Freq)) +
+  geom_col() +
+  labs(title = "Fréquence de rendu d'objet perdus par type",
+       y = "Type d'objet",
+       x = "Fréquence de retour")
+```
