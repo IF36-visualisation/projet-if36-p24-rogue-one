@@ -43,12 +43,24 @@ frequentation <- read_delim(file = "data/dataset2-frequentation-gares.csv", deli
 motif_depl <- read_delim(file = "data/dataset3-motif-deplacement.csv", delim=";")
 CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
-obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
-obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+#obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+#obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 ```
 
 **Fréquentation des gares**
+
+Tout d'abord, voici un petit tour d'horizon du dataset frequentation.
+
+```{r}
+head(frequentation)
+summary(frequentation)
+```
+
+Afin d'obtenir un classement des gares les plus fréquentés, nous avons choisi de filtrer le dataset afin de ne garder que les gares au dessus d'un seuil de 20.000.000 individus.
+
+Ce filtre nous permet de faire ressortir les gares les plus fréquentées uniquement.
+
 
 ```{r}
 freq <- frequentation %>%
@@ -57,17 +69,13 @@ freq <- frequentation %>%
 
 ggplot(data = freq, mapping=aes(x=voyageurs,y=gare))+geom_col()
 ```
-
-```{r}
-colnames(frequentation)
-
-```
+On remarque que les gares avec le plus d'affluence sont les gares parisiennes, ce qui n'est pas très étonnant étant donné que la grande majorité des trajets partent et viennent de Paris.
 
 ## Voyageurs
 
 Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
 
-Dans un premier temps, nous analysons le nombre de voyageurs par département, pour nous intéresser ensuite à la proportion de voyageurs dans les gares d'un même département.
+Dans un premier temps, nous analysons le nombre de voyageurs par département, pour nous intéresser ensuite à la proportion de voyageurs dans les gares au sein d'un même département.
 
 *Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?*
 
@@ -98,6 +106,10 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
   theme(axis.text.y = element_text(size = 8))
 
 ```
+Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart de la fréquentation. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes.
+
+On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
+
 
 **Répartition du nombre de voyageurs dans les gares d'un même département.** Exemple département (77)
 
@@ -114,7 +126,7 @@ gares_77 <- freq %>%
 
 ggplot(gares_77, aes(x = gare, y = passagers2022)) +
   geom_bar(stat = "identity") +
-  labs(title = "Repartition des voyageurs dans les gares du département 77",
+  labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
        x = "Gare",
        y = "Nombre de passagers") +
   theme_minimal() +
@@ -122,6 +134,11 @@ ggplot(gares_77, aes(x = gare, y = passagers2022)) +
 
 
 ```
+
+Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
+
+On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun et la ligne N désert Chartrette à la différence de petites gares comme celle de Bois-le-Roi.
+
 
 ## Objets perdus/restitués
 
