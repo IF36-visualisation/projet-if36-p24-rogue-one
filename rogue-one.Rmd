@@ -108,7 +108,7 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
 ```
 Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart de la fréquentation. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes.
 
-On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
+On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions. 
 
 
 **Répartition du nombre de voyageurs dans les gares d'un même département.** Exemple département (77)
