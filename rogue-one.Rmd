@@ -43,8 +43,8 @@ frequentation <- read_delim(file = "data/dataset2-frequentation-gares.csv", deli
 motif_depl <- read_delim(file = "data/dataset3-motif-deplacement.csv", delim=";")
 CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
-#obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
-#obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
+obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
+obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 ```
 
@@ -137,7 +137,7 @@ ggplot(gares_77, aes(x = gare, y = passagers2022)) +
 
 Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
 
-On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun et la ligne N désert Chartrette à la différence de petites gares comme celle de Bois-le-Roi.
+On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
 
 ## Objets perdus/restitués
