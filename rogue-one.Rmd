@@ -217,7 +217,14 @@ ggplot(gares_77, aes(x = gare, y = passagers2022)) +
 
 
 ```
+
+=======
+Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
+
+On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
+
 **Qui est le voyageur moyen de la SNCF ?**
+***Catégorie socio professionnelle***
 Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, 
 En premier lieu nous allons voir les différentes catégories socio professionnelles.
 
@@ -236,16 +243,12 @@ profil_moyen
 
 ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_moyen)) +
   geom_bar(stat = "identity") +
-  coord_flip() + # Pour une meilleure lisibilité des étiquettes de CSP
+  coord_flip() + 
   labs(title = "Profil Moyen du Voyageur SNCF par CSP",
        x = "Catégorie Socio-Professionnelle",
        y = "Pourcentage Moyen") +
   theme_minimal()
 ```
-=======
-Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
-
-On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
 
 >>>>>>> 0a11b07337ac41919572735f1c0ca28059535280
@@ -270,7 +273,7 @@ enregistrement <- obj_perdus %>%
 diff_enre <- n_distinct(enregistrement)
 ```
 
-C'est donc le cas, donc nous n'utiliserons pas cette colonne.
+C'est donc le cas, donc nous n'utiliserons pas cette colonne .
 
 On distingue aussi que de nombreuses gares ne sont pas présentes.
 
