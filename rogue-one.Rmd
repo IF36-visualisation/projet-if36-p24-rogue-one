@@ -13,6 +13,7 @@ library(tibble)
 library(readr)
 library(lubridate)
 library(forcats)
+library(stringr)
 ```
 
 # Projet Rogue One
@@ -122,7 +123,30 @@ ggplot(gares_77, aes(x = gare, y = passagers2022)) +
 
 
 ```
+**Qui est le voyageur moyen de la SNCF ?**
+Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, 
+En premier lieu nous allons voir les différentes catégories socio professionnelles.
 
+ps : Le Pourcentage correspond au pourcentage par rapport au CSP d'UNE gare.
+
+```{r}
+profil_moyen <- CSP_voya %>%
+  group_by(CSP) %>%
+  summarise(Pourcentage_moyen = mean(Pourcentage, na.rm = TRUE))
+
+
+profil_moyen <- profil_moyen %>%
+  arrange(desc(Pourcentage_moyen))
+profil_moyen
+
+ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_moyen)) +
+  geom_bar(stat = "identity") +
+  coord_flip() + # Pour une meilleure lisibilité des étiquettes de CSP
+  labs(title = "Profil Moyen du Voyageur SNCF par CSP",
+       x = "Catégorie Socio-Professionnelle",
+       y = "Pourcentage Moyen") +
+  theme_minimal()
+```
 ## Objets perdus/restitués
 
 Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
