@@ -223,6 +223,88 @@ Au sein du 77, on remarque des disparités entre les gares. Des gares comme cell
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
+
+
+*Explorer la répartition par âge des passagers* 
+
+En raison de quelques problèmes dans l'ensemble de données, tels que des codes UIC incohérents et des variations dans les années de recensement et les données des stations, nous allons nous concentrer exclusivement sur la répartition par âge pour les années 2015, 2016 et 2017.
+
+Conserver les colonnes spécifiées dans frequentation et renommer Code UIC en UIC et Filtrer le age_voya pour une année 2015,16,17.
+
+```{r}
+freq_selected <- frequentation %>%
+  select(Nom = `Nom de la gare`, UIC = `Code UIC`, `Total Voyageurs 2015`, `Total Voyageurs 2016`, `Total Voyageurs 2017`)
+age_filtered <- age_voya %>%
+  filter(Année %in% c(2015, 2016, 2017)) %>%
+  rename(Nom = `Gare enquêtée`)
+```
+
+Filtrer freq_selected par nom de station, en ne conservant que les lignes qui correspondent à Nom dans age_filtered, et vice versa.
+```{r}
+freq_matched <- semi_join(freq_selected, age_filtered, by = "Nom")
+age_matched <- semi_join(age_filtered, freq_selected, by = "Nom")
+```
+
+Diviser les données dans freq_matched par année.
+```{r}
+freq_long <- freq_matched %>%
+  pivot_longer(
+    cols = c(`Total Voyageurs 2015`, `Total Voyageurs 2016`, `Total Voyageurs 2017`),
+    names_to = "Année",
+    values_to = "Total Voyageur",
+    names_prefix = "Total Voyageurs "
+  ) %>%
+  mutate(Année = as.integer(Année))
+```
+Combinaison de données dans age_filtered par année.
+```{r}
+age_wide <- age_matched %>%
+  pivot_wider(
+    names_from = `Classe d'âge`, 
+    values_from = Pourcentage, 
+    values_fill = list(Pourcentage = 0)  
+  )
+```
+Fusionner et supprimer les lignes contenant des données nulles.
+```{r}
+combined_dataset <- left_join(freq_long, age_wide, by = c("Nom", "Année"))
+cleaned_dataset <- na.omit(combined_dataset)
+```
+Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombre total pour chaque année
+
+```{r}
+age_columns <- c('19 ans et moins', '20 ans à 29 ans', '30 ans à 39 ans', '40 ans à 49 ans', '50 ans à 59 ans', '60 ans et plus')
+cleaned_dataset <- cleaned_dataset %>%
+  mutate(across(all_of(age_columns), ~ .x * `Total Voyageur` / 100, .names = "passengers_{.col}"))
+age_passenger_totals <- cleaned_dataset %>%
+  group_by(Année) %>%
+  summarise(across(starts_with("passengers"), sum, .names = "total_{.col}"))
+```
+
+L'étape suivante consiste à calculer le pourcentage des groupes d'âge ainsi que la cartographie.
+```{r}
+age_passenger_totals_long <- age_passenger_totals %>%
+  pivot_longer(
+    cols = starts_with("total_passengers"),
+    names_to = "Age_Group",
+    values_to = "Total_Passengers",
+    names_prefix = "total_passengers_"
+  )
+age_passenger_totals_long <- age_passenger_totals_long %>%
+  group_by(Année) %>%
+  mutate(Total_Passengers_Year = sum(Total_Passengers)) %>%
+  ungroup() %>%
+  mutate(Percentage = (Total_Passengers / Total_Passengers_Year) * 100)
+ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Percentage of Passengers by Age Group and Year",
+       x = "Year",
+       y = "Percentage (%)",
+       fill = "Age Group") +
+  theme_minimal()
+```
+
+
 **Qui est le voyageur moyen de la SNCF ?**
 ***Catégorie socio professionnelle***
 Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, 
