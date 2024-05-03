@@ -20,19 +20,16 @@ library(stringr)
 
 Ce projet a pour but de découvrir, traiter et analyser les données provenant de différents jeux de données provenants de la SNCF.
 
-
 # Introduction
 
-Nous avons décidés de nous concentrer sur les données récoltées par l'entreprise **SNCF**, entreprise ferroviaire française.
-Les données récoltées sur le transport sont assez importantes c'est pourquoi nous avons choisi de nous concentrer sur les gares et leurs données liées ainsi que les données de perte et vol et des voyageurs.
-Ces données sont toutes archivées sur le site web : [Data SNCF](https://data.sncf.com)
+Nous avons décidés de nous concentrer sur les données récoltées par l'entreprise **SNCF**, entreprise ferroviaire française. Les données récoltées sur le transport sont assez importantes c'est pourquoi nous avons choisi de nous concentrer sur les gares et leurs données liées ainsi que les données de perte et vol et des voyageurs. Ces données sont toutes archivées sur le site web : [Data SNCF](https://data.sncf.com)
 
 ## Données
 
 17 variables.
 
 | --- | Nom de la variable      | Type     | Format              | Dataset (Origine) |
-| --- | ----------------------- | -------- | ------------------- | ----------------- |
+|---------------|---------------|---------------|---------------|---------------|
 | 01  | gare                    | Nominale | String              | 1,2,3,4,5,6,7     |
 | 02  | departement             | Ordinale | NN                  | 1                 |
 | 03  | zone                    | Nominale | {A,B,C}             | 1                 |
@@ -42,65 +39,58 @@ Ces données sont toutes archivées sur le site web : [Data SNCF](https://data.s
 | 07  | timing_reception        | Discrète | YYYY-MM-DD-HH-MM-SS | 6,7               |
 | 08  | nb_voyageurs            | Discrète | Integer             | 2                 |
 | 09  | age                     | Ordinale | String              | 5                 |
-| 10  | pourcentage_age         | Continue | %                   | 5                 |
+| 10  | pourcentage_age         | Continue | \%                  | 5                 |
 | 11  | csp                     | Nominale | String              | 4                 |
-| 12  | pourcentage_csp         | Continue | %                   | 4                 |
+| 12  | pourcentage_csp         | Continue | \%                  | 4                 |
 | 13  | motif_deplacement       | Nominale | String              | 3                 |
-| 14  | pourcentage_deplacement | Continue | %                   | 3                 |
+| 14  | pourcentage_deplacement | Continue | \%                  | 3                 |
 | 15  | nature_objet            | Nominale | String              | 6,7               |
 | 16  | categorie_objet         | Nominale | String              | 6,7               |
 | 17  | code_uic                | Nominale | NNNNNNNNNN          | 6,7               |
 
 **Nombre d'observations**
 
-- [dataset1-gares-de-voyageurs.csv](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/) (2.862)
-- [dataset2-frequentation-gares.csv](https://data.sncf.com/explore/dataset/frequentation-gares/export/) (21.147)
-- [dataset3-motif-deplacement.csv](https://data.sncf.com/explore/dataset/motif-deplacement/export/) (284)
-- [dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/) (697)
-- [dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/) (375)
-- [dataset6-objets-trouves-gares.csv](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)(1.844.912)
-- [dataset7-objets-trouves-restitution.csv](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/) (858.180)
+-   [dataset1-gares-de-voyageurs.csv](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/) (2.862)
+-   [dataset2-frequentation-gares.csv](https://data.sncf.com/explore/dataset/frequentation-gares/export/) (21.147)
+-   [dataset3-motif-deplacement.csv](https://data.sncf.com/explore/dataset/motif-deplacement/export/) (284)
+-   [dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/) (697)
+-   [dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/) (375)
+-   [dataset6-objets-trouves-gares.csv](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)(1.844.912)
+-   [dataset7-objets-trouves-restitution.csv](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/) (858.180)
 
-Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets.
-Nous pouvons segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
+Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets. Nous pouvons segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
 
 ## Plan d'analyse
 
-Dans un premier temps, nous souhaitons concentrer notre effort sur la découverte du jeu de données et surtout sa compréhension. Nous entendons par cela de faire des visualisations sur le réseau ferroviaire actuel, son affluence, etc.
-Nous nous concentrerons ensuite sur une analyse des voyageurs puis celles des objets perdus
+Dans un premier temps, nous souhaitons concentrer notre effort sur la découverte du jeu de données et surtout sa compréhension. Nous entendons par cela de faire des visualisations sur le réseau ferroviaire actuel, son affluence, etc. Nous nous concentrerons ensuite sur une analyse des voyageurs puis celles des objets perdus
 
 ### Découverte
 
-- [] A quoi ressemble le réseau SNCF en France ?
-- [] Quels sont les départements les mieux équipés ?
-- [] A quel point Paris a une place importante dans le réseau des autres territoires ?
+-   [ ] A quoi ressemble le réseau SNCF en France ?
+-   [ ] Quels sont les départements les mieux équipés ?
+-   [ ] A quel point Paris a une place importante dans le réseau des autres territoires ?
 
 ### Voyageurs
 
-- [] Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
-- [] Quel est le voyageur moyen de la SNCF ?
-- [] Comment ce voyageur diffère en fonction des gares ?
-- [] Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
+-   [ ] Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
+-   [ ] Quel est le voyageur moyen de la SNCF ?
+-   [ ] Comment ce voyageur diffère en fonction des gares ?
+-   [ ] Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
 
 ### Objets
 
-- [] Y-a-t-il plus de chances de perdre un objet selon la gare ?
-- [] Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?
-- [] Quelles sont les chances de retrouver un objet perdu ?
-- [] Quelles sont les chances de retrouver un objet en fonction de sa nature ?
+-   [ ] Y-a-t-il plus de chances de perdre un objet selon la gare ?
+-   [ ] Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?
+-   [ ] Quelles sont les chances de retrouver un objet perdu ?
+-   [ ] Quelles sont les chances de retrouver un objet en fonction de sa nature ?
 
 ## Ajouts possibles de l'équipe
 
-Nous aimerions aussi ajouter des données créées personnellement pour visualiser le volume des objets que cela peut représenter comme par exemple un volume type par catégorie d'objet.
-De même, les données voyageurs sont assez faibles et l'équipe extrapolera sûrement certaines données afin de garder un sens à l'analyse de celles-ci.
+Nous aimerions aussi ajouter des données créées personnellement pour visualiser le volume des objets que cela peut représenter comme par exemple un volume type par catégorie d'objet. De même, les données voyageurs sont assez faibles et l'équipe extrapolera sûrement certaines données afin de garder un sens à l'analyse de celles-ci.
 
 # L'équipe du projet
 
-[Maxence Jaulin](https://github.com/maxencejaulin)
-[Louis Prodhon](https://github.com/Grexiem)
-[Mathis Girod](https://github.com/girodmat)
-[Zezhong Wang](https://github.com/RubiesWzz)
-
+[Maxence Jaulin](https://github.com/maxencejaulin) [Louis Prodhon](https://github.com/Grexiem) [Mathis Girod](https://github.com/girodmat) [Zezhong Wang](https://github.com/RubiesWzz)
 
 ### Première étape : du CSV aux datasets
 
@@ -144,7 +134,6 @@ Afin d'obtenir un classement des gares les plus fréquentés, nous avons choisi 
 
 Ce filtre nous permet de faire ressortir les gares les plus fréquentées uniquement.
 
-
 ```{r}
 freq <- frequentation %>%
   select(gare = "Nom de la gare", voyageurs = "Total Voyageurs + Non voyageurs 2022") %>%
@@ -152,6 +141,7 @@ freq <- frequentation %>%
 
 ggplot(data = freq, mapping=aes(x=voyageurs,y=gare))+geom_col()
 ```
+
 On remarque que les gares avec le plus d'affluence sont les gares parisiennes, ce qui n'est pas très étonnant étant donné que la grande majorité des trajets partent et viennent de Paris.
 
 ## Voyageurs
@@ -189,10 +179,10 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
   theme(axis.text.y = element_text(size = 8))
 
 ```
+
 Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart de la fréquentation. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes.
 
-On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions. 
-
+On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
 
 **Répartition du nombre de voyageurs dans les gares d'un même département.** Exemple département (77)
 
@@ -218,14 +208,11 @@ ggplot(gares_77, aes(x = gare, y = passagers2022)) +
 
 ```
 
-=======
 Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
-
-
-*Explorer la répartition par âge des passagers* 
+*Explorer la répartition par âge des passagers*
 
 En raison de quelques problèmes dans l'ensemble de données, tels que des codes UIC incohérents et des variations dans les années de recensement et les données des stations, nous allons nous concentrer exclusivement sur la répartition par âge pour les années 2015, 2016 et 2017.
 
@@ -240,12 +227,14 @@ age_filtered <- age_voya %>%
 ```
 
 Filtrer freq_selected par nom de station, en ne conservant que les lignes qui correspondent à Nom dans age_filtered, et vice versa.
+
 ```{r}
 freq_matched <- semi_join(freq_selected, age_filtered, by = "Nom")
 age_matched <- semi_join(age_filtered, freq_selected, by = "Nom")
 ```
 
 Diviser les données dans freq_matched par année.
+
 ```{r}
 freq_long <- freq_matched %>%
   pivot_longer(
@@ -256,7 +245,9 @@ freq_long <- freq_matched %>%
   ) %>%
   mutate(Année = as.integer(Année))
 ```
+
 Combinaison de données dans age_filtered par année.
+
 ```{r}
 age_wide <- age_matched %>%
   pivot_wider(
@@ -265,11 +256,14 @@ age_wide <- age_matched %>%
     values_fill = list(Pourcentage = 0)  
   )
 ```
+
 Fusionner et supprimer les lignes contenant des données nulles.
+
 ```{r}
 combined_dataset <- left_join(freq_long, age_wide, by = c("Nom", "Année"))
 cleaned_dataset <- na.omit(combined_dataset)
 ```
+
 Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombre total pour chaque année
 
 ```{r}
@@ -282,6 +276,7 @@ age_passenger_totals <- cleaned_dataset %>%
 ```
 
 L'étape suivante consiste à calculer le pourcentage des groupes d'âge ainsi que la cartographie.
+
 ```{r}
 age_passenger_totals_long <- age_passenger_totals %>%
   pivot_longer(
@@ -304,14 +299,9 @@ ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Gro
   theme_minimal()
 ```
 
+**Qui est le voyageur moyen de la SNCF ?** ***Catégorie socio professionnelle*** Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio professionnelles.
 
-**Qui est le voyageur moyen de la SNCF ?**
-***Catégorie socio professionnelle***
-Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, 
-En premier lieu nous allons voir les différentes catégories socio professionnelles.
-
-<<<<<<< HEAD
-ps : Le Pourcentage correspond au pourcentage par rapport au CSP d'UNE gare.
+PS : Le Pourcentage correspond au pourcentage par rapport au CSP d'UNE gare.
 
 ```{r}
 profil_moyen <- CSP_voya %>%
@@ -332,8 +322,6 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
   theme_minimal()
 ```
 
-
->>>>>>> 0a11b07337ac41919572735f1c0ca28059535280
 ## Objets perdus/restitués
 
 Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
@@ -473,6 +461,8 @@ Il est donc difficile de faire des hypothèses très spécifique sur les probabi
 
 #### Probabilité de retrouver un objet perdu
 
+*Quelles sont les chances de retrouver un objet perdu ?*
+
 Pour cette première probabilité nous allons faire un calcul simple :
 
 (Nombre d'objets retrouvés / Nombre d'objets perdus) \*100
@@ -487,6 +477,8 @@ proba_commune
 Je trouve la probabilité relativement élevée car pas très éloignée du 50%. Peut-être aussi que le postulat personnel avant le calcul était relativement pessimiste.
 
 #### Probabilité de retrouver un objet selon son type
+
+*Quelles sont les chances de retrouver un objet en fonction de son type ?*
 
 Afin d'avoir une probabilité selon le type il faut donc que nous effectuons la même opération que précédemment avec comme paramètre le type de l'objet.
 
