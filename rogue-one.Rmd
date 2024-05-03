@@ -367,7 +367,9 @@ obj_perdus_2019 %>%
   geom_bar() +
   labs(title = "Nombre d'objets perdus par type d'objets en 2019",
        y = "Type d'objet",
-       x = "Nombre d'objets perdus en unité")
+       x = "Nombre d'objets perdus en unité")+
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = rel(0.8)))
 ```
 
 Sans surprise, les objets les plus couramment perdus sont donc dans l'ordre :
@@ -391,7 +393,9 @@ obj_perdus_trouves %>%
   geom_bar() +
   labs(title = "Nombre d'objets perdus retrouvés par type d'objets en 2019",
        y = "Type d'objet",
-       x = "Nombre d'objets perdus en unité")
+       x = "Nombre d'objets perdus en unité") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = rel(0.8)))
 ```
 
 #### Objets restitués
@@ -501,10 +505,11 @@ probas_types %>%
   labs(title = "Fréquence de rendu d'objets perdus par type",
        y = "Fréquence de retour",
        x = "Type d'objet",) +
+  theme_minimal() +
   theme(
     plot.title = element_text(size = rel(2)),
     axis.text.x = element_text(
-      size = rel(0.5),
+      size = rel(0.65),
       face = "italic",
       angle = 45,
       vjust = 1,
