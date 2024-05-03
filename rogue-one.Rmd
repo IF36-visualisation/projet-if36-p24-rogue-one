@@ -364,6 +364,23 @@ ggplot(data_long, aes(x = Annee, y = Total, group = 1)) +
 ```
 On voit rapidement qu'il y a un "trou" du à la période COVID 2020.
 
+Maintenant intéressons nous aux nombres de voyageurs par segmentation DRG.
+
+```{r}
+library(ggplot2)
+
+data_segmentation <- frequentation %>%
+  group_by(`Segmentation DRG`) %>%
+  summarise(Total_2022 = sum(`passagers2022`, na.rm = TRUE))
+head(data_segmentation)
+ggplot(data_segmentation, aes(x = `Segmentation DRG`, y = Total_2022, fill = `Segmentation DRG`)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Répartition des voyageurs par segmentation DRG en 2022",
+       x = "Segmentation DRG",
+       y = "Nombre total de voyageurs") +
+  theme_minimal()
+```
+
 ## Objets perdus/restitués
 
 Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
