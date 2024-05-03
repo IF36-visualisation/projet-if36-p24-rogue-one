@@ -495,9 +495,20 @@ probas_types <- occurences_trouves / occurences_perdus * 100
 probas_types <- as.data.frame.table(probas_types)
 colnames(probas_types)
 probas_types %>% 
-  ggplot(aes(y=type_obj_trouves, x=Freq)) +
-  geom_col() +
-  labs(title = "Fréquence de rendu d'objet perdus par type",
-       y = "Type d'objet",
-       x = "Fréquence de retour")
+  ggplot(aes(x=type_obj_trouves, y=Freq)) +
+  geom_col() + 
+  ylim(0,100) +
+  labs(title = "Fréquence de rendu d'objets perdus par type",
+       y = "Fréquence de retour",
+       x = "Type d'objet",) +
+  theme(
+    plot.title = element_text(size = rel(2)),
+    axis.text.x = element_text(
+      size = rel(0.5),
+      face = "italic",
+      angle = 45,
+      vjust = 1,
+      hjust = 1
+    )
+  )
 ```
