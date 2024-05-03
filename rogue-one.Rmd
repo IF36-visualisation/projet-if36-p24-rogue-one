@@ -299,7 +299,9 @@ ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Gro
   theme_minimal()
 ```
 
-**Qui est le voyageur moyen de la SNCF ?** ***Catégorie socio professionnelle*** Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio professionnelles.
+**Qui est le voyageur moyen de la SNCF ?** 
+***Catégorie socio professionnelle***
+Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio professionnelles.
 
 PS : Le Pourcentage correspond au pourcentage par rapport au CSP d'UNE gare.
 
@@ -308,11 +310,15 @@ profil_moyen <- CSP_voya %>%
   group_by(CSP) %>%
   summarise(Pourcentage_moyen = mean(Pourcentage, na.rm = TRUE))
 
-
 profil_moyen <- profil_moyen %>%
   arrange(desc(Pourcentage_moyen))
 profil_moyen
 
+```
+
+Regroupement des CSP par pourcentages.
+
+```{r}
 ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_moyen)) +
   geom_bar(stat = "identity") +
   coord_flip() + 
@@ -321,6 +327,42 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
        y = "Pourcentage Moyen") +
   theme_minimal()
 ```
+
+**Nombres de Voyageurs par année**
+Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
+
+Apercu du dataset fréquentations 
+
+```{r}
+head(frequentation)
+```
+
+
+```{r}
+
+total_par_annee <- frequentation %>%
+  summarise(
+    Total_2022 = sum(`passagers2022`, na.rm = TRUE),
+    Total_2021 = sum(`Total Voyageurs 2021`, na.rm = TRUE),
+    Total_2020 = sum(`Total Voyageurs 2020`, na.rm = TRUE),
+    Total_2019 = sum(`Total Voyageurs 2019`, na.rm = TRUE),
+    Total_2018 = sum(`Total Voyageurs 2018`, na.rm = TRUE),
+    Total_2017 = sum(`Total Voyageurs 2017`, na.rm = TRUE),
+    Total_2016 = sum(`Total Voyageurs 2016`, na.rm = TRUE),
+    Total_2015 = sum(`Total Voyageurs 2015`, na.rm = TRUE)
+  )
+
+data_long <- pivot_longer(total_par_annee, cols = everything(), names_to = "Annee", values_to = "Total")
+
+ggplot(data_long, aes(x = Annee, y = Total, group = 1)) +
+  geom_line() +  
+  geom_point() +  
+  labs(title = "Nombre total de voyageurs par année",
+       x = "Année",
+       y = "Nombre total de voyageurs") +
+  theme_minimal()
+```
+On voit rapidement qu'il y a un "trou" du à la période COVID 2020.
 
 ## Objets perdus/restitués
 
