@@ -1,11 +1,9 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/Fj4cXJY4)
 
 
-![](entete-rapportIF36.png "Entête")
+![](images/entete-rapportIF36.png "Entête")
 
 # Introduction
-
-
 
 Dans le cadre de notre projet, nous avons souhaité traiter des données originales et de nous poser des questions concernant le transport ferroviaire français.
 
