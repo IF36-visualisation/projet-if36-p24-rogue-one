@@ -126,7 +126,7 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
   > Raisonnement :
   > Visualisation : 
 
-### Objets
+**Objets**
 
 - Y-a-t-il plus de chances de perdre un objet selon la gare ?
   > Type de données :
