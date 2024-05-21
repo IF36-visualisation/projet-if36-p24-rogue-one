@@ -3,29 +3,27 @@
 
 ![](images/entete-rapportIF36.png "Entête")
 
-Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
-
 # Introduction
 
-Ce projet a été réalisé dans le cadre du cours Visualisation de données, au cours du semestre de printemps 2024, à l'Université de Technologie de Troyes
+Ce projet a été réalisé dans le cadre du cours **Visualisation de données**, au cours du semestre de **printemps 2024**, à **l'Université de Technologie de Troyes**.
 
-Pour cette étude, nous avons voulu analyser des données originales qui nous permettent de nous interroger sur **l'étude du transport ferroviaire en France**. Notre analyse portera sur des jeux de données extraits du site de données de la SNCF (Société Nationale des Chemins de fer Français) [Data SNCF](https://data.sncf.com). L'ensemble des données qui vont donc être traitées dans ce projet proviennent pour l'ensemble de cette source. Nous n'avons donc pas utilisé de jeux de données extérieures à ce site.
+Pour cette étude, nous avons choisi d'analyser des données originales qui nous permettent de nous interroger sur **l'étude du transport ferroviaire en France**. Notre analyse portera sur des jeux de données extraits du site de données de la SNCF (Société Nationale des Chemins de fer Français) [Data SNCF](https://data.sncf.com). L'ensemble des données qui vont donc être traitées dans ce projet proviennent donc toutes de cette source. Nous n'avons donc pas utilisé de jeux de données extérieurs à ce site.
 
-Les données récoltées sur le transport sont assez importantes c'est pourquoi nous avons choisi de nous concentrer sur une découverte avec un spectre assez large, allant des voyageurs aux objets perdus. Nous utiliserons les données des gares, des voyageurs et des objets perdus/retrouvés. Cette étude permettra de comprendre des tendances clés associés au trafic ferroviaire sur des périodes allant de 2017 à 2022.
+Les données récoltées sur le transport sont assez importantes c'est pourquoi nous avons choisi de nous concentrer sur une découverte avec un spectre assez large, allant des voyageurs aux objets perdus. Nous utiliserons les données des gares, des voyageurs et des objets perdus/retrouvés. Cette étude permettra de déterminer et de comprendre des tendances clés associées au trafic ferroviaire sur des périodes allant de 2017 à 2022.
 
-L'objectif de ce projet est de fournir des interprétations basées sur les visualisations issué d'une analyse exploratoire de nos jeux de données (7 jeux de données). 
+L'objectif de ce projet est de fournir des interprétations basées sur les visualisations issues d'une analyse exploratoire de nos jeux de données (7 jeux de données). 
 
 ## Données
 
-Nous avons choisi d'étudier sept jeux de données (7) issues du site [Data SNCF](https://data.sncf.com). Ce sont des données collectées par la SNCF parmi les différentes catégories disponible sur le site (voir ci-dessous).
+Nous avons donc choisi d'étudier sept jeux de données (7) issues du site [Data SNCF](https://data.sncf.com). Ce sont des données collectées par la SNCF parmi les différentes catégories disponible sur le site (voir ci-dessous).
 
-![](images/categories-donnees "Catégories de données SNCF")
+![](images/categories-donnees.png "Catégories de données SNCF")
 
-Ces données concernent des objets possedés par la SNCF (gares, objets) mais aussi des enquêtes réalisées sur des individus anonymes (fréquentation, voyageurs). Les données sont liées à une période temporelle précise de 2017 à 2022.
+Ces données concernent des objets possedés par la SNCF (gares, objets) mais aussi des enquêtes réalisées sur des individus anonymement (fréquentation, voyageurs). Les données sont liées à une période temporelle précise de 2017 à 2022.
 
 > L'ensemble des données brutes sont accessibles depuis le dossier /data.
 
-Nous avons décidé d'utiliser **17 variables** pour notre projet provenant des jeux de données brutes ou alors d'attributs crées par nos soins.
+Nous avons décidé d'utiliser **17 variables** pour notre projet provenant des jeux de données bruts ou alors d'attributs crées par nos soins.
 
 | --- | Nom de la variable      | Type     | Format              | Dataset (Origine) | Description                                                    |
 | --- | ----------------------- | -------- | ------------------- | ----------------- | -------------------------------------------------------------- |
@@ -103,3 +101,6 @@ Nous nous concentrerons ensuite sur une analyse des voyageurs puis celles des ob
 
 Nous aimerions aussi ajouter des données créées personnellement pour visualiser le volume des objets que cela peut représenter comme par exemple un volume type par catégorie d'objet.
 De même, les données voyageurs sont assez faibles et l'équipe extrapolera sûrement certaines données afin de garder un sens à l'analyse de celles-ci.
+
+---
+Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
