@@ -19,9 +19,28 @@ Nous avons donc choisi d'étudier sept jeux de données (7) issues du site [Data
 
 ![](images/categories-donnees.png "Catégories de données SNCF")
 
-Ces données concernent des objets possedés par la SNCF (gares, objets) mais aussi des enquêtes réalisées sur des individus anonymement (fréquentation, voyageurs). Les données sont liées à une période temporelle précise de 2017 à 2022.
+Ces données concernent des objets possedés par la SNCF (gares, objets) mais aussi des enquêtes réalisées sur des individus anonymement (fréquentation, voyageurs). Les données sont liées à une période temporelle précise de **2017 à 2022**.
 
 > L'ensemble des données brutes sont accessibles depuis le dossier /data.
+
+**Nombre d'observations**
+
+Le nombre d'observations varie selon chaque jeu de données. Pour plus de détail, nous avons détaillé précisement le nombre d'observations dont nous disposions.
+
+| --- | Nom du dataset                                                                                | Nombre d'observations | Lien                                                                                                     | Description                                  |
+| --- | --------------------------------------------------------------------------------------------- | --------------------- |-------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| 01  | dataset1-gares-de-voyageurs.csv                                                               | 2.862                 | [Dataset1](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/)                                                                      | Jeu de données sur les gares de voyageurs       |
+| 02  | dataset2-frequentation-gares.csv                                                              | 21.147                | [Dataset2](https://data.sncf.com/explore/dataset/frequentation-gares/export/)                                                                     | Jeu de données sur la fréquentation des gares   |
+| 03  | dataset3-motif-deplacement.csv                                                                | 284                   | [Dataset3](https://data.sncf.com/explore/dataset/motif-deplacement/export/)                                                                       | Jeu de données sur les motifs de déplacement    |
+| 04  | dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv | 697                   | [Dataset4](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/)        | Jeu de données sur les CSP des voyageurs        |
+| 05  | dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv                | 375                   | [Dataset5](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/)                       | Jeu de données sur l'âge des voyageurs          |
+| 06  | dataset6-objets-trouves-gares.csv                                                             | 1.844.912             | [Dataset6](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)                                                                    | Jeu de données sur les objets trouvés en gare   |
+| 07  | dataset7-objets-trouves-restitution.csv                                                       | 858.180               | [Dataset7](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/)                                                              | Jeu de données sur les objets restitués         |
+
+
+Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets. Nous pouvons donc segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
+
+**Variables**
 
 Nous avons décidé d'utiliser **17 variables** pour notre projet provenant des jeux de données bruts ou alors d'attributs crées par nos soins.
 
@@ -55,52 +74,83 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
 - d'effectuer une analyse temporelle et spatiale du réseau
 - d'effectuer des classements et des comparaisons entre les différentes régions et/ou départements (analyse multiscalaire). Exemple : espace moins déservi par exemple.
 
-**Nombre d'observations**
-
-Le nombre d'observations varie selon chaque jeu de données. Pour plus de détail, nous avons détaillé précisement le nombre d'observations dont nous disposions.
-
-| --- | Nom du dataset                                                                                | Nombre d'observations | Lien                                                                                                     | Description                                  |
-| --- | --------------------------------------------------------------------------------------------- | --------------------- |-------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| 01  | dataset1-gares-de-voyageurs.csv                                                               | 2.862                 | [Dataset1](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/)                                                                      | Jeu de données sur les gares de voyageurs       |
-| 02  | dataset2-frequentation-gares.csv                                                              | 21.147                | [Dataset2](https://data.sncf.com/explore/dataset/frequentation-gares/export/)                                                                     | Jeu de données sur la fréquentation des gares   |
-| 03  | dataset3-motif-deplacement.csv                                                                | 284                   | [Dataset3](https://data.sncf.com/explore/dataset/motif-deplacement/export/)                                                                       | Jeu de données sur les motifs de déplacement    |
-| 04  | dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv | 697                   | [Dataset4](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/)        | Jeu de données sur les CSP des voyageurs        |
-| 05  | dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv                | 375                   | [Dataset5](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/)                       | Jeu de données sur l'âge des voyageurs          |
-| 06  | dataset6-objets-trouves-gares.csv                                                             | 1.844.912             | [Dataset6](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)                                                                    | Jeu de données sur les objets trouvés en gare   |
-| 07  | dataset7-objets-trouves-restitution.csv                                                       | 858.180               | [Dataset7](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/)                                                              | Jeu de données sur les objets restitués         |
-
-Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets. Nous pouvons donc segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
-
 
 ## Plan d'analyse
 
-Dans un premier temps, nous souhaitons concentrer notre effort sur la découverte du jeu de données et surtout sa compréhension. Nous entendons par cela de faire des visualisations sur le réseau ferroviaire actuel, son affluence, etc.
-Nous nous concentrerons ensuite sur une analyse des voyageurs puis celles des objets perdus
+1. **Découverte du jeu de données** et surtout comprendre à quoi servent nos données. Par exemple : nous souhaitons réaliser des visualisations sur le réseau ferroviaire actuel, étudier la répartition générale des voyageurs...
+    > A quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? A quel point Paris a une place importante dans le réseau des autres territoires ?
+2. **Analyse des voyageurs** : De façon plus précise, nous étudierons les voyageurs qui utilisent quotidiennement les réseaux ferrés français. Cela passera notammet par des attributs d'âge, de CSP ou encore de motif de déplacement.
+    > Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ? Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
+3. **Analyse des objets** : De la même façon, nous souhaiterions étudier les objets perdus en gares. Pour cela, nous utiliserons également un second jeu de données sur les objets retrouvés.
+    > Y-a-t-il plus de chances de perdre un objet selon la gare ? Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ? Quelles sont les chances de retrouver un objet perdu ? Quelles sont les chances de retrouver un objet en fonction de sa nature ?
+4. **Analyse spatiale** : A l'aide de nos données spatiales, nous souhaitons réaliser des cartes. Ces dernières permettront visuellement de voir la disposition et la répartition des gares en France Métropolitaine.
+5. Enfin si nous souhaitons **rajouter des questions**, nous nous laissons la liberté de les rajouter au plan d'analyse.
 
-### Découverte
 
-- [] A quoi ressemble le réseau SNCF en France ?
-- [] Quels sont les départements les mieux équipés ?
-- [] A quel point Paris a une place importante dans le réseau des autres territoires ?
+**Découverte**
 
-### Voyageurs
+- A quoi ressemble le réseau SNCF en France ?
+  > Type de données : Quantitative (Discrètes)
+  > Raisonnement : Visualisation spatiale
+  > Visualisation : Carte, graphes
 
-- [] Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
-- [] Quel est le voyageur moyen de la SNCF ?
-- [] Comment ce voyageur diffère en fonction des gares ?
-- [] Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
+- Quels sont les départements les mieux équipés ?
+  > Type de données : 
+  > Raisonnement : 
+  > Visualisation : 
+
+- A quel point Paris a une place importante dans le réseau des autres territoires ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
+
+**Voyageurs**
+
+- Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
+
+- Quel est le voyageur moyen de la SNCF ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
+
+- Comment ce voyageur diffère en fonction des gares ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
+
+- Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
 
 ### Objets
 
-- [] Y-a-t-il plus de chances de perdre un objet selon la gare ?
-- [] Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?
-- [] Quelles sont les chances de retrouver un objet perdu ?
-- [] Quelles sont les chances de retrouver un objet en fonction de sa nature ?
+- Y-a-t-il plus de chances de perdre un objet selon la gare ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
 
-## Ajouts possibles de l'équipe
+- Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
 
-Nous aimerions aussi ajouter des données créées personnellement pour visualiser le volume des objets que cela peut représenter comme par exemple un volume type par catégorie d'objet.
-De même, les données voyageurs sont assez faibles et l'équipe extrapolera sûrement certaines données afin de garder un sens à l'analyse de celles-ci.
+- Quelles sont les chances de retrouver un objet perdu ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
+
+- Quelles sont les chances de retrouver un objet en fonction de sa nature ?
+  > Type de données :
+  > Raisonnement :
+  > Visualisation : 
+
+## Suggestions
+
+Nous aimerions aussi ajouter des données créées personnellement pour visualiser le volume des objets que cela peut représenter comme par exemple un volume type par catégorie d'objet. De même, les données voyageurs sont assez faibles et l'équipe extrapolera sûrement certaines données afin de garder un sens à l'analyse de celles-ci.
 
 ---
 Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
