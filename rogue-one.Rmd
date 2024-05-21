@@ -2,6 +2,7 @@
 title: "Rogue One"
 author: "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
 output:
+  pdf_document: default
   html_document: default
 ---
 
@@ -83,10 +84,13 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
 
 1. **Découverte du jeu de données** et surtout comprendre à quoi servent nos données. Par exemple : nous souhaitons réaliser des visualisations sur le réseau ferroviaire actuel, étudier la répartition générale des voyageurs...
     > A quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? A quel point Paris a une place importante dans le réseau des autres territoires ?
+
 2. **Analyse des voyageurs** : De façon plus précise, nous étudierons les voyageurs qui utilisent quotidiennement les réseaux ferrés français. Cela passera notammet par des attributs d'âge, de CSP ou encore de motif de déplacement.
     > Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ? Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
+
 3. **Analyse des objets** : De la même façon, nous souhaiterions étudier les objets perdus en gares. Pour cela, nous utiliserons également un second jeu de données sur les objets retrouvés.
     > Y-a-t-il plus de chances de perdre un objet selon la gare ? Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ? Quelles sont les chances de retrouver un objet perdu ? Quelles sont les chances de retrouver un objet en fonction de sa nature ?
+
 4. **Analyse spatiale** : A l'aide de nos données spatiales, nous souhaitons réaliser des cartes. Ces dernières permettront visuellement de voir la disposition et la répartition des gares en France Métropolitaine.
 5. Enfin si nous souhaitons **rajouter des questions**, nous nous laissons la liberté de les rajouter au plan d'analyse.
 
@@ -103,23 +107,31 @@ library(stringr)
 ```
 
 
-### Première étape : du CSV aux datasets
+# Nettoyage des données
 
-Récupération des jeux de données SNCF :
+Le **nettoyage des données** est la première étapes de notre projet. C'est ici que nous allons créer de nouvelles tables, modifier les jeux de données existants (supprimer ou renommer les colonnes existantes).
+*[TODO] Ajouter des explications sur la complexité de nos données*
 
--   Gares de voyageurs : gares
+Afin de travailler proprement, nous avons réaliser les étapes suivantes : 
 
--   Fréquentation des gares : frequentation
+1. Nous avons commencé par **observer les colonnes** de nos jeux de données. Nous avons pu isoler lesquels étaient susceptibles d'être utilisées.
 
--   Motif de déplacement des voyageurs : motif_depl
+2. Ensuite, nous avons choisi de **renommer les colonnes** de nos jeux de données selon une norme précise (voir **Convention de nommage des colonnes** ci-dessous). Les colonnes de base des tables utilisaient des espaces, ce qui est incompatible avec l'appel de ces dernières.
 
--   Catégorie socio-professionelle des voyageurs : CSP_voya
+3. Une fois les tables modifiées, nous avons du **filtrer nos données**.
 
--   Classe d'âge des voyageurs : age_voya
 
--   Objets perdus : obj_perdus
+**Convention de nommage des colonnes**
+- Transformer les espaces en underscore.
+- Nommer les variables avec des minuscules. 
 
--   Objets trouvés : obj_trouves
+> Exemple : Code Postal en code_postal
+
+
+*[TODO] Rajouter des données les tables modifiées ici*
+
+
+## Importation des jeux de données
 
 ```{r}
 gares <- read_delim(file = "data/dataset1-gares-de-voyageurs.csv", delim=";")
@@ -132,7 +144,22 @@ obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv",
 
 ```
 
-**Fréquentation des gares**
+---
+# Découverte
+
+Dans cette partie, nous découvrirons le jeu de données. 
+
+**Visualisations réalisées**
+
+1. Fréquentation des gares
+
+2. ...
+
+[TODO] à compléter
+
+
+
+## 1. Fréquentation des gares
 
 Tout d'abord, voici un petit tour d'horizon du dataset frequentation.
 
@@ -155,15 +182,31 @@ ggplot(data = freq, mapping=aes(x=voyageurs,y=gare))+geom_col()
 
 On remarque que les gares avec le plus d'affluence sont les gares parisiennes, ce qui n'est pas très étonnant étant donné que la grande majorité des trajets partent et viennent de Paris.
 
-## Voyageurs
 
-Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
+---
+# Voyageurs
+
+Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
+
+**Visualisations réalisées**
+
+1. Nombre de voyageurs total par département (2022)
+
+2. Répartition du nombre de voyageurs dans les gares d'un même département.Exemple département (77)
+
+3. Explorer la répartition par âge des passagers
+
+4. Catégorie socio professionnelle
+
+5. Nombre de voyageurs par année
+
 
 Dans un premier temps, nous analysons le nombre de voyageurs par département, pour nous intéresser ensuite à la proportion de voyageurs dans les gares au sein d'un même département.
 
+
 *Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?*
 
-**Nombre de voyageurs total par département (2022)**
+## 1. Nombre de voyageurs total par département (2022)
 
 ```{r}
 freq <- frequentation %>%
@@ -195,7 +238,7 @@ Comme le constat fait un peu plus haut, on observe que la région Ile de France 
 
 On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
 
-**Répartition du nombre de voyageurs dans les gares d'un même département.** Exemple département (77)
+## 2. Répartition du nombre de voyageurs dans les gares d'un même département.Exemple département (77)
 
 Grâce à cette visusalisation, on peut connaître les gares les plus importantes en termes de fréquentation dans chacun des départements.
 
@@ -223,7 +266,10 @@ Au sein du 77, on remarque des disparités entre les gares. Des gares comme cell
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
-*Explorer la répartition par âge des passagers*
+
+**Quel est le voyageur moyen de la SNCF ?**
+
+## 3. Explorer la répartition par âge des passagers
 
 En raison de quelques problèmes dans l'ensemble de données, tels que des codes UIC incohérents et des variations dans les années de recensement et les données des stations, nous allons nous concentrer exclusivement sur la répartition par âge pour les années 2015, 2016 et 2017.
 
@@ -310,8 +356,9 @@ ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Gro
   theme_minimal()
 ```
 
-**Qui est le voyageur moyen de la SNCF ?** 
-***Catégorie socio professionnelle***
+ 
+## 4. Catégorie socio professionnelle
+
 Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio professionnelles.
 
 PS : Le Pourcentage correspond au pourcentage par rapport au CSP d'UNE gare.
@@ -339,7 +386,8 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
   theme_minimal()
 ```
 
-**Nombres de Voyageurs par année**
+## 5. Nombre de voyageurs par année
+
 Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
 
 Apercu du dataset fréquentations 
@@ -395,11 +443,25 @@ ggplot(data_segmentation, aes(x = `Segmentation DRG`, y = Total_2022, fill = `Se
   theme_minimal()
 ```
 
-## Objets perdus/restitués
+
+---
+# Objets
 
 Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
 
-#### Objets perdus
+
+**Visualisations réalisées**
+
+1. Objets perdus
+
+2. Objets restitués
+
+3. Probabilité de retrouver un objet perdu
+
+4. Probabilité de retrouver un objet selon son type
+
+
+## 1. Objets perdus
 
 Tout d'abord, petite visualisation du dataset obj_perdus
 
@@ -471,7 +533,7 @@ obj_perdus_trouves %>%
   theme(axis.text.y = element_text(size = rel(0.8)))
 ```
 
-#### Objets restitués
+## 2. Objets restitués
 
 Nous allons ensuite parcourir le dataset 7 : obj_trouves
 
@@ -536,9 +598,10 @@ Nous ne pouvons donc pas faire de relation directe entre un objet déclaré comm
 
 Il est donc difficile de faire des hypothèses très spécifique sur les probabilités de retrouver un objet perdu. La façon de faire ça serait de connaître un nombre précis de pertes et sur ces pertes savoir combien d'entre elles ont été rendues. Sans le lien entre les pertes et les objets rendus, énormément de biais peuvent apparaître. Pour faire les prochaines probabilités, nous allons faire l'hypothèse que l'ensemble des objets rendus ont fait l'objet d'une entrée dans le formulaire de perte.
 
-#### Probabilité de retrouver un objet perdu
 
-*Quelles sont les chances de retrouver un objet perdu ?*
+**Quelles sont les chances de retrouver un objet perdu ?**
+
+## 3. Probabilité de retrouver un objet perdu
 
 Pour cette première probabilité nous allons faire un calcul simple :
 
@@ -553,9 +616,10 @@ proba_commune
 
 Je trouve la probabilité relativement élevée car pas très éloignée du 50%. Peut-être aussi que le postulat personnel avant le calcul était relativement pessimiste.
 
-#### Probabilité de retrouver un objet selon son type
 
-*Quelles sont les chances de retrouver un objet en fonction de son type ?*
+**Quelles sont les chances de retrouver un objet en fonction de son type ?**
+
+## 4. Probabilité de retrouver un objet selon son type
 
 Afin d'avoir une probabilité selon le type il faut donc que nous effectuons la même opération que précédemment avec comme paramètre le type de l'objet.
 
@@ -590,3 +654,15 @@ probas_types %>%
     )
   )
 ```
+
+
+---
+# Conclusion
+
+
+## Notre avis sur le projet
+
+
+---
+Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
+
