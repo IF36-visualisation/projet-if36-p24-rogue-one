@@ -3,51 +3,76 @@
 
 ![](images/entete-rapportIF36.png "Entête")
 
+Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
+
 # Introduction
 
-Dans le cadre de notre projet, nous avons souhaité traiter des données originales et de nous poser des questions concernant le transport ferroviaire français.
+Ce projet a été réalisé dans le cadre du cours Visualisation de données, au cours du semestre de printemps 2024, à l'Université de Technologie de Troyes
 
-Afin de les données récoltées par l'entreprise **SNCF**, entreprise ferroviaire française.
+Pour cette étude, nous avons voulu analyser des données originales qui nous permettent de nous interroger sur **l'étude du transport ferroviaire en France**. Notre analyse portera sur des jeux de données extraits du site de données de la SNCF (Société Nationale des Chemins de fer Français) [Data SNCF](https://data.sncf.com). L'ensemble des données qui vont donc être traitées dans ce projet proviennent pour l'ensemble de cette source. Nous n'avons donc pas utilisé de jeux de données extérieures à ce site.
 
-Les données récoltées sur le transport sont assez importantes c'est pourquoi nous avons choisi de nous concentrer sur les gares et leurs données liées ainsi que les données de perte et vol et des voyageurs.
-Ces données sont toutes archivées sur le site web : [Data SNCF](https://data.sncf.com)
+Les données récoltées sur le transport sont assez importantes c'est pourquoi nous avons choisi de nous concentrer sur une découverte avec un spectre assez large, allant des voyageurs aux objets perdus. Nous utiliserons les données des gares, des voyageurs et des objets perdus/retrouvés. Cette étude permettra de comprendre des tendances clés associés au trafic ferroviaire sur des périodes allant de 2017 à 2022.
+
+L'objectif de ce projet est de fournir des interprétations basées sur les visualisations issué d'une analyse exploratoire de nos jeux de données (7 jeux de données). 
 
 ## Données
 
-17 variables.
+Nous avons choisi d'étudier sept jeux de données (7) issues du site [Data SNCF](https://data.sncf.com). Ce sont des données collectées par la SNCF parmi les différentes catégories disponible sur le site (voir ci-dessous).
 
-| --- | Nom de la variable      | Type     | Format              | Dataset (Origine) |
-| --- | ----------------------- | -------- | ------------------- | ----------------- |
-| 01  | gare                    | Nominale | String              | 1,2,3,4,5,6,7     |
-| 02  | departement             | Ordinale | NN                  | 1                 |
-| 03  | zone                    | Nominale | {A,B,C}             | 1                 |
-| 04  | latitude                | Continue | M"S'NS              | 1                 |
-| 05  | longitude               | Continue | M"S'NS              | 1                 |
-| 06  | annee                   | Ordinale | YYYY                | 2,3,4             |
-| 07  | timing_reception        | Discrète | YYYY-MM-DD-HH-MM-SS | 6,7               |
-| 08  | nb_voyageurs            | Discrète | Integer             | 2                 |
-| 09  | age                     | Ordinale | String              | 5                 |
-| 10  | pourcentage_age         | Continue | %                   | 5                 |
-| 11  | csp                     | Nominale | String              | 4                 |
-| 12  | pourcentage_csp         | Continue | %                   | 4                 |
-| 13  | motif_deplacement       | Nominale | String              | 3                 |
-| 14  | pourcentage_deplacement | Continue | %                   | 3                 |
-| 15  | nature_objet            | Nominale | String              | 6,7               |
-| 16  | categorie_objet         | Nominale | String              | 6,7               |
-| 17  | code_uic                | Nominale | NNNNNNNNNN          | 6,7               |
+![](images/categories-donnees "Catégories de données SNCF")
+
+Ces données concernent des objets possedés par la SNCF (gares, objets) mais aussi des enquêtes réalisées sur des individus anonymes (fréquentation, voyageurs). Les données sont liées à une période temporelle précise de 2017 à 2022.
+
+> L'ensemble des données brutes sont accessibles depuis le dossier /data.
+
+Nous avons décidé d'utiliser **17 variables** pour notre projet provenant des jeux de données brutes ou alors d'attributs crées par nos soins.
+
+| --- | Nom de la variable      | Type     | Format              | Dataset (Origine) | Description                                                    |
+| --- | ----------------------- | -------- | ------------------- | ----------------- | -------------------------------------------------------------- |
+| 01  | gare                    | Nominale | String              | 1,2,3,4,5,6,7     | Nom de la gare                                                 |
+| 02  | departement             | Ordinale | NN                  | 1                 | Numéro du département                                          |
+| 03  | zone                    | Nominale | {A,B,C}             | 1                 | Lettre correspondant à la zone géographique                    |
+| 04  | latitude                | Continue | M"S'NS              | 1                 | Latitude de l'objet gare                                       |
+| 05  | longitude               | Continue | M"S'NS              | 1                 | Longitude de l'objet gare                                      |
+| 06  | annee                   | Ordinale | YYYY                | 2,3,4             | Année correspondante                                           |
+| 07  | timing_reception        | Discrète | YYYY-MM-DD-HH-MM-SS | 6,7               | Réception de l'objet perdu                                     |
+| 08  | nb_voyageurs            | Discrète | Integer             | 2                 | Nombre de voyageurs                                            |
+| 09  | age                     | Ordinale | String              | 5                 | Age d'un voyageur                                              |
+| 10  | pourcentage_age         | Continue | %                   | 5                 | Pourcentage sur l'âge des voyageurs                            |
+| 11  | csp                     | Nominale | String              | 4                 | Catégorie socio-professionnel d'un voyageur                    |
+| 12  | pourcentage_csp         | Continue | %                   | 4                 | Pourcentage sur la catégorie socio-professionnel des voyageurs |
+| 13  | motif_deplacement       | Nominale | String              | 3                 | Motif de déplacement d'un voyageur                             |
+| 14  | pourcentage_deplacement | Continue | %                   | 3                 | Pourcentage sur le motif de déplacement des voyageurs          |
+| 15  | nature_objet            | Nominale | String              | 6,7               | Nature de l'objet                                              |
+| 16  | categorie_objet         | Nominale | String              | 6,7               | Catégorie de l'objet                                           |
+| 17  | code_uic                | Nominale | NNNNNNNNNN          | 6,7               | Code UIC de la gare                                            |
+
+**Variables particulières**
+
+Notre jeu de données comprenant des coordonnées spatiales, nous avons estimé qu'il était intéressant de réaliser des cartes. En effet, les coordonnées géographiques de longitude et latitude pourront être utilisée pour catographier le réseau des gares françaises.
+
+L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans le cadre d'une étude. En effet, elles permettent :
+
+- d'étudier les effets de la fréquentation sur les vols/pertes d'objets
+- d'effectuer une analyse temporelle et spatiale du réseau
+- d'effectuer des classements et des comparaisons entre les différentes régions et/ou départements (analyse multiscalaire). Exemple : espace moins déservi par exemple.
 
 **Nombre d'observations**
 
-- [dataset1-gares-de-voyageurs.csv](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/) (2.862)
-- [dataset2-frequentation-gares.csv](https://data.sncf.com/explore/dataset/frequentation-gares/export/) (21.147)
-- [dataset3-motif-deplacement.csv](https://data.sncf.com/explore/dataset/motif-deplacement/export/) (284)
-- [dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/) (697)
-- [dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/) (375)
-- [dataset6-objets-trouves-gares.csv](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)(1.844.912)
-- [dataset7-objets-trouves-restitution.csv](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/) (858.180)
+Le nombre d'observations varie selon chaque jeu de données. Pour plus de détail, nous avons détaillé précisement le nombre d'observations dont nous disposions.
 
-Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets.
-Nous pouvons segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
+| --- | Nom du dataset                                                                                | Nombre d'observations | Lien                                                                                                     | Description                                  |
+| --- | --------------------------------------------------------------------------------------------- | --------------------- |-------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| 01  | dataset1-gares-de-voyageurs.csv                                                               | 2.862                 | [Dataset1](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/)                                                                      | Jeu de données sur les gares de voyageurs       |
+| 02  | dataset2-frequentation-gares.csv                                                              | 21.147                | [Dataset2](https://data.sncf.com/explore/dataset/frequentation-gares/export/)                                                                     | Jeu de données sur la fréquentation des gares   |
+| 03  | dataset3-motif-deplacement.csv                                                                | 284                   | [Dataset3](https://data.sncf.com/explore/dataset/motif-deplacement/export/)                                                                       | Jeu de données sur les motifs de déplacement    |
+| 04  | dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv | 697                   | [Dataset4](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe/export/)        | Jeu de données sur les CSP des voyageurs        |
+| 05  | dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv                | 375                   | [Dataset5](https://data.sncf.com/explore/dataset/enquetes-gares-connexions-repartition-repartition-par-classe-dage/export/)                       | Jeu de données sur l'âge des voyageurs          |
+| 06  | dataset6-objets-trouves-gares.csv                                                             | 1.844.912             | [Dataset6](https://data.sncf.com/explore/dataset/objets-trouves-gares/export/)                                                                    | Jeu de données sur les objets trouvés en gare   |
+| 07  | dataset7-objets-trouves-restitution.csv                                                       | 858.180               | [Dataset7](https://data.sncf.com/explore/dataset/objets-trouves-restitution/export/)                                                              | Jeu de données sur les objets restitués         |
+
+Au sein de ces données nous constatons que toutes s'orchestrent autour d'une donnée principale (Gare, 01) qui est présent dans tous les datasets. Nous pouvons donc segmenter les données restantes par des critères géographiques (02,03,04,05), des critères temporels (06,07), des critères voyageurs (08,09,10,11,12,13,14) et des critères sur les objets perdus/trouvés (15,16,17).
+
 
 ## Plan d'analyse
 
@@ -78,10 +103,3 @@ Nous nous concentrerons ensuite sur une analyse des voyageurs puis celles des ob
 
 Nous aimerions aussi ajouter des données créées personnellement pour visualiser le volume des objets que cela peut représenter comme par exemple un volume type par catégorie d'objet.
 De même, les données voyageurs sont assez faibles et l'équipe extrapolera sûrement certaines données afin de garder un sens à l'analyse de celles-ci.
-
-# L'équipe du projet
-
-[Maxence Jaulin](https://github.com/maxencejaulin)
-[Louis Prodhon](https://github.com/Grexiem)
-[Mathis Girod](https://github.com/girodmat)
-[Zezhong Wang](https://github.com/RubiesWzz)
