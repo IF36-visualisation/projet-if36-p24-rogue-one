@@ -636,7 +636,8 @@ probas_types <- occurences_trouves / occurences_perdus * 100
 probas_types <- as.data.frame.table(probas_types)
 colnames(probas_types)
 probas_types %>% 
-  ggplot(aes(x=type_obj_trouves, y=Freq)) +
+  mutate(type_obj1 = fct_reorder(type_obj_trouves,Freq)) %>%
+  ggplot(aes(x=type_obj1, y=Freq)) +
   geom_col() + 
   ylim(0,100) +
   labs(title = "Fréquence de rendu d'objets perdus par type",
@@ -654,7 +655,10 @@ probas_types %>%
     )
   )
 ```
+Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et accessoires de celle des livres et articles de papèterie. Les célos, trottinettes et accessoires est une catégorie qui est bien au-dessus du second article le plus rendu de + de 10 points.
+Je m'attendais clairement à un taux de retour bien moins important sur toutes les catégories car mon environnement proche parlait souvent d'objets perdus et peu d'objets retrouvés. J'ai l'impression que l'encombrement et la nécessité d'un objet influence sur taux de retour. Un vélo, article de sport, parapluie, sont souvent encombrants et facile à identifier. Les porte-monnaies, pièces d'identité sont aussi proche du 50% ce qui me semble normal.
 
+Il serait aussi intéressant de voir que ces statistiques sont fondées sur les objets qui sont perdus en train ou en gare et ceux qui sont ramenés en gare par d'autres voyageurs ou agents. Les vols ne sont donc pas forcément comptabiliser. Je pense qu'avec plus d'informations, nous pourrions ajouter un critère de vol ou perte selon l'objet. Malheureusement les données ne sont pas assez détaillées, mais nous pourrions peut-être deviner une tendance en croisant d'autres études portant sur le sujet.
 
 ---
 # Conclusion
