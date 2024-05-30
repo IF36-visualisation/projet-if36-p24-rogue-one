@@ -145,6 +145,18 @@ age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartiti
 obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
 obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 ```
+```{r}
+freq_changed<- frequentation %>%
+  rename_with(.cols = contains("Non"), 
+              ~ sub('Total Voyageurs \\+ Non voyageurs', "Personnes", .))%>%
+  rename_with(.cols = contains("Total"), 
+              ~ sub('Total Voyageurs', "Voyageurs", .))%>%
+  pivot_longer(cols = starts_with("Personnes") | starts_with("Voyageurs"), 
+               names_to = c(".value", "Année"), 
+               names_sep = " ")%>%
+  mutate(Année = as.numeric(Année))
+  head(freq_changed)
+```
 
 ---
 # Découverte
