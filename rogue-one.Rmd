@@ -146,7 +146,13 @@ obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=
 obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 ```
 ```{r}
-freq_changed<- frequentation %>%
+#Nettoyage des données pour le traitement
+gares_clean <- gares %>%
+  separate("Position géographique", into = c("Latitude", "Longitude"), sep = ", ") %>%
+  mutate(across(c(Latitude, Longitude), as.numeric)) %>%
+  rename(Gare = "Nom", Code_Postal = "Code commune", Zones_vac = "Segment DRG")
+
+frequentation_clean <- frequentation %>%
   rename_with(.cols = contains("Non"), 
               ~ sub('Total Voyageurs \\+ Non voyageurs', "Personnes", .))%>%
   rename_with(.cols = contains("Total"), 
@@ -154,8 +160,21 @@ freq_changed<- frequentation %>%
   pivot_longer(cols = starts_with("Personnes") | starts_with("Voyageurs"), 
                names_to = c(".value", "Année"), 
                names_sep = " ")%>%
-  mutate(Année = as.numeric(Année))
-  head(freq_changed)
+  mutate(Année = as.numeric(Année))%>%
+  rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG")%>%
+  mutate(UIC = as.character(UIC)) %>%
+  mutate(UIC = substr(UIC, 3, 8))
+
+age_voya_clean <- age_voya %>%
+  rename(Gare = `Gare enquêtée`)%>%
+  mutate(UIC = as.character(UIC))
+  
+
+gares_freq_clean <- gares_clean %>% 
+  inner_join(frequentation_clean, by = "Gare")
+#Création du template de la France
+france <- ne_countries(scale="medium", country = "France", returnclass="sf")%>%
+  st_crop(xmin = -5.2, xmax = 9.7, ymin = 41, ymax = 51)  # Limites de la France métropolitaine
 ```
 
 ---
@@ -178,8 +197,8 @@ Dans cette partie, nous découvrirons le jeu de données.
 Tout d'abord, voici un petit tour d'horizon du dataset frequentation.
 
 ```{r}
-head(frequentation)
-summary(frequentation)
+head(frequentation_clean)
+summary(frequentation_clean)
 ```
 
 Afin d'obtenir un classement des gares les plus fréquentés, nous avons choisi de filtrer le dataset afin de ne garder que les gares au dessus d'un seuil de 20.000.000 individus.
@@ -187,11 +206,17 @@ Afin d'obtenir un classement des gares les plus fréquentés, nous avons choisi 
 Ce filtre nous permet de faire ressortir les gares les plus fréquentées uniquement.
 
 ```{r}
-freq <- frequentation %>%
-  select(gare = "Nom de la gare", voyageurs = "Total Voyageurs + Non voyageurs 2022") %>%
-  filter(voyageurs > 20000000)
+freq <- frequentation_clean %>%
+  select(Gare, Voyageurs, Année) %>%
+  filter(Voyageurs > 20000000) %>%
+  filter(Année == "2022")
 
-ggplot(data = freq, mapping=aes(x=voyageurs,y=gare))+geom_col()
+ggplot(data = freq, mapping=aes(x=Voyageurs,y=Gare))+
+  geom_col() +
+  theme_minimal() +
+  labs(title = "Fréquentation par gare (minimum 20M de voyageurs)",
+       x = "Nb voyageurs",
+       y = "Gares")
 ```
 
 On remarque que les gares avec le plus d'affluence sont les gares parisiennes, ce qui n'est pas très étonnant étant donné que la grande majorité des trajets partent et viennent de Paris.
@@ -199,17 +224,9 @@ On remarque que les gares avec le plus d'affluence sont les gares parisiennes, c
 On veut avoir une vue d'ensemble et donc nous allons visualiser la fréquence de voyageurs en 2022 sur la France métropolitaine.
 
 ```{r}
-france <- ne_countries(scale="medium", country = "France", returnclass="sf")%>%
-  st_crop(xmin = -5.2, xmax = 9.7, ymin = 41, ymax = 51)  # Limites de la France métropolitaine
-gares_avec_pop <- gares %>%
-  inner_join(frequentation , by = c("Nom" = "Nom de la gare"))
-gares_separated <- gares_avec_pop %>%
-  separate("Position géographique", into = c("Latitude", "Longitude"), sep = ", ") %>%
-  mutate(across(c(Latitude, Longitude), as.numeric)) %>%
-  rename(Freq_2022 = "Total Voyageurs 2022")
 ggplot(data = france) +
   geom_sf(fill = "white", color = "black") +
-  geom_point(data = gares_separated, aes(x = Longitude, y = Latitude, size=Freq_2022), color = "red", alpha = 0.7) +
+  geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude, size=Voyageurs, color = Année), alpha = 0.7) +
   scale_size_continuous(
     range = c(1,8), 
   ) +
@@ -246,21 +263,14 @@ Dans un premier temps, nous analysons le nombre de voyageurs par département, p
 ## 1. Nombre de voyageurs total par département (2022)
 
 ```{r}
-freq <- frequentation %>%
-  rename(code_postal = 'Code postal')
+freq <- frequentation_clean %>%
+  filter(Année == "2022") %>%
+  mutate(Code_Postal = as.character(Code_Postal)) %>%
+  mutate(departement = substr(Code_Postal, 1, 2))
 
-freq <- freq %>%
-  rename(passagers2022 = 'Total Voyageurs 2022')
-
-freq <- freq %>%
-  mutate(code_postal = as.character(code_postal))
-
-frequentation <- freq %>%
-  mutate(departement = substr(code_postal, 1, 2))
-
-departement_passagers <- frequentation %>%
+departement_passagers <- freq %>%
   group_by(departement) %>%
-  summarize(total_passagers = sum(passagers2022))
+  summarize(total_passagers = sum(Voyageurs))
 
 ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
   geom_bar(stat = "identity") +
@@ -282,13 +292,10 @@ Grâce à cette visusalisation, on peut connaître les gares les plus importante
 Dans le cas du département 77 et du premier jet de visualisation, on observe que la gare de Melun est très fréquentée comparé aux autres gares.
 
 ```{r}
-freq <- frequentation %>%
-  rename(gare = 'Nom de la gare')
-
 gares_77 <- freq %>%
   filter(departement == "77")
 
-ggplot(gares_77, aes(x = gare, y = passagers2022)) +
+ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
   geom_bar(stat = "identity") +
   labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
        x = "Gare",
@@ -313,18 +320,22 @@ En raison de quelques problèmes dans l'ensemble de données, tels que des codes
 Conserver les colonnes spécifiées dans frequentation et renommer Code UIC en UIC et Filtrer le age_voya pour une année 2015,16,17.
 
 ```{r}
-freq_selected <- frequentation %>%
-  select(Nom = `Nom de la gare`, UIC = `Code UIC`, `Total Voyageurs 2015`, `Total Voyageurs 2016`, `Total Voyageurs 2017`)
-age_filtered <- age_voya %>%
-  filter(Année %in% c(2015, 2016, 2017)) %>%
-  rename(Nom = `Gare enquêtée`)
+age_filtered <- age_voya_clean %>%
+  filter(Année %in% c(2015, 2016, 2017))
 ```
 
 Filtrer freq_selected par nom de station, en ne conservant que les lignes qui correspondent à Nom dans age_filtered, et vice versa.
 
 ```{r}
-freq_matched <- semi_join(freq_selected, age_filtered, by = "Nom")
-age_matched <- semi_join(age_filtered, freq_selected, by = "Nom")
+freq_matched <- semi_join(freq_selected, age_filtered, by = "Gare")
+age_matched <- semi_join(age_filtered, freq_selected, by = "Gare")
+joined_dataset <- inner_join(age_filtered, frequentation_clean, join_by(UIC, Année))
+clean_dataset<- joined_dataset %>%
+  pivot_wider(
+    names_from = `Classe d'âge`, 
+    values_from = Pourcentage, 
+    values_fill = list(Pourcentage = 0)  
+  )
 ```
 
 Diviser les données dans freq_matched par année.
