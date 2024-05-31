@@ -18,7 +18,7 @@ Les données récoltées sur le transport sont assez importantes c'est pourquoi 
 
 L'objectif de ce projet est de fournir des interprétations basées sur les visualisations issues d'une analyse exploratoire de nos jeux de données (7 jeux de données). 
 
-## Données
+##Données
 
 Nous avons donc choisi d'étudier sept jeux de données (7) issues du site [Data SNCF](https://data.sncf.com). Ce sont des données collectées par la SNCF parmi les différentes catégories disponible sur le site (voir ci-dessous).
 
@@ -94,7 +94,6 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
 4. **Analyse spatiale** : A l'aide de nos données spatiales, nous souhaitons réaliser des cartes. Ces dernières permettront visuellement de voir la disposition et la répartition des gares en France Métropolitaine.
 5. Enfin si nous souhaitons **rajouter des questions**, nous nous laissons la liberté de les rajouter au plan d'analyse.
 
-
 ```{r setup}
 library(ggplot2)
 library(dplyr)
@@ -108,7 +107,6 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 ```
-
 
 # Nettoyage des données
 
@@ -369,52 +367,20 @@ Conserver les colonnes spécifiées dans frequentation et renommer Code UIC en U
 
 ```{r}
 age_filtered <- age_voya_clean %>%
+  select(-Gare) %>%
   filter(Année %in% c(2015, 2016, 2017))
 ```
 
 Filtrer freq_selected par nom de station, en ne conservant que les lignes qui correspondent à Nom dans age_filtered, et vice versa.
 
 ```{r}
-freq_matched <- semi_join(freq_selected, age_filtered, by = "Gare")
-age_matched <- semi_join(age_filtered, freq_selected, by = "Gare")
 joined_dataset <- inner_join(age_filtered, frequentation_clean, join_by(UIC, Année))
-clean_dataset<- joined_dataset %>%
+cleaned_dataset<- joined_dataset %>%
   pivot_wider(
     names_from = `Classe d'âge`, 
     values_from = Pourcentage, 
     values_fill = list(Pourcentage = 0)  
   )
-```
-
-Diviser les données dans freq_matched par année.
-
-```{r}
-freq_long <- freq_matched %>%
-  pivot_longer(
-    cols = c(`Total Voyageurs 2015`, `Total Voyageurs 2016`, `Total Voyageurs 2017`),
-    names_to = "Année",
-    values_to = "Total Voyageur",
-    names_prefix = "Total Voyageurs "
-  ) %>%
-  mutate(Année = as.integer(Année))
-```
-
-Combinaison de données dans age_filtered par année.
-
-```{r}
-age_wide <- age_matched %>%
-  pivot_wider(
-    names_from = `Classe d'âge`, 
-    values_from = Pourcentage, 
-    values_fill = list(Pourcentage = 0)  
-  )
-```
-
-Fusionner et supprimer les lignes contenant des données nulles.
-
-```{r}
-combined_dataset <- left_join(freq_long, age_wide, by = c("Nom", "Année"))
-cleaned_dataset <- na.omit(combined_dataset)
 ```
 
 Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombre total pour chaque année
@@ -422,7 +388,7 @@ Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombre total po
 ```{r}
 age_columns <- c('19 ans et moins', '20 ans à 29 ans', '30 ans à 39 ans', '40 ans à 49 ans', '50 ans à 59 ans', '60 ans et plus')
 cleaned_dataset <- cleaned_dataset %>%
-  mutate(across(all_of(age_columns), ~ .x * `Total Voyageur` / 100, .names = "passengers_{.col}"))
+  mutate(across(all_of(age_columns), ~ .x * Voyageurs / 100, .names = "passengers_{.col}"))
 age_passenger_totals <- cleaned_dataset %>%
   group_by(Année) %>%
   summarise(across(starts_with("passengers"), sum, .names = "total_{.col}"))
@@ -522,9 +488,6 @@ On voit rapidement qu'il y a un "trou" du à la période COVID 2020.
 Maintenant intéressons nous aux nombres de voyageurs par segmentation DRG.
 
 ```{r}
-library(ggplot2)
-
-
 data_segmentation <- frequentation %>%
   group_by(`Segmentation DRG`) %>%
   summarise(Total_2022 = sum(`passagers2022`, na.rm = TRUE)) %>%
