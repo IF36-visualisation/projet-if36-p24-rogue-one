@@ -117,7 +117,7 @@ Le **nettoyage des données** est la première étapes de notre projet. C'est ic
 
 Afin de travailler proprement, nous avons réaliser les étapes suivantes : 
 
-1. Nous avons commencé par **observer les colonnes** de nos jeux de données. Nous avons pu isoler lesquels étaient susceptibles d'être utilisées.
+1. Nous avons commencé par **observer les colonnes** de nos jeux de données. Nous avons pu isoler lesquels étaient susceptibles d'être utilisées. Nous les avons ensuite **importées**.
 
 2. Ensuite, nous avons choisi de **renommer les colonnes** de nos jeux de données selon une norme précise (voir **Convention de nommage des colonnes** ci-dessous). Les colonnes de base des tables utilisaient des espaces, ce qui est incompatible avec l'appel de ces dernières.
 
