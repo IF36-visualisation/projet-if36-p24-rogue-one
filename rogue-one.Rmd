@@ -180,30 +180,34 @@ france <- ne_countries(scale="medium", country = "France", returnclass="sf")%>%
 ---
 # Découverte
 
+
 Dans cette partie, nous découvrirons le jeu de données. 
 
 **Visualisations réalisées**
 
 1. Fréquentation des gares
 
-2. ...
+2. Carte de la fréquentation des gares en France Métropolitaine
 
 [TODO] à compléter
 
 
+> L'ensemble des visualisations sont réalisées avec les données de l'année **2022**, car ce sont les données les plus récentes à notre disposition.
+
 
 ## 1. Fréquentation des gares
 
-Tout d'abord, voici un petit tour d'horizon du dataset frequentation.
+Tout d'abord, voici un petit tour d'horizon du dataset **Frequentation**.
 
 ```{r}
 head(frequentation_clean)
 summary(frequentation_clean)
 ```
 
-Afin d'obtenir un classement des gares les plus fréquentés, nous avons choisi de filtrer le dataset afin de ne garder que les gares au dessus d'un seuil de 20.000.000 individus.
+Nous avons choisi d'utiliser des données discrètes (nombre de voyageurs) en abscisse et nominales (gares) en ordonnée. Afin de constater les différences entre les gares, une comparaison basée sur un bar chart a été réalisée ci-dessous.
 
-Ce filtre nous permet de faire ressortir les gares les plus fréquentées uniquement.
+De plus, afin d'obtenir un classement des gares les plus fréquentées, nous avons choisi de filtrer le dataset pour ne garder que les gares au dessus d'un seuil de 20.000.000 individus. Ce filtre nous permet de faire ressortir les gares les plus fréquentées uniquement.
+
 
 ```{r}
 freq <- frequentation_clean %>%
@@ -214,14 +218,26 @@ freq <- frequentation_clean %>%
 ggplot(data = freq, mapping=aes(x=Voyageurs,y=Gare))+
   geom_col() +
   theme_minimal() +
-  labs(title = "Fréquentation par gare (minimum 20M de voyageurs)",
-       x = "Nb voyageurs",
+  labs(title = "Fréquentation par gare (2022)",
+       subtitle = "< minimum 20.000.000 de voyageurs >",
+       x = "Nombre de voyageurs",
        y = "Gares")
 ```
 
-On remarque que les gares avec le plus d'affluence sont les gares parisiennes, ce qui n'est pas très étonnant étant donné que la grande majorité des trajets partent et viennent de Paris.
+**Analyse :**
 
-On veut avoir une vue d'ensemble et donc nous allons visualiser la fréquence de voyageurs en 2022 sur la France métropolitaine.
+On remarque que les gares avec le plus de fréquentation sont les gares parisiennes. En termes de positionnement, nous retrouvons : Gare du Nord (1), Gare Saint-Lazare (2), Gare de Lyon (3), Gare Montparnasse (4). D'autres gares se démarquent mais restent sensiblement proches les unes des autres.
+
+Cette visualisation n'est pas étonnante si l'on utilise régulièrement le réseau RATP et SNCF en Ile de France. En effet, la grande majorité des trajets partent de Paris et arrivent sur Paris. 
+
+Gare du Nord semble être la gare la plus fréquentée du réseau. En faisant des recherches, on apprend qu'elle permet des départs vers le Royaume-Uni (Londres-St-Pancras), la Belgique (Bruxelles-Midi) ou encore les Pays-Bas (Amsterdam-Centraal). La population est généralement importante dans ces grandes villes et capitales européennes, ce qui explique également la fréquentation de Gare du Nord que ce soit pour des trajets professionnels ou touristiques.
+
+
+## 2. Carte de la fréquentation des gares en France Métropolitaine
+
+Pour poursuivre notre découverte du réseau SNCF, nous avons choisi de représenter la fréquentation des gares sur une carte de France Métropolitaine. Avec cette visualisation cartographique, on peut comprendre plus spatialement les enjeux liés aux flux de voyageurs. 
+
+Pour représenter cela, on utilise des données discrètes (longitude, latitude, nombre de voyageurs). On veut avoir une vue d'ensemble et donc nous allons visualiser la fréquence de voyageurs en 2022 sur la France Métropolitaine.
 
 ```{r}
 ggplot(data = france) +
@@ -231,7 +247,7 @@ ggplot(data = france) +
     range = c(1,8), 
   ) +
   theme_minimal() +
-  labs(title = "Fréquentation par gare en 2022",
+  labs(title = "Fréquentation par gare (2022)",
        x = "Longitude",
        y = "Latitude",
        size = "Fréquentation")
