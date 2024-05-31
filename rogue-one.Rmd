@@ -85,7 +85,7 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
 1. **Découverte du jeu de données** et surtout comprendre à quoi servent nos données. Par exemple : nous souhaitons réaliser des visualisations sur le réseau ferroviaire actuel, étudier la répartition générale des voyageurs...
     > A quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? A quel point Paris a une place importante dans le réseau des autres territoires ?
 
-2. **Analyse des voyageurs** : De façon plus précise, nous étudierons les voyageurs qui utilisent quotidiennement les réseaux ferrés français. Cela passera notammet par des attributs d'âge, de CSP ou encore de motif de déplacement.
+2. **Analyse des voyageurs** : De façon plus précise, nous étudierons les voyageurs qui utilisent quotidiennement les réseaux ferrés français. Cela passera notamment par des attributs d'âge, de CSP ou encore de motif de déplacement.
     > Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ? Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
 
 3. **Analyse des objets** : De la même façon, nous souhaiterions étudier les objets perdus en gares. Pour cela, nous utiliserons également un second jeu de données sur les objets retrouvés.
@@ -163,7 +163,10 @@ frequentation_clean <- frequentation %>%
   mutate(Année = as.numeric(Année))%>%
   rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG")%>%
   mutate(UIC = as.character(UIC)) %>%
-  mutate(UIC = substr(UIC, 3, 8))
+  mutate(UIC = substr(UIC, 3, 8)) %>%
+  mutate(Département = substr(Code_Postal, 1, 2))
+  
+View(frequentation_clean)
 
 age_voya_clean <- age_voya %>%
   rename(Gare = `Gare enquêtée`)%>%
@@ -191,9 +194,10 @@ Dans cette partie, nous découvrirons le jeu de données.
 
 [TODO] à compléter
 
-
 > L'ensemble des visualisations sont réalisées avec les données de l'année **2022**, car ce sont les données les plus récentes à notre disposition.
 
+
+*À quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? À quel point Paris a une place importante dans le réseau des autres territoires ?*
 
 ## 1. Fréquentation des gares
 
@@ -301,18 +305,17 @@ Dans un premier temps, nous analysons le nombre de voyageurs par département, p
 ## 1. Nombre de voyageurs total par département (2022)
 
 ```{r}
-freq <- frequentation_clean %>%
-  filter(Année == "2022") %>%
-  mutate(Code_Postal = as.character(Code_Postal)) %>%
-  mutate(departement = substr(Code_Postal, 1, 2))
+freq_departement <- frequentation_clean %>%
+  filter(Année == "2022")
 
-departement_passagers <- freq %>%
-  group_by(departement) %>%
-  summarize(total_passagers = sum(Voyageurs))
+freq_departement <- freq_departement %>%
+  group_by(Département) %>%
+  summarize(Total_passagers = sum(Voyageurs))
 
-ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
+ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
   geom_bar(stat = "identity") +
-  labs(title = "Répartition des voyageurs entre les départements en 2022",
+  labs(title = "Nombre de voyageurs total par département (2022)",
+       subtitle = "<Vue Globale>",
        x = "Nombre total de passagers",
        y = "Département") +
   theme(axis.text.y = element_text(size = 8))
@@ -322,6 +325,13 @@ ggplot(departement_passagers, aes(x = total_passagers, y = departement)) +
 Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart de la fréquentation. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes.
 
 On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
+
+```{r}
+
+View(frequentation_clean)
+
+```
+
 
 ## 2. Répartition du nombre de voyageurs dans les gares d'un même département.Exemple département (77)
 

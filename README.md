@@ -79,7 +79,7 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
 
 1. **Découverte du jeu de données** et surtout comprendre à quoi servent nos données. Par exemple : nous souhaitons réaliser des visualisations sur le réseau ferroviaire actuel, étudier la répartition générale des voyageurs...
     > A quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? A quel point Paris a une place importante dans le réseau des autres territoires ?
-2. **Analyse des voyageurs** : De façon plus précise, nous étudierons les voyageurs qui utilisent quotidiennement les réseaux ferrés français. Cela passera notammet par des attributs d'âge, de CSP ou encore de motif de déplacement.
+2. **Analyse des voyageurs** : De façon plus précise, nous étudierons les voyageurs qui utilisent quotidiennement les réseaux ferrés français. Cela passera notamment par des attributs d'âge, de CSP ou encore de motif de déplacement.
     > Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ? Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?
 3. **Analyse des objets** : De la même façon, nous souhaiterions étudier les objets perdus en gares. Pour cela, nous utiliserons également un second jeu de données sur les objets retrouvés.
     > Y-a-t-il plus de chances de perdre un objet selon la gare ? Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ? Quelles sont les chances de retrouver un objet perdu ? Quelles sont les chances de retrouver un objet en fonction de sa nature ?
@@ -94,10 +94,10 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
   > Raisonnement : Visualisation spatiale
   > Visualisation : Carte, graphes
 
-- Quels sont les départements les mieux équipés ?
-  > Type de données : 
-  > Raisonnement : 
-  > Visualisation : 
+- Quels sont les départements les mieux équipés (infrastructures de gare) ?
+  > Type de données : Quantitative (Discrètes)
+  > Raisonnement : Comparaison
+  > Visualisation : Bar Chart
 
 - A quel point Paris a une place importante dans le réseau des autres territoires ?
   > Type de données :
