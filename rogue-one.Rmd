@@ -226,9 +226,7 @@ ggplot(data = freq, mapping = aes(x=Voyageurs,y=Gare)) +
        y = "Gares")
 ```
 
-**Analyse :**
-
-On remarque que les gares avec le plus de fréquentation sont les gares parisiennes. En termes de positionnement, nous retrouvons : Gare du Nord (1), Gare Saint-Lazare (2), Gare de Lyon (3), Gare Montparnasse (4). D'autres gares se démarquent mais restent sensiblement proches les unes des autres.
+**Analyse** On remarque que les gares avec le plus de fréquentation sont les gares parisiennes. En termes de positionnement, nous retrouvons : Gare du Nord (1), Gare Saint-Lazare (2), Gare de Lyon (3), Gare Montparnasse (4). D'autres gares se démarquent mais restent sensiblement proches les unes des autres.
 
 Cette visualisation n'est pas étonnante si l'on utilise régulièrement le réseau RATP et SNCF en Ile de France. En effet, la grande majorité des trajets partent de Paris et arrivent sur Paris. 
 
@@ -263,9 +261,7 @@ ggplot(data = france) +
        size = "Fréquentation")
 ```
 
-**Analyse :**
-
-Au premier abord, on remarque que les gares tracent d'elles même, sur la carte, la majeur partie du réseau ferroviaire français *(Figure 2)*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
+**Analyse** Au premier abord, on remarque que les gares tracent d'elles même, sur la carte, la majeur partie du réseau ferroviaire français *(Figure 2)*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
 
 On remarque que la fréquentation des gares s'articule autour de quatre principaux espaces : l'espace parisien (Paris), l'espace Nord (Lille), l'espace Est (Strasbourg), l'espace lyonnais (Lyon). Comme nous le pensions, la fréquentation des gares est plus importante autour des grandes villes. Avec cette profondeur supplémentaire, cela nous permet de formuler de nouvelles conjectures : la population en périphérie des grandes villes fréquente généralement les gares du réseau pour des motifs professionnels (population active).
 
@@ -338,16 +334,16 @@ Grâce à cette visusalisation, on peut connaître les gares les plus importante
 Dans le cas du département 77 et du premier jet de visualisation, on observe que la gare de Melun est très fréquentée comparé aux autres gares.
 
 ```{r}
-gares_77 <- freq %>%
-  filter(departement == "77")
+#gares_77 <- freq %>%
+#  filter(departement == "77")
 
-ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
-       x = "Gare",
-       y = "Nombre de passagers") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+#ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
+#  geom_bar(stat = "identity") +
+#  labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
+#       x = "Gare",
+#       y = "Nombre de passagers") +
+#  theme_minimal() +
+#  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
 
 
 ```
@@ -411,10 +407,10 @@ age_passenger_totals_long <- age_passenger_totals_long %>%
   mutate(Percentage = (Total_Passengers / Total_Passengers_Year) * 100)
 ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Group)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Percentage of Passengers by Age Group and Year",
-       x = "Year",
-       y = "Percentage (%)",
-       fill = "Age Group") +
+  labs(title = "Pourcentage de passagers par groupe d'âge et année",
+       x = "Année",
+       y = "Pourcentage (%)",
+       fill = "Groupes d'âge") +
   theme_minimal()
 ```
 
