@@ -18,7 +18,7 @@ Les données récoltées sur le transport sont assez importantes c'est pourquoi 
 
 L'objectif de ce projet est de fournir des interprétations basées sur les visualisations issues d'une analyse exploratoire de nos jeux de données (7 jeux de données).
 
-##Données
+## Données
 
 Nous avons donc choisi d'étudier sept jeux de données (7) issues du site [Data SNCF](https://data.sncf.com). Ce sont des données collectées par la SNCF parmi les différentes catégories disponible sur le site (voir ci-dessous).
 
@@ -170,6 +170,12 @@ gares_freq_clean <- gares_clean %>%
 #Création du template de la France
 france <- ne_countries(scale="medium", country = "France", returnclass="sf")%>%
   st_crop(xmin = -5.2, xmax = 9.7, ymin = 41, ymax = 51)  # Limites de la France métropolitaine
+
+obj_perdus_clean <- obj_perdus %>%
+  rename(date = "Date de la déclaration de perte", UIC = "Code UIC", gare = "Gare", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
+
+obj_trouves_clean <- obj_trouves %>%
+  rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
 ```
 
 # Découverte
@@ -520,16 +526,14 @@ Dans cette partie, nous voulons nous intéresser plus particulièrement aux obje
 Tout d'abord, petite visualisation du dataset obj_perdus.
 
 ```{r}
-head(obj_perdus)
-summary(obj_perdus)
+head(obj_perdus_clean)
+summary(obj_perdus_clean)
 ```
 
 Quelque chose m'interpelle dès le début : c'est la colonne "Type d'enregistrement", il semble que celle-ci est toujours remplie de la même manière
 
 ```{r}
-enregistrement <- obj_perdus %>%
-  select(en = `Type d'enregistrement`)
-diff_enre <- n_distinct(enregistrement)
+n_distinct(obj_perdus$"Type d'enregistrement")
 ```
 
 C'est donc le cas, donc nous n'utiliserons pas cette colonne .
@@ -539,8 +543,7 @@ On distingue aussi que de nombreuses gares ne sont pas présentes.
 Nous voulons effectuer plusieurs réductions sur ce jeu de données. Tout d'abord, les informations que nous avons datent de 2019 jusqu'à nos jours. Si nous voulons faire des recoupements avec le dataset de voyageur, nous allons restreindre les dates à 2019 seulement car les années 2020 et 2021 ne sont pas forcément représentatives du traffic ferroviaire normal. L'année 2022 sera analysée prochainement pour voir si une tendance peut commencer à apparaître.
 
 ```{r}
-obj_perdus_2019 <- obj_perdus %>%
-  select(date = `Date de la déclaration de perte`, gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets") %>%
+obj_perdus_2019 <- obj_perdus_clean %>%
   filter(date < ymd(20200101)) %>% 
   filter(date > ymd(20190101))
 count(obj_perdus_2019)
@@ -592,8 +595,8 @@ obj_perdus_trouves %>%
 Nous allons ensuite parcourir le dataset 7 : obj_trouves
 
 ```{r}
-obj_trouves_2019 <- obj_trouves %>%
-  select(date = `Date`,restitution = `Date et heure de restitution` ,gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets") %>%
+obj_trouves_2019 <- obj_trouves_clean %>%
+  select(-enregistrement) %>%
   filter(date < ymd(20200101)) %>% 
   filter(date > ymd(20190101))
 count(obj_trouves_2019)
@@ -652,6 +655,13 @@ Nous ne pouvons donc pas faire de relation directe entre un objet déclaré comm
 
 Il est donc difficile de faire des hypothèses très spécifique sur les probabilités de retrouver un objet perdu. La façon de faire ça serait de connaître un nombre précis de pertes et sur ces pertes savoir combien d'entre elles ont été rendues. Sans le lien entre les pertes et les objets rendus, énormément de biais peuvent apparaître. Pour faire les prochaines probabilités, nous allons faire l'hypothèse que l'ensemble des objets rendus ont fait l'objet d'une entrée dans le formulaire de perte.
 
+```{r}
+obj_perdus_clean2 <- obj_perdus_clean %>%
+  select(-enregistrement, -UIC)
+obj_trouves_clean2 <- obj_trouves_clean %>%
+  select(-enregistrement, -UIC)
+```
+
 **Quelles sont les chances de retrouver un objet perdu ?**
 
 ## 3. Probabilité de retrouver un objet perdu
@@ -688,30 +698,65 @@ probas_types <- occurences_trouves / occurences_perdus * 100
 probas_types <- as.data.frame.table(probas_types)
 colnames(probas_types)
 
-#probas_types %>% 
-#  mutate(type_obj1 = fct_reorder(type_obj_trouves,Freq)) %>%
-#  ggplot(aes(x=type_obj1, y=Freq)) +
-#  geom_col() + 
-#  ylim(0,100) +
-#  labs(title = "Fréquence de rendu d'objets perdus par type",
-#       y = "Fréquence de retour",
-#       x = "Type d'objet",) +
-#  theme_minimal() +
-#  theme(
-#    plot.title = element_text(size = rel(2)),
-#    axis.text.x = element_text(
-#      size = rel(0.65),
-#      face = "italic",
-#      angle = 45,
-#      vjust = 1,
-#      hjust = 1
-#    )
-#  )
+probas_types %>% 
+  mutate(type_obj1 = fct_reorder(type_obj_trouves,Freq)) %>%
+  ggplot(aes(x=type_obj1, y=Freq)) +
+  geom_col() + 
+  ylim(0,100) +
+  labs(title = "Fréquence de rendu d'objets perdus par type",
+       y = "Fréquence de retour",
+       x = "Type d'objet",) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(2)),
+    axis.text.x = element_text(
+      size = rel(0.65),
+      face = "italic",
+      angle = 45,
+      vjust = 1,
+      hjust = 1
+    )
+  )
 ```
 
-Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et accessoires de celle des livres et articles de papèterie. Les célos, trottinettes et accessoires est une catégorie qui est bien au-dessus du second article le plus rendu de + de 10 points. Je m'attendais clairement à un taux de retour bien moins important sur toutes les catégories car mon environnement proche parlait souvent d'objets perdus et peu d'objets retrouvés. J'ai l'impression que l'encombrement et la nécessité d'un objet influence sur taux de retour. Un vélo, article de sport, parapluie, sont souvent encombrants et facile à identifier. Les porte-monnaies, pièces d'identité sont aussi proche du 50% ce qui me semble normal.
+Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et accessoires de celle des livres et articles de papèterie. Les vélos, trottinettes et accessoires est une catégorie qui est bien au-dessus du second article le plus rendu de + de 10 points. Je m'attendais clairement à un taux de retour bien moins important sur toutes les catégories car mon environnement proche parlait souvent d'objets perdus et peu d'objets retrouvés. J'ai l'impression que l'encombrement et la nécessité d'un objet influence sur taux de retour. Un vélo, article de sport, parapluie, sont souvent encombrants et facile à identifier. Les porte-monnaies, pièces d'identité sont aussi proche du 50% ce qui me semble normal.
 
 Il serait aussi intéressant de voir que ces statistiques sont fondées sur les objets qui sont perdus en train ou en gare et ceux qui sont ramenés en gare par d'autres voyageurs ou agents. Les vols ne sont donc pas forcément comptabiliser. Je pense qu'avec plus d'informations, nous pourrions ajouter un critère de vol ou perte selon l'objet. Malheureusement les données ne sont pas assez détaillées, mais nous pourrions peut-être deviner une tendance en croisant d'autres études portant sur le sujet.
+
+## 4. Afflux d'objets selon le mois ?
+
+Nous allons maintenant traiter l'ensemble du jeu de données des objets perdus pour voir s'il y a un motif qui pourrait faire croire que certains mois sont plus propices à la perte d'objets.
+
+```{r}
+
+obj_perdus_date <- obj_perdus_clean2 %>% 
+  select(date) %>%
+  mutate(date = as.Date(date))
+obj_perdus_date2 <- obj_perdus_date %>%  
+  mutate(datem = format(as.Date(date), "%m")) %>%
+  filter(year(date) > 2014) %>%
+  filter(year(date) != 2024)
+  
+obj_perdus_date2 %>%
+  ggplot(aes(x=datem, fill=after_stat(count)))  +
+  facet_grid(rows =vars(year(date))) +
+  geom_bar() +
+  scale_fill_continuous(type = "viridis", option ="turbo") +
+  labs(title = "Nombre d'objets perdus par mois et par année",
+       y = "Nombre d'objets perdus",
+       x = "Mois",) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(2)),
+    axis.text.y = element_text(size = rel(0.5))
+    )
+```
+
+On distingue clairement un nombre élevé d'objets tout d'abord lors de la dernière année mais aussi au niveau du mois de juillet qui est (à part pour l'année 2020) toujours le mois avec le plus de pertes.
+
+On peut en conclure, qu'en terme de nombre de pertes pur, le mois de juillet est le plus à risque. Mais il semble aussi important de noter qu'il y a sûrement une corrélation avec le nombre de voyageurs. Ce qu'il faudrait c'est le taux de pertes par voyageurs. Cependant, avec les données que nous avons actuellement nous ne pouvons pas savoir.
+
+On pourrait aussi argumenter que les vacanciers pourraient contrebalancer les travailleurs qui n'ont donc pas les mêmes mois de fréquentations. Les données ne sont pas assez précises pour indiquer s'il y a une recrudescence de pertes en juillet, (et principalement les mois d'été).
 
 ------------------------------------------------------------------------
 
