@@ -458,8 +458,13 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
 ```
 ## 5. Motif de déplacement
 
+Ici nous nous intéressons aux motifs de déplacement des voyageurs de la SNCF.
+
+En premier lieu nous regardons le motif de déplacement global qui ressort le plus parmis toutes les gares.
+
+
 ```{r}
-motif_moyen <- motif_depl%>%
+motif_moyen <- dataset3 %>%
   group_by(`Motif du déplacement`) %>%
   summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
   arrange(desc(Pourcentage_moyen))
@@ -468,15 +473,34 @@ print(motif_moyen)
 ```
 
 ```{r}
-ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, -Pourcentage_moyen), y = Pourcentage_moyen)) +
+ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen), y = Pourcentage_moyen)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   coord_flip() + 
-  labs(title = "Profil Moyen du Voyageur SNCF par Motif de Déplacement",
-       x = "Motif de Déplacement",
-       y = "Pourcentage Moyen") +
-  theme_minimal()
+  labs(
+    title = "Profil Moyen du Voyageur SNCF par Motif de Déplacement",
+    x = "Motif de Déplacement",
+    y = "Pourcentage Moyen"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_x_discrete(limits = rev(levels(motif_moyen$`Motif du déplacement`)))
 ```
-## 5. Nombre de voyageurs par année
+
+On aimerait savoir si le motif de déplacement principal change en fonction de la gare.
+```{r}
+angouleme_data <- motif_depl %>%
+  filter(`Gare enquêtée` == "Angoulême")
+parisEst_data <- motif_depl %>%
+  filter(`Gare enquêtée` == "Paris Est")
+# Calculer le pourcentage moyen pour chaque motif de déplacement pour Angoulême
+motif_angouleme <- angouleme_data %>%
+  group_by(`Motif du déplacement`) %>%
+  summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
+  arrange(desc(Pourcentage_moyen))
+
+# Afficher les résultats
+```
+## 6. Nombre de voyageurs par année
 
 Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
 
