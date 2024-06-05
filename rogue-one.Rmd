@@ -496,7 +496,28 @@ motif_comparaison <- filtered_data %>%
   summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
   arrange(`Gare enquêtée`, desc(Pourcentage_moyen))
 
-print(motif_comparaison)
+# affichage du graphique 
+ggplot(motif_comparaison, aes(x = `Motif du déplacement`, y = Pourcentage_moyen, fill = `Gare enquêtée`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Comparaison des Motifs de Déplacement par Gare",
+    x = "Motif de Déplacement",
+    y = "Pourcentage Moyen",
+    fill = "Gare"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text( size = 8, face = "bold"),
+    axis.title.x = element_text(size = 8),
+    axis.title.y = element_text(size = 8),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 7),
+    axis.text.y = element_text(size = 8),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 7)
+  ) +
+  scale_fill_manual(values = c("Bordeaux Saint-Jean" = "steelblue", "Paris Est" = "darkorange", "Grenoble" = "forestgreen"))
+
+
 ```
 ## 6. Nombre de voyageurs par année
 
