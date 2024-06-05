@@ -14,7 +14,7 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 
-# 安装和加载必要的包
+
 required_packages <- c("shiny", "shinydashboard", "knitr", "rmarkdown", "markdown", "ggplot2", "dplyr", "tidyr", "tibble", "readr", "lubridate", "forcats", "stringr", "sf", "rnaturalearth", "rnaturalearthdata")
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 
@@ -22,11 +22,9 @@ if(length(new_packages)) install.packages(new_packages)
 
 lapply(required_packages, library, character.only = TRUE)
 
-# 读取RMD文件内容
 rmd_file <- "../rogue-one.Rmd"
 rmd_content <- readLines(rmd_file, warn = FALSE)
 
-# 提取各部分内容
 get_section <- function(rmd_lines, section_title) {
   start <- grep(paste0("^## ", section_title), rmd_lines)
   if (length(start) == 0) {
@@ -44,7 +42,6 @@ passengers_text <- get_section(rmd_content, "Analyse des Voyageurs")
 lost_items_text <- get_section(rmd_content, "Analyse des Objets Perdus")
 suggestions_text <- get_section(rmd_content, "Suggestions")
 
-# 定义UI
 ui <- dashboardPage(
   dashboardHeader(title = "Projet de Visualisation des Données - Réseau Ferroviaire en France"),
   dashboardSidebar(
@@ -126,9 +123,7 @@ ui <- dashboardPage(
   skin = "purple"
 )
 
-# 定义服务器逻辑
 server <- function(input, output) {
-  # 数据清洗
   gares <- read_delim(file = "www/data/dataset1-gares-de-voyageurs.csv", delim=";")
   frequentation <- read_delim(file = "www/data/dataset2-frequentation-gares.csv", delim=";")
   motif_depl <- read_delim(file = "www/data/dataset3-motif-deplacement.csv", delim=";")
@@ -171,7 +166,6 @@ server <- function(input, output) {
   obj_trouves_clean <- obj_trouves %>%
     rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
   
-  # 绘图代码
   output$stations_plot <- renderPlot({
     freq <- frequentation_clean %>%
       select(Gare, Voyageurs, Année) %>%
@@ -339,5 +333,4 @@ server <- function(input, output) {
   })
 }
 
-# 运行应用程序
 shinyApp(ui, server)
