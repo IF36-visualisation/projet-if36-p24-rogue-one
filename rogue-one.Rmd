@@ -135,6 +135,7 @@ frequentation <- read_delim(file = "data/dataset2-frequentation-gares.csv", deli
 motif_depl <- read_delim(file = "data/dataset3-motif-deplacement.csv", delim=";")
 CSP_voya <- read_delim(file = "data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
 age_voya <- read_delim(file = "data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
+
 obj_perdus <- read_delim(file = "data/dataset6-objets-trouves-gares.csv", delim=";")
 obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv", delim=";")
 ```
@@ -455,7 +456,26 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
        y = "Pourcentage Moyen") +
   theme_minimal()
 ```
+## 5. Motif de déplacement
 
+```{r}
+motif_moyen <- motif_depl%>%
+  group_by(`Motif du déplacement`) %>%
+  summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
+  arrange(desc(Pourcentage_moyen))
+
+print(motif_moyen)
+```
+
+```{r}
+ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, -Pourcentage_moyen), y = Pourcentage_moyen)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() + 
+  labs(title = "Profil Moyen du Voyageur SNCF par Motif de Déplacement",
+       x = "Motif de Déplacement",
+       y = "Pourcentage Moyen") +
+  theme_minimal()
+```
 ## 5. Nombre de voyageurs par année
 
 Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
