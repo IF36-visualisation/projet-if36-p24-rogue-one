@@ -14,13 +14,13 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 
-gares <- read_delim(file = "../../data/dataset1-gares-de-voyageurs.csv", delim=";")
-frequentation <- read_delim(file = "../../data/dataset2-frequentation-gares.csv", delim=";")
-motif_depl <- read_delim(file = "../../data/dataset3-motif-deplacement.csv", delim=";")
-CSP_voya <- read_delim(file = "../../data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
-age_voya <- read_delim(file = "../../data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
-obj_perdus <- read_delim(file = "../../data/dataset6-objets-trouves-gares.csv", delim=";")
-obj_trouves <- read_delim(file = "../../data/dataset7-objets-trouves-restitution.csv", delim=";")
+gares <- read_delim(file = "../data/dataset1-gares-de-voyageurs.csv", delim=";")
+frequentation <- read_delim(file = "../data/dataset2-frequentation-gares.csv", delim=";")
+motif_depl <- read_delim(file = "../data/dataset3-motif-deplacement.csv", delim=";")
+CSP_voya <- read_delim(file = "../data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
+age_voya <- read_delim(file = "../data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
+obj_perdus <- read_delim(file = "../data/dataset6-objets-trouves-gares.csv", delim=";")
+obj_trouves <- read_delim(file = "../data/dataset7-objets-trouves-restitution.csv", delim=";")
 
 
 gares_clean <- gares %>%
