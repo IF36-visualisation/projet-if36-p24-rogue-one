@@ -488,17 +488,15 @@ ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen),
 
 On aimerait savoir si le motif de déplacement principal change en fonction de la gare.
 ```{r}
-angouleme_data <- motif_depl %>%
-  filter(`Gare enquêtée` == "Angoulême")
-parisEst_data <- motif_depl %>%
-  filter(`Gare enquêtée` == "Paris Est")
-# Calculer le pourcentage moyen pour chaque motif de déplacement pour Angoulême
-motif_angouleme <- angouleme_data %>%
-  group_by(`Motif du déplacement`) %>%
-  summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
-  arrange(desc(Pourcentage_moyen))
+filtered_data <- motif_depl %>%
+  filter(`Gare enquêtée` %in% c("Bordeaux Saint-Jean", "Paris Est", "Grenoble","Rouen Rive Droite"))
 
-# Afficher les résultats
+motif_comparaison <- filtered_data %>%
+  group_by(`Gare enquêtée`, `Motif du déplacement`) %>%
+  summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
+  arrange(`Gare enquêtée`, desc(Pourcentage_moyen))
+
+print(motif_comparaison)
 ```
 ## 6. Nombre de voyageurs par année
 
