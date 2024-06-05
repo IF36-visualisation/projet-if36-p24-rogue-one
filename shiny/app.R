@@ -14,323 +14,222 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 
+gares <- read_delim(file = "../../data/dataset1-gares-de-voyageurs.csv", delim=";")
+frequentation <- read_delim(file = "../../data/dataset2-frequentation-gares.csv", delim=";")
+motif_depl <- read_delim(file = "../../data/dataset3-motif-deplacement.csv", delim=";")
+CSP_voya <- read_delim(file = "../../data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
+age_voya <- read_delim(file = "../../data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
+obj_perdus <- read_delim(file = "../../data/dataset6-objets-trouves-gares.csv", delim=";")
+obj_trouves <- read_delim(file = "../../data/dataset7-objets-trouves-restitution.csv", delim=";")
 
-required_packages <- c("shiny", "shinydashboard", "knitr", "rmarkdown", "markdown", "ggplot2", "dplyr", "tidyr", "tibble", "readr", "lubridate", "forcats", "stringr", "sf", "rnaturalearth", "rnaturalearthdata")
-new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 
-if(length(new_packages)) install.packages(new_packages)
+gares_clean <- gares %>%
+  separate("Position géographique", into = c("Latitude", "Longitude"), sep = ", ") %>%
+  mutate(across(c(Latitude, Longitude), as.numeric)) %>%
+  rename(Gare = "Nom", Code_Postal = "Code commune", Zones_vac = "Segment DRG")
 
-lapply(required_packages, library, character.only = TRUE)
+frequentation_clean <- frequentation %>%
+  rename_with(.cols = contains("Non"), 
+              ~ sub('Total Voyageurs \\+ Non voyageurs', "Personnes", .)) %>%
+  rename_with(.cols = contains("Total"), 
+              ~ sub('Total Voyageurs', "Voyageurs", .)) %>%
+  pivot_longer(cols = starts_with("Personnes") | starts_with("Voyageurs"), 
+               names_to = c(".value", "Année"), 
+               names_sep = " ") %>%
+  mutate(Année = as.numeric(Année)) %>%
+  rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG") %>%
+  mutate(UIC = as.character(UIC)) %>%
+  mutate(UIC = substr(UIC, 3, 8)) %>%
+  mutate(Département = substr(Code_Postal, 1, 2))
 
-rmd_file <- "../rogue-one.Rmd"
-rmd_content <- readLines(rmd_file, warn = FALSE)
+age_voya_clean <- age_voya %>%
+  rename(Gare = `Gare enquêtée`) %>%
+  mutate(UIC = as.character(UIC))
 
-get_section <- function(rmd_lines, section_title) {
-  start <- grep(paste0("^## ", section_title), rmd_lines)
-  if (length(start) == 0) {
-    return("")
-  }
-  end <- grep("^## ", rmd_lines[-(1:start)]) + start
-  if (length(end) == 0) end <- length(rmd_lines) + 1
-  return(paste(rmd_lines[(start+1):(end-1)], collapse = "\n"))
-}
+gares_freq_clean <- gares_clean %>% 
+  inner_join(frequentation_clean, by = "Gare")
 
-intro_text <- get_section(rmd_content, "Introduction")
-datasets_text <- get_section(rmd_content, "Données")
-stations_text <- get_section(rmd_content, "Analyse des Gares")
-passengers_text <- get_section(rmd_content, "Analyse des Voyageurs")
-lost_items_text <- get_section(rmd_content, "Analyse des Objets Perdus")
-suggestions_text <- get_section(rmd_content, "Suggestions")
+france <- ne_countries(scale = "medium", country = "France", returnclass = "sf") %>%
+  st_crop(xmin = -5.2, xmax = 9.7, ymin = 41, ymax = 51)  # Limites de la France métropolitaine
+
+obj_perdus_clean <- obj_perdus %>%
+  rename(date = "Date de la déclaration de perte", UIC = "Code UIC", gare = "Gare", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
+
+obj_trouves_clean <- obj_trouves %>%
+  rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Projet de Visualisation des Données - Réseau Ferroviaire en France"),
   dashboardSidebar(
+    width = 250,  
     sidebarMenu(
-      menuItem("Introduction", tabName = "introduction", icon = icon("info")),
-      menuItem("Données", tabName = "datasets", icon = icon("database")),
-      menuItem("Analyse des Gares", tabName = "stations", icon = icon("train")),
-      menuItem("Analyse des Voyageurs", tabName = "passengers", icon = icon("user")),
-      menuItem("Analyse des Objets Perdus", tabName = "lost_items", icon = icon("search")),
-      menuItem("Suggestions", tabName = "suggestions", icon = icon("lightbulb"))
-    )
+      menuItem("Frequentation regions", tabName = "regions", icon = icon("map")),
+      menuItem("Frequentation gares", tabName = "gares", icon = icon("train")),
+      menuItem("Objets", tabName = "objets", icon = icon("object-group"))
+    ),
+    sliderInput("annees", "Années:", min = 2015, max = 2022, value = 2015, step = 1, width = '100%')
   ),
   dashboardBody(
+    tags$head(
+      tags$style(HTML("
+        .box {
+          height: calc(100vh - 80px);
+        }
+        #bigMap, #zoomMap {
+          height: calc(100vh - 130px) !important;
+        }
+      "))
+    ),
     tabItems(
-      # Introduction
-     tabItem(tabName = "introduction",
-              h2("Introduction"),
-              img(src = "entete-rapportIF36.png", alt = "Entête", style = "width: 100%; max-width: 600px; height: auto;"),
-              p("Ce projet a été réalisé dans le cadre du cours Visualisation de Données, au cours du semestre de printemps 2024, à l'Université de Technologie de Troyes."),
-              p("Nous avons choisi d'analyser des données originales qui nous permettent de nous interroger sur l'étude du transport ferroviaire en France. Notre analyse portera sur des jeux de données extraits du site de données de la SNCF (Société Nationale des Chemins de fer Français).")
+      tabItem(tabName = "regions",
+              fluidRow(
+                column(width = 7,  
+                       box(width = NULL, plotOutput("bigMap"))
+                ),
+                column(width = 5,  
+                       selectInput("region", "Région:",
+                                   choices = list(
+                                     "Auvergne-Rhône-Alpes" = "Auvergne-Rhône-Alpes",
+                                     "Bourgogne-Franche-Comté" = "Bourgogne-Franche-Comté",
+                                     "Bretagne" = "Bretagne",
+                                     "Centre-Val de Loire" = "Centre-Val de Loire",
+                                     "Grand Est" = "Grand Est",
+                                     "Hauts-de-France" = "Hauts-de-France",
+                                     "Île-de-France" = "Île-de-France",
+                                     "Normandie" = "Normandie",
+                                     "Nouvelle-Aquitaine" = "Nouvelle-Aquitaine",
+                                     "Occitanie" = "Occitanie",
+                                     "Pays de la Loire" = "Pays de la Loire",
+                                     "Provence-Alpes-Côte d'Azur" = "Provence-Alpes-Côte d'Azur"
+                                   ),
+                                   selected = "Île-de-France"),
+                       box(width = NULL, plotOutput("zoomMap"))
+                )
+              )
       ),
-      # Données
-      tabItem(tabName = "datasets",
-              h2("Données"),
-              img(src = "categories-donnees.png", alt = "Catégories de données SNCF", style = "width: 100%; max-width: 600px; height: auto;"),
-              HTML(markdown::renderMarkdown(text = datasets_text))
+      tabItem(tabName = "gares",
+              fluidRow(
+                column(width = 8,  # 占比60%（8/12）
+                       box(width = NULL, plotOutput("barPlot", height = "calc(100vh - 130px)"))
+                ),
+                column(width = 4,  # 占比40%（4/12）
+                       sliderInput("min_passagers", "Nombre minimum de passagers:", min = 0, max = 100000000, value = 100000, step = 10000, width = '100%')
+                )
+              )
       ),
-      # Analyse des Gares
-      tabItem(tabName = "stations",
-              h2("Analyse des Gares"),
-              img(src = "carte-reseau-sncf-france2020.png", alt = "Réseau ferroviaire en France", style = "width: 100%; max-width: 600px; height: auto;"),
-              h3("Fréquentation des gares"),
-              p("Cette section présente un aperçu de la fréquentation des gares. Nous avons filtré les gares avec plus de 20.000.000 voyageurs en 2022 pour observer les gares les plus fréquentées."),
-              plotOutput("stations_plot"),
-              p("On remarque que les gares parisiennes sont les plus fréquentées, notamment Gare du Nord, Gare Saint-Lazare, Gare de Lyon et Gare Montparnasse."),
-              img(src = "carte-reseau-sncf.png", alt = "Carte des destinations en France et en Europe", style = "width: 100%; max-width: 600px; height: auto;"),
-              p("Figure 1. Carte des destinations en France et en Europe (2022)"),
-              h3("Carte de la fréquentation des gares en France Métropolitaine"),
-              p("Cette carte montre la répartition de la fréquentation des gares en France Métropolitaine en 2022."),
-              plotOutput("stations_map")
-      ),
-      # Analyse des Voyageurs
-      tabItem(tabName = "passengers",
-              h2("Analyse des Voyageurs"),
-              h3("Nombre de voyageurs total par département (2022)"),
-              p("Cette section présente le nombre total de voyageurs par département en 2022."),
-              plotOutput("passengers_plot"),
-              h3("Répartition du nombre de voyageurs dans les gares d'un même département"),
-              p("Cette section analyse la répartition des voyageurs entre les gares d'un même département."),
-              plotOutput("age_distribution_plot"),
-              h3("Répartition par âge des passagers"),
-              p("Cette section explore la répartition des passagers par groupe d'âge pour les années 2015, 2016 et 2017."),
-              plotOutput("csp_plot"),
-              h3("Catégorie socio-professionnelle"),
-              p("Cette section présente la répartition des voyageurs par catégorie socio-professionnelle."),
-              plotOutput("yearly_passengers_plot")
-      ),
-      # Analyse des Objets Perdus
-      tabItem(tabName = "lost_items",
-              h2("Analyse des Objets Perdus"),
-              img(src = "carte-reseau-sncf.png", alt = "Carte des destinations en France et en Europe", style = "width: 100%; max-width: 600px; height: auto;"),
-              h3("Objets perdus"),
-              p("Cette section présente une analyse des objets perdus en 2019."),
-              plotOutput("lost_items_plot"),
-              h3("Objets restitués"),
-              p("Cette section présente une analyse des objets restitués en 2019."),
-              plotOutput("returned_items_plot"),
-              h3("Probabilité de retrouver un objet perdu"),
-              p("Cette section calcule la probabilité de retrouver un objet perdu en fonction des données disponibles."),
-              plotOutput("lost_items_monthly_plot")
-      ),
-      # Suggestions
-      tabItem(tabName = "suggestions",
-              h2("Suggestions"),
-              HTML(markdown::renderMarkdown(text = suggestions_text))
+      tabItem(tabName = "objets",
+              fluidRow(
+                column(width = 4,
+                       selectInput("type_objet", "Type d'objets:", 
+                                   choices = unique(obj_perdus_clean$type), 
+                                   selected = unique(obj_perdus_clean$type)[1], 
+                                   multiple = TRUE)
+                ),
+                column(width = 8,
+                       box(width = NULL, plotOutput("objetsPlot", height = "calc(100vh - 130px)"))
+                )
+              )
       )
     )
-  ),
-  skin = "purple"
+  )
 )
 
 server <- function(input, output) {
-  gares <- read_delim(file = "www/data/dataset1-gares-de-voyageurs.csv", delim=";")
-  frequentation <- read_delim(file = "www/data/dataset2-frequentation-gares.csv", delim=";")
-  motif_depl <- read_delim(file = "www/data/dataset3-motif-deplacement.csv", delim=";")
-  CSP_voya <- read_delim(file = "www/data/dataset4-enquetes-gares-connexions-repartition-par-repartition-par-categories-socio-profe.csv", delim=";")
-  age_voya <- read_delim(file = "www/data/dataset5-enquetes-gares-connexions-repartition-repartition-par-classe-dage.csv", delim=";")
-  obj_perdus <- read_delim(file = "www/data/dataset6-objets-trouves-gares.csv", delim=";")
-  obj_trouves <- read_delim(file = "www/data/dataset7-objets-trouves-restitution.csv", delim=";")
+  url <- "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
+  departements_geojson <- st_read(url)
   
-  gares_clean <- gares %>%
-    separate("Position géographique", into = c("Latitude", "Longitude"), sep = ", ") %>%
-    mutate(across(c(Latitude, Longitude), as.numeric)) %>%
-    rename(Gare = "Nom", Code_Postal = "Code commune", Zones_vac = "Segment DRG")
+  # Define regions and corresponding departments
+  regions <- list(
+    "Auvergne-Rhône-Alpes" = c("01", "03", "07", "15", "26", "38", "42", "43", "63", "69", "73", "74"),
+    "Bourgogne-Franche-Comté" = c("21", "25", "39", "58", "70", "71", "89", "90"),
+    "Bretagne" = c("22", "29", "35", "56"),
+    "Centre-Val de Loire" = c("18", "28", "36", "37", "41", "45"),
+    "Grand Est" = c("08", "10", "51", "52", "54", "55", "57", "67", "68", "88"),
+    "Hauts-de-France" = c("02", "59", "60", "62", "80"),
+    "Île-de-France" = c("75", "77", "78", "91", "92", "93", "94", "95"),
+    "Normandie" = c("14", "27", "50", "61", "76"),
+    "Nouvelle-Aquitaine" = c("16", "17", "19", "23", "24", "33", "40", "47", "64", "79", "86", "87"),
+    "Occitanie" = c("09", "11", "12", "30", "31", "32", "34", "46", "48", "65", "66", "81", "82"),
+    "Pays de la Loire" = c("44", "49", "53", "72", "85"),
+    "Provence-Alpes-Côte d'Azur" = c("04", "05", "06", "13", "83", "84")
+  )
   
-  frequentation_clean <- frequentation %>%
-    rename_with(.cols = contains("Non"), 
-                ~ sub('Total Voyageurs \\+ Non voyageurs', "Personnes", .))%>%
-    rename_with(.cols = contains("Total"), 
-                ~ sub('Total Voyageurs', "Voyageurs", .))%>%
-    pivot_longer(cols = starts_with("Personnes") | starts_with("Voyageurs"), 
-                 names_to = c(".value", "Année"), 
-                 names_sep = " ")%>%
-    mutate(Année = as.numeric(Année))%>%
-    rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG")%>%
-    mutate(UIC = as.character(UIC)) %>%
-    mutate(UIC = substr(UIC, 3, 8)) %>%
-    mutate(Département = substr(Code_Postal, 1, 2))
-  
-  age_voya_clean <- age_voya %>%
-    rename(Gare = `Gare enquêtée`)%>%
-    mutate(UIC = as.character(UIC))
-  
-  gares_freq_clean <- gares_clean %>% 
-    inner_join(frequentation_clean, by = "Gare")
-  france <- ne_countries(scale="medium", country = "France", returnclass="sf")%>%
-    st_crop(xmin = -5.2, xmax = 9.7, ymin = 41, ymax = 51)  # Limites de la France métropolitaine
-  
-  obj_perdus_clean <- obj_perdus %>%
-    rename(date = "Date de la déclaration de perte", UIC = "Code UIC", gare = "Gare", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
-  
-  obj_trouves_clean <- obj_trouves %>%
-    rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
-  
-  output$stations_plot <- renderPlot({
-    freq <- frequentation_clean %>%
-      select(Gare, Voyageurs, Année) %>%
-      filter(Voyageurs > 20000000) %>%
-      filter(Année == "2022")
-    
-    ggplot(data = freq, mapping = aes(x=Voyageurs, y=Gare)) +
-      geom_point() +
-      xlim(20000000,250000000) +
-      theme_minimal() +
-      labs(title = "Fréquentation par gare (2022)",
-           subtitle = "< minimum 20.000.000 de voyageurs >",
-           x = "Nombre de voyageurs",
-           y = "Gares")
-  })
-  
-  output$stations_map <- renderPlot({
-    france <- ne_countries(scale="medium", country = "France", returnclass="sf") %>%
-      st_crop(xmin = -5.2, xmax = 9.7, ymin = 41, ymax = 51)  # Limites de la France métropolitaine
-    
-    gares_2022 <- gares_freq_clean %>%
-      filter(Année == "2022")
-    
-    ggplot(data = france) +
-      geom_sf(fill = "white", color = "black") +
-      geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude, size=Voyageurs), color = "peachpuff4", alpha = 0.7) +
-      scale_size_continuous(range = c(1,8)) +
-      theme_minimal() +
-      labs(title = "Fréquentation par gare (2022)",
-           x = "Longitude",
-           y = "Latitude",
-           size = "Fréquentation")
-  })
-  
-  output$passengers_plot <- renderPlot({
+  output$bigMap <- renderPlot({
+    req(input$annees)
     freq_departement <- frequentation_clean %>%
-      filter(Année == "2022")
-    
-    freq_departement <- freq_departement %>%
+      filter(Année == input$annees) %>%
       group_by(Département) %>%
-      summarize(Total_passagers = sum(Voyageurs))
+      summarize(Total_passagers = sum(Voyageurs, na.rm = TRUE))
     
-    ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
+    departements_data <- departements_geojson %>%
+      rename(Département = "code") %>%
+      left_join(freq_departement, by = "Département")
+    
+    ggplot(data = departements_data) +
+      geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
+      scale_fill_viridis_c(option = "turbo", na.value = "black", name = "Passagers") +
+      labs(title = paste("Fréquentation des gares par département en France (", input$annees, ")", sep = "")) +
+      theme_minimal() +
+      theme(legend.position = "right")
+  })
+  
+  output$zoomMap <- renderPlot({
+    req(input$annees, input$region)
+    freq_departement <- frequentation_clean %>%
+      filter(Année == input$annees) %>%
+      group_by(Département) %>%
+      summarize(Total_passagers = sum(Voyageurs, na.rm = TRUE))
+    
+    departements_data <- departements_geojson %>%
+      rename(Département = "code") %>%
+      filter(Département %in% regions[[input$region]]) %>%
+      left_join(freq_departement, by = "Département")
+    
+    ggplot(data = departements_data) +
+      geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
+      scale_fill_viridis_c(option = "turbo", na.value = "white", name = "Passagers") +
+      labs(title = paste("Fréquentation des gares de ", input$region, " (", input$annees, ")", sep = "")) +
+      theme_minimal() +
+      theme(legend.position = "right")
+  })
+  
+  output$barPlot <- renderPlot({
+    req(input$annees, input$min_passagers)
+    freq_departement <- frequentation_clean %>%
+      filter(Année == input$annees) %>%
+      group_by(Département) %>%
+      summarize(Total_passagers = sum(Voyageurs, na.rm = TRUE)) %>%
+      filter(Total_passagers >= input$min_passagers)
+    
+    ggplot(freq_departement, aes(x = Total_passagers, y = reorder(Département, Total_passagers))) +
       geom_bar(stat = "identity") +
-      labs(title = "Nombre de voyageurs total par département (2022)",
+      labs(title = paste("Nombre de voyageurs total par département (", input$annees, ")", sep = ""),
            subtitle = "<Vue Globale>",
            x = "Nombre total de passagers",
            y = "Département") +
       theme(axis.text.y = element_text(size = 8))
   })
-  
-  output$age_distribution_plot <- renderPlot({
-    age_filtered <- age_voya_clean %>%
-      select(-Gare) %>%
-      filter(Année %in% c(2015, 2016, 2017))
+  output$objetsPlot <- renderPlot({
+    req(input$type_objet, input$annees)
     
-    joined_dataset <- inner_join(age_filtered, frequentation_clean, join_by(UIC, Année))
-    cleaned_dataset <- joined_dataset %>%
-      pivot_wider(names_from = `Classe d'âge`, values_from = Pourcentage, values_fill = list(Pourcentage = 0))
+    obj_perdus_date <- obj_perdus_clean %>%
+      select(date, type) %>%
+      mutate(date = as.Date(date)) %>%
+      filter(type %in% input$type_objet) %>%
+      filter(year(date) == input$annees)
     
-    age_columns <- c('19 ans et moins', '20 ans à 29 ans', '30 ans à 39 ans', '40 ans à 49 ans', '50 ans à 59 ans', '60 ans et plus')
-    cleaned_dataset <- cleaned_dataset %>%
-      mutate(across(all_of(age_columns), ~ .x * Voyageurs / 100, .names = "passengers_{.col}"))
-    age_passenger_totals <- cleaned_dataset %>%
-      group_by(Année) %>%
-      summarise(across(starts_with("passengers"), sum, .names = "total_{.col}"))
-    
-    age_passenger_totals_long <- age_passenger_totals %>%
-      pivot_longer(cols = starts_with("total_passengers"), names_to = "Age_Group", values_to = "Total_Passengers", names_prefix = "total_passengers_")
-    age_passenger_totals_long <- age_passenger_totals_long %>%
-      group_by(Année) %>%
-      mutate(Total_Passengers_Year = sum(Total_Passengers)) %>%
-      ungroup() %>%
-      mutate(Percentage = (Total_Passengers / Total_Passengers_Year) * 100)
-    
-    ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Group)) +
-      geom_bar(stat = "identity", position = "dodge") +
-      labs(title = "Pourcentage de passagers par groupe d'âge et année",
-           x = "Année",
-           y = "Pourcentage (%)",
-           fill = "Groupes d'âge") +
-      theme_minimal()
-  })
-  
-  output$csp_plot <- renderPlot({
-    profil_moyen <- CSP_voya %>%
-      group_by(CSP) %>%
-      summarise(Pourcentage_moyen = mean(Pourcentage, na.rm = TRUE))
-    
-    profil_moyen <- profil_moyen %>%
-      arrange(desc(Pourcentage_moyen))
-    
-    ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_moyen)) +
-      geom_bar(stat = "identity") +
-      coord_flip() +
-      labs(title = "Profil Moyen du Voyageur SNCF par CSP",
-           x = "Catégorie Socio-Professionnelle",
-           y = "Pourcentage Moyen") +
-      theme_minimal()
-  })
-  
-  output$yearly_passengers_plot <- renderPlot({
-    total_par_annee <- frequentation_clean %>%
-      group_by(Année) %>%
-      summarise(Total = sum(Voyageurs, na.rm = TRUE))
-    
-    ggplot(total_par_annee, aes(x = Année, y = Total)) +
-      geom_line() +
-      geom_point() +
-      labs(title = "Nombre total de voyageurs par année",
-           x = "Année",
-           y = "Nombre total de voyageurs") +
-      theme_minimal()
-  })
-  
-  output$lost_items_plot <- renderPlot({
-    obj_perdus_2019 <- obj_perdus_clean %>%
-      filter(date < ymd(20200101)) %>% 
-      filter(date > ymd(20190101))
-    
-    obj_perdus_2019 %>% 
-      ggplot(aes(y=fct_rev(fct_infreq(type)))) +
+    ggplot(obj_perdus_date, aes(x = format(date, "%m"), fill = after_stat(count))) +
       geom_bar() +
-      labs(title = "Nombre d'objets perdus par type d'objets en 2019",
-           y = "Type d'objet",
-           x = "Nombre d'objets perdus en unité") +
-      theme_minimal() +
-      theme(axis.text.y = element_text(size = rel(0.8)))
-  })
-  
-  output$returned_items_plot <- renderPlot({
-    obj_trouves_2019 <- obj_trouves_clean %>%
-      filter(date < ymd(20200101)) %>% 
-      filter(date > ymd(20190101))
-    
-    obj_trouves_2019 %>% 
-      ggplot(aes(y=fct_rev(fct_infreq(type)))) +
-      geom_bar() +
-      labs(title = "Nombre d'objets perdus retrouvés par type d'objets en 2019",
-           y = "Type d'objet",
-           x = "Nombre d'objets perdus en unité") +
-      theme_minimal() +
-      theme(axis.text.y = element_text(size = rel(0.8)))
-  })
-  
-  output$lost_items_monthly_plot <- renderPlot({
-    obj_perdus_date <- obj_perdus_clean %>% 
-      select(date) %>%
-      mutate(date = as.Date(date))
-    obj_perdus_date2 <- obj_perdus_date %>%  
-      mutate(datem = format(as.Date(date), "%m")) %>%
-      filter(year(date) > 2014) %>%
-      filter(year(date) != 2024)
-    
-    obj_perdus_date2 %>%
-      ggplot(aes(x=datem, fill=after_stat(count))) +
-      facet_grid(rows = vars(year(date))) +
-      geom_bar() +
-      scale_fill_continuous(type = "viridis", option ="turbo") +
-      labs(title = "Nombre d'objets perdus par mois et par année",
+      scale_fill_continuous(type = "viridis", option = "turbo") +
+      labs(title = paste("Nombre d'objets perdus par mois en ", input$annees),
            y = "Nombre d'objets perdus",
            x = "Mois") +
       theme_minimal() +
-      theme(plot.title = element_text(size = rel(2)), axis.text.y = element_text(size = rel(0.5)))
+      theme(
+        plot.title = element_text(size = rel(2)),
+        axis.text.y = element_text(size = rel(0.5))
+      )
   })
 }
 
-shinyApp(ui, server)
+shinyApp(ui = ui, server = server)
