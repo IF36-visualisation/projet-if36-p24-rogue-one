@@ -65,10 +65,10 @@ dashboardPage(
       ),
       tabItem(tabName = "gares",
               fluidRow(
-                column(width = 8,  # 占比60%（8/12）
+                column(width = 8,  
                        box(width = NULL, plotOutput("barPlot", height = "calc(100vh - 130px)"))
                 ),
-                column(width = 4,  # 占比40%（4/12）
+                column(width = 4,  
                        sliderInput("min_passagers", "Nombre minimum de passagers:", min = 0, max = 100000000, value = 100000, step = 10000, width = '100%')
                 )
               )
