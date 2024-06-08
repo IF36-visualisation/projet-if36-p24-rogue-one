@@ -154,5 +154,26 @@ function(input, output, session) {
         axis.text.y = element_text(size = rel(0.5))
       )
   })
+  output$objetsPlot2 <- renderPlot({
+    obj_perdus_date_type <- obj_perdus_clean2 %>% 
+      select(date, type) %>%
+      mutate(date = as.Date(date))
+    obj_perdus_date_type2 <- obj_perdus_date_type %>%  
+      mutate(datem = format(as.Date(date), "%m")) %>%
+      filter(type %in% input$type_objet) %>%
+      filter(year(date) == input$annees)
+    
+    obj_perdus_date_type2 %>%
+      ggplot(aes(x=datem, fill=type))  +
+      facet_grid(rows = vars(year(date))) +
+      geom_bar() +
+      labs(title = "Nombre d'objets perdus par type, par mois et par année", y = "Nombre d'objets perdus", x = "Mois") +
+      theme_minimal() +
+      theme(
+        plot.title = element_text(size = rel(2)),
+        axis.text.y = element_text(size = rel(0.5))
+      )
+    
+  })
 }
 

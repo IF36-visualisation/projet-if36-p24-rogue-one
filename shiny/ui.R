@@ -82,7 +82,8 @@ dashboardPage(
                                    multiple = TRUE)
                 ),
                 column(width = 8,
-                       box(width = NULL, plotOutput("objetsPlot", height = "calc(100vh - 130px)"))
+                       box(width = NULL, plotOutput("objetsPlot2", height = "calc(100vh - 130px)")),
+                       #box(width = NULL, plotOutput("objetsPlot2", height = "calc(100vh - 130px)"))
                 )
               )
       )

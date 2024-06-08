@@ -798,6 +798,26 @@ On peut en conclure, qu'en terme de nombre de pertes pur, le mois de juillet est
 
 On pourrait aussi argumenter que les vacanciers pourraient contrebalancer les travailleurs qui n'ont donc pas les mêmes mois de fréquentations. Les données ne sont pas assez précises pour indiquer s'il y a une recrudescence de pertes en juillet, (et principalement les mois d'été).
 
+```{r}
+obj_perdus_date_type <- obj_perdus_clean2 %>% 
+  select(date, type) %>%
+  mutate(date = as.Date(date))
+obj_perdus_date_type2 <- obj_perdus_date_type %>%  
+  mutate(datem = format(as.Date(date), "%m")) %>%
+  filter(year(date) == 2023)
+
+obj_perdus_date_type2 %>%
+  ggplot(aes(x=datem, fill=type))  +
+  facet_grid(rows = vars(year(date))) +
+  geom_bar() +
+  labs(title = "Nombre d'objets perdus par mois et par année", y = "Nombre d'objets perdus", x = "Mois") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(2)),
+    axis.text.y = element_text(size = rel(0.5))
+    )
+```
+
 ------------------------------------------------------------------------
 
 # Conclusion
