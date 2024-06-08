@@ -315,9 +315,7 @@ departements_data <- departements_geojson %>%
   left_join(freq_departement, by = "Département")
 
 ggplot(data = departements_data) +
-  geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-  scale_fill_viridis_c(option = "turbo", na.value = "black", name = "Passagers") +
-  labs(title = "Fréquentation des gares par département en France (2022)") +
+  geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation des gares par département en France (2022)") +
   theme_minimal() +
   theme(legend.position = "right")
 ```
@@ -330,9 +328,9 @@ departements_data_idf <- departements_geojson %>%
   filter(Département %in% c("75","77","78","91","92","93","94","95")) %>%
   left_join(freq_departement, by = "Département")
 
-ggplot(data = departements_data_idf) +
-  geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-  scale_fill_viridis_c(option = "turbo", na.value = "white", name = "Passagers") +
+ggplot(data = departements_data_idf)  +
+  geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) + 
+  scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") +
   labs(title = "Fréquentation des gares d'Ile de France par département (2022)") +
   theme_minimal() +
   theme(legend.position = "right")

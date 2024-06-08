@@ -91,7 +91,7 @@ function(input, output, session) {
     
     ggplot(data = departements_data) +
       geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-      scale_fill_viridis_c(option = "turbo", na.value = "black", name = "Passagers") +
+      scale_fill_viridis_c (option = "turbo", limits = c(0,800000000), na.value="black") +
       labs(title = paste("Fréquentation des gares par département en France (", input$annees, ")", sep = "")) +
       theme_minimal() +
       theme(legend.position = "right")
@@ -111,7 +111,7 @@ function(input, output, session) {
     
     ggplot(data = departements_data) +
       geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-      scale_fill_viridis_c(option = "turbo", na.value = "white", name = "Passagers") +
+      scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") +
       labs(title = paste("Fréquentation des gares de ", input$region, " (", input$annees, ")", sep = "")) +
       theme_minimal() +
       theme(legend.position = "right")
