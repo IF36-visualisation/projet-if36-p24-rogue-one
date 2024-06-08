@@ -2,8 +2,8 @@
 title: "Rogue One"
 author: "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ![](images/entete-rapportIF36.png "Entête")
@@ -246,15 +246,11 @@ gares_2022 <- gares_freq_clean %>%
 
 ggplot(data = france) +
   geom_sf(fill = "white", color = "black") +
-  geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude, size=Voyageurs), color = "peachpuff4", alpha = 0.7) +
-  scale_size_continuous(
-    range = c(1,8), 
-  ) +
+  geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude), color = "peachpuff4", alpha = 0.5, size = 0.3) +
   theme_minimal() +
-  labs(title = "Fréquentation par gare (2022)",
+  labs(title = "Disposition des gares (2022)",
        x = "Longitude",
-       y = "Latitude",
-       size = "Fréquentation")
+       y = "Latitude")
 ```
 
 **Analyse** Au premier abord, on remarque que les gares tracent d'elles même, sur la carte, la majeur partie du réseau ferroviaire français *(Figure 2)*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
@@ -393,7 +389,7 @@ cleaned_dataset<- joined_dataset %>%
   )
 ```
 
-Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombre total pour chaque année
+Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombres totaux pour chaque année
 
 ```{r}
 age_columns <- c('19 ans et moins', '20 ans à 29 ans', '30 ans à 39 ans', '40 ans à 49 ans', '50 ans à 59 ans', '60 ans et plus')
@@ -456,15 +452,15 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
        y = "Pourcentage Moyen") +
   theme_minimal()
 ```
+
 ## 5. Motif de déplacement
 
 Ici nous nous intéressons aux motifs de déplacement des voyageurs de la SNCF.
 
 En premier lieu nous regardons le motif de déplacement global qui ressort le plus parmis toutes les gares.
 
-
 ```{r}
-motif_moyen <- dataset3 %>%
+motif_moyen <- motif_depl %>%
   group_by(`Motif du déplacement`) %>%
   summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
   arrange(desc(Pourcentage_moyen))
@@ -487,6 +483,7 @@ ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen),
 ```
 
 On aimerait savoir si le motif de déplacement principal change en fonction de la gare.
+
 ```{r}
 angouleme_data <- motif_depl %>%
   filter(`Gare enquêtée` == "Angoulême")
@@ -500,6 +497,7 @@ motif_angouleme <- angouleme_data %>%
 
 # Afficher les résultats
 ```
+
 ## 6. Nombre de voyageurs par année
 
 Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
