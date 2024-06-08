@@ -2,8 +2,8 @@
 title: "Rogue One"
 author: "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ![](images/entete-rapportIF36.png "Entête")
@@ -246,15 +246,11 @@ gares_2022 <- gares_freq_clean %>%
 
 ggplot(data = france) +
   geom_sf(fill = "white", color = "black") +
-  geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude, size=Voyageurs), color = "peachpuff4", alpha = 0.7) +
-  scale_size_continuous(
-    range = c(1,8), 
-  ) +
+  geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude), color = "peachpuff4", alpha = 0.5, size = 0.3) +
   theme_minimal() +
-  labs(title = "Fréquentation par gare (2022)",
+  labs(title = "Disposition des gares (2022)",
        x = "Longitude",
-       y = "Latitude",
-       size = "Fréquentation")
+       y = "Latitude")
 ```
 
 **Analyse** Au premier abord, on remarque que les gares tracent d'elles même, sur la carte, la majeur partie du réseau ferroviaire français *(Figure 2)*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
@@ -319,9 +315,7 @@ departements_data <- departements_geojson %>%
   left_join(freq_departement, by = "Département")
 
 ggplot(data = departements_data) +
-  geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-  scale_fill_viridis_c(option = "turbo", na.value = "black", name = "Passagers") +
-  labs(title = "Fréquentation des gares par département en France (2022)") +
+  geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation des gares par département en France (2022)") +
   theme_minimal() +
   theme(legend.position = "right")
 ```
@@ -334,9 +328,9 @@ departements_data_idf <- departements_geojson %>%
   filter(Département %in% c("75","77","78","91","92","93","94","95")) %>%
   left_join(freq_departement, by = "Département")
 
-ggplot(data = departements_data_idf) +
-  geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-  scale_fill_viridis_c(option = "turbo", na.value = "white", name = "Passagers") +
+ggplot(data = departements_data_idf)  +
+  geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) + 
+  scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") +
   labs(title = "Fréquentation des gares d'Ile de France par département (2022)") +
   theme_minimal() +
   theme(legend.position = "right")
@@ -393,7 +387,7 @@ cleaned_dataset<- joined_dataset %>%
   )
 ```
 
-Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombre total pour chaque année
+Calculer le nombre de voyageurs dans chaque groupe d'âge et les nombres totaux pour chaque année
 
 ```{r}
 age_columns <- c('19 ans et moins', '20 ans à 29 ans', '30 ans à 39 ans', '40 ans à 49 ans', '50 ans à 59 ans', '60 ans et plus')
@@ -456,15 +450,15 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
        y = "Pourcentage Moyen") +
   theme_minimal()
 ```
+
 ## 5. Motif de déplacement
 
 Ici nous nous intéressons aux motifs de déplacement des voyageurs de la SNCF.
 
 En premier lieu nous regardons le motif de déplacement global qui ressort le plus parmis toutes les gares.
 
-
 ```{r}
-motif_moyen <- dataset3 %>%
+motif_moyen <- motif_depl %>%
   group_by(`Motif du déplacement`) %>%
   summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
   arrange(desc(Pourcentage_moyen))
@@ -487,6 +481,7 @@ ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen),
 ```
 
 On aimerait savoir si le motif de déplacement principal change en fonction de la gare.
+
 ```{r}
 filtered_data <- motif_depl %>%
   filter(`Gare enquêtée` %in% c("Bordeaux Saint-Jean", "Paris Est", "Grenoble","Rouen Rive Droite"))
@@ -519,6 +514,7 @@ ggplot(motif_comparaison, aes(x = `Motif du déplacement`, y = Pourcentage_moyen
 
 
 ```
+
 ## 6. Nombre de voyageurs par année
 
 Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
@@ -820,6 +816,26 @@ On distingue clairement un nombre élevé d'objets tout d'abord lors de la derni
 On peut en conclure, qu'en terme de nombre de pertes pur, le mois de juillet est le plus à risque. Mais il semble aussi important de noter qu'il y a sûrement une corrélation avec le nombre de voyageurs. Ce qu'il faudrait c'est le taux de pertes par voyageurs. Cependant, avec les données que nous avons actuellement nous ne pouvons pas savoir.
 
 On pourrait aussi argumenter que les vacanciers pourraient contrebalancer les travailleurs qui n'ont donc pas les mêmes mois de fréquentations. Les données ne sont pas assez précises pour indiquer s'il y a une recrudescence de pertes en juillet, (et principalement les mois d'été).
+
+```{r}
+obj_perdus_date_type <- obj_perdus_clean2 %>% 
+  select(date, type) %>%
+  mutate(date = as.Date(date))
+obj_perdus_date_type2 <- obj_perdus_date_type %>%  
+  mutate(datem = format(as.Date(date), "%m")) %>%
+  filter(year(date) == 2023)
+
+obj_perdus_date_type2 %>%
+  ggplot(aes(x=datem, fill=type))  +
+  facet_grid(rows = vars(year(date))) +
+  geom_bar() +
+  labs(title = "Nombre d'objets perdus par mois et par année", y = "Nombre d'objets perdus", x = "Mois") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(2)),
+    axis.text.y = element_text(size = rel(0.5))
+    )
+```
 
 ------------------------------------------------------------------------
 
