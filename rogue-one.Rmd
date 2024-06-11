@@ -448,7 +448,8 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
   labs(title = "Profil Moyen du Voyageur SNCF par CSP",
        x = "Catégorie Socio-Professionnelle",
        y = "Pourcentage Moyen") +
-  theme_minimal()
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = rel(0.7)))
 ```
 
 ## 5. Motif de déplacement
