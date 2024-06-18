@@ -842,6 +842,18 @@ obj_perdus_date_type2 %>%
 
 # Conclusion
 
+Grâce aux données récupérées et leur traitement, nous avons pu découvrir une vision nationale (métropolitaine) du réseau ferroviaire ainsi que comprendre quel est le profil du voyageur et ses bagages.
+
+Au travers de ces données, nous pouvons apercevoir 2 réseaux en étoiles imbriqués. Un premier au niveau national qui se focalise sur l'Île-de-France, et un second au sein de l'ïle-de-France qui se focalise sur Paris.
+
+Les données bien que maigres sur les voyageurs, permettent de mettre en avant un groupe de voyageurs hétéroclite. On distingue tout de même plus de jeunes que dans la population française et les motifs de déplacement sont principalement pour le travail ou bien les vacances.
+
+La dernière analyse effectuée a été faite sur les objets et leur perte. On distingue donc des pertes plus importantes au moment de l'été et principalement en Juillet. On distingue aussi une récupération des objets plus probable si l'objet est volumineux et/ou coûteux. Les objets les plus souvent perdus en ordre décroissant sont les bagages puis les objets électroniques, les porte-feuilles et les vêtements.
+
+Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalité de cette analyse. Cependant il serait bête de ne pas voir dans cette analyse une opportunité pour des entreprises de comprendre les clients potentiels (cibles) dans les gares (secteurs) avec leurs habitudes de consommation (produit).
+
 ## Notre avis sur le projet
+
+Louis : Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.
 
 Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
