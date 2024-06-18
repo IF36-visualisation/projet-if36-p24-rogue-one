@@ -121,7 +121,7 @@ Afin de travailler proprement, nous avons réaliser les étapes suivantes :
 
 3.  Une fois les tables modifiées, nous avons du **filtrer nos données**.
 
-**Convention de nommage des colonnes** - Transformer les espaces en underscore. - Nommer les variables avec des minuscules.
+**Convention de nommage des colonnes** - Transformer les espaces en underscore. - Nommer les variables en un seul mot si possible.
 
 > Exemple : Code Postal en code_postal
 
@@ -343,20 +343,22 @@ Grâce à cette visusalisation, on peut connaître les gares les plus importante
 Dans le cas du département 77 et du premier jet de visualisation, on observe que la gare de Melun est très fréquentée comparé aux autres gares.
 
 ```{r}
-#gares_77 <- freq %>%
-#  filter(departement == "77")
+gares_77 <- frequentation_clean %>%
+  filter(Département == "77") %>%
+  filter(Année == "2022")
 
-#ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
-#  geom_bar(stat = "identity") +
-#  labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
-#       x = "Gare",
-#       y = "Nombre de passagers") +
-#  theme_minimal() +
-#  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
+       x = "Gare",
+       y = "Nombre de passagers") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
 
 
 ```
 
+\
 Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
@@ -580,6 +582,8 @@ Dans cette partie, nous voulons nous intéresser plus particulièrement aux obje
 2.  Objets restitués
 3.  Probabilité de retrouver un objet perdu
 4.  Probabilité de retrouver un objet selon son type
+5.  Afflux d'objets selon le mois
+6.  Perte d'objet selon la gare
 
 ## 1. Objets perdus
 
@@ -642,7 +646,7 @@ count(obj_perdus_trouves)
 ```{r}
 obj_perdus_trouves %>% 
   ggplot(aes(y=fct_rev(fct_infreq(type)))) +
-  geom_bar() +
+  geom_bar(fill="blue4") +
   labs(title = "Nombre d'objets perdus retrouvés par type d'objets en 2019",
        y = "Type d'objet",
        x = "Nombre d'objets perdus en unité") +
@@ -761,7 +765,7 @@ colnames(probas_types)
 probas_types %>% 
   mutate(type_obj1 = fct_reorder(type_obj_trouves,Freq)) %>%
   ggplot(aes(x=type_obj1, y=Freq)) +
-  geom_col() + 
+  geom_col(fill="green4") + 
   ylim(0,100) +
   labs(title = "Fréquence de rendu d'objets perdus par type",
        y = "Fréquence de retour",
@@ -783,7 +787,7 @@ Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et
 
 Il serait aussi intéressant de voir que ces statistiques sont fondées sur les objets qui sont perdus en train ou en gare et ceux qui sont ramenés en gare par d'autres voyageurs ou agents. Les vols ne sont donc pas forcément comptabiliser. Je pense qu'avec plus d'informations, nous pourrions ajouter un critère de vol ou perte selon l'objet. Malheureusement les données ne sont pas assez détaillées, mais nous pourrions peut-être deviner une tendance en croisant d'autres études portant sur le sujet.
 
-## 4. Afflux d'objets selon le mois ?
+## 5. Afflux d'objets selon le mois ?
 
 Nous allons maintenant traiter l'ensemble du jeu de données des objets perdus pour voir s'il y a un motif qui pourrait faire croire que certains mois sont plus propices à la perte d'objets.
 
@@ -837,6 +841,46 @@ obj_perdus_date_type2 %>%
     axis.text.y = element_text(size = rel(0.5))
     )
 ```
+
+## 6. Perte d'objet selon la gare ?
+
+Nous finissons le traitement des données pour essayer de déceler si le risque de perte est plus important selon la gare. L'étude ne sera faite que sur une année car les données de voyageurs sont année par année.
+
+```{r}
+obj_perdus_clean_gare <- obj_perdus_clean %>%
+  filter(date < ymd(20230101)) %>% 
+  filter(date > ymd(20220101)) %>%
+  select(UIC) %>%
+  filter(!is.na(UIC)) %>%
+  mutate(UIC = as.character(UIC)) %>%
+  mutate(UIC = substr(UIC, 5, 10))
+
+freq_gare_2022 <- frequentation_clean %>%
+  filter(Année == 2022) %>%
+  select(UIC, Gare, Voyageurs)
+
+obj_gares <- left_join(obj_perdus_clean_gare, freq_gare_2022, by = "UIC") %>%
+  group_by(Gare) %>% mutate(freq = n()/Voyageurs * 100) %>%
+  filter(freq > 0.005)
+
+obj_gares %>%
+  ggplot(aes(x=Gare, y=freq)) + 
+  geom_point(color="red3", size=rel(3), shape=4) +
+  labs(title = "Probabilité de perte d'objet par voyageur selon la gare (2022)",
+       y = "Probabilité de perte (%)",
+       x = "Gare") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(1)),
+    axis.text.x = element_text(
+      size = rel(0.65),
+      angle = 45,
+      vjust = 1,
+      hjust = 1
+    ))
+```
+
+Afin d'améliorer la visualisation, on ne voit ici que les gares dont le taux de perte par voyageur est au-dessus de 0.005 %. On peut voir ici qu'il vaut mieux éviter la gare de Granville où la probabilité de perte d'objet est supérieure à 0.07%. Cependant ce nombre est important à recontextualiser. Cela signifie que sur 10 000 voyageurs, 7 ont perdu un objet. Ce nombre reste assez faible. Et donc la plupart des gares vues ici sont plutôt sur l'ordre de 1 sur 10 000.
 
 ------------------------------------------------------------------------
 
