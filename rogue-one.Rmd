@@ -288,7 +288,7 @@ ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
 **Analyse.** On voit avec cette visualisation qu'il y a une très grande différence entre certains départements. Cette différence est surement expliquée en partie par le phénomène d'urbanisation et d'étalement urbain (regroupement autour de Paris et des grandes villes). Ici, on a ordonné les départements selon un ordre ascendant afin de mieux comprendre la visualisation qui se veut globale. Bien que la lecture des départements soit un peu difficile, elle permet de comprendre les distinctions.
 
 ```{r}
-freq_departement <- frequentation_clean %>%
+freq_region <- frequentation_clean %>%
   filter(Année == "2022")
 
 correspondance <- data.frame(
@@ -306,14 +306,14 @@ correspondance <- data.frame(
   Région = c("Auvergne-Rhône-Alpes", "Hauts-de-France", "Auvergne-Rhône-Alpes", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Auvergne-Rhône-Alpes", "Grand Est", "Occitanie", "Grand Est", "Occitanie", "Occitanie", "Provence-Alpes-Côte d'Azur", "Normandie", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Centre-Val de Loire", "Nouvelle-Aquitaine", "Bourgogne-Franche-Comté", "Bretagne", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Bourgogne-Franche-Comté", "Auvergne-Rhône-Alpes", "Normandie", "Centre-Val de Loire", "Bretagne", "Occitanie", "Occitanie", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Occitanie", "Bretagne", "Centre-Val de Loire", "Auvergne-Rhône-Alpes", "Bourgogne-Franche-Comté","Nouvelle-Aquitaine", "Centre-Val de Loire", "Auvergne-Rhône-Alpes", "Auvergne-Rhône-Alpes","Pays de la Loire", "Centre-Val de Loire", "Occitanie", "Nouvelle-Aquitaine", "Occitanie", "Pays de la Loire", "Normandie", "Grand Est", "Grand Est", "Pays de la Loire", "Grand Est", "Grand Est", "Bretagne", "Grand Est", "Bourgogne-Franche-Comté", "Hauts-de-France", "Hauts-de-France", "Normandie", "Hauts-de-France", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Occitanie", "Occitanie", "Occitanie", "Grand Est", "Grand Est", "Auvergne-Rhône-Alpes", "Bourgogne-Franche-Comté", "Bourgogne-Franche-Comté", "Pays de la Loire", "Auvergne-Rhône-Alpes", "Auvergne-Rhône-Alpes", "Île-de-France", "Normandie", "Île-de-France", "Nouvelle-Aquitaine", "Hauts-de-France", "Occitanie", "Occitanie", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Pays de la Loire", "Provence-Alpes-Côte d'Azur", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Grand Est", "Bourgogne-Franche-Comté", "Île-de-France", "Île-de-France", "Île-de-France", "Île-de-France", "Île-de-France")
 )
 
-freq_departement <- freq_departement %>%
+freq_region <- freq_region %>%
   left_join(correspondance, by = "Département")
 
-freq_region <- freq_departement %>%
+freq_region <- freq_region %>%
   group_by(Région) %>%
-  summarize(Total_passagers = sum(Voyageurs))
+  summarize(Total_Passagers_Region = sum(Voyageurs))
 
-ggplot(freq_region, aes(x = Région, y = Total_passagers)) +
+ggplot(freq_region, aes(x = Région, y = Total_Passagers_Region)) +
   geom_bar(stat = "identity") +
   labs(title = "Nombre de voyageurs total par région (2022)",
        subtitle = "<Vue Globale>",
