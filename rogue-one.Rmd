@@ -159,6 +159,7 @@ frequentation_clean <- frequentation %>%
   rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG")%>%
   mutate(UIC = as.character(UIC)) %>%
   mutate(UIC = substr(UIC, 3, 8)) %>%
+  mutate(Code_Postal = str_pad(Code_Postal, width = 5, side = "left", pad = "0")) %>%
   mutate(Département = substr(Code_Postal, 1, 2))
 
 age_voya_clean <- age_voya %>%
@@ -280,7 +281,7 @@ ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
        subtitle = "<Vue Globale>",
        x = "Nombre total de passagers",
        y = "Département") +
-  theme(axis.text.y = element_text(size = 8))
+  theme(axis.text.y = element_text(size = 4))
 
 ```
 
@@ -289,6 +290,8 @@ ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
 On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
 
 On voit qu'il y a une très grande différence entre certains départements, on va essayer de le voir sur une carte.
+
+Plus grande différence avec la couleur
 
 ```{r}
 url <- "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
@@ -380,7 +383,7 @@ Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les 
 3.  Motif de déplacement
 4.  Nombre de voyageurs par année
 
-*Quel est le voyageur moyen de la SNCF ?*
+*Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?*
 
 ## 1. Explorer la répartition par âge des passagers
 
@@ -602,6 +605,8 @@ Dans cette partie, nous voulons nous intéresser plus particulièrement aux obje
 5.  Afflux d'objets selon le mois
 6.  Perte d'objet selon la gare
 
+*Y-a-t-il plus de chances de perdre un objet selon la gare ? Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ? Quelles sont les chances de retrouver un objet perdu ? Quelles sont les chances de retrouver un objet en fonction de sa nature ?*
+
 ## 1. Objets perdus
 
 Tout d'abord, petite visualisation du dataset obj_perdus.
@@ -638,7 +643,7 @@ Découvrons ce que celui-ci nous cache dans la répartition des objets perdus :
 obj_perdus_2019 %>% 
   ggplot(aes(y=fct_rev(fct_infreq(type)))) +
   geom_bar() +
-  labs(title = "Nombre d'objets perdus par type d'objets en 2019",
+  labs(title = "Nombre d'objets perdus par type (2019)",
        y = "Type d'objet",
        x = "Nombre d'objets perdus en unité")+
   theme_minimal() +
@@ -664,7 +669,7 @@ count(obj_perdus_trouves)
 obj_perdus_trouves %>% 
   ggplot(aes(y=fct_rev(fct_infreq(type)))) +
   geom_bar(fill="blue4") +
-  labs(title = "Nombre d'objets perdus retrouvés par type d'objets en 2019",
+  labs(title = "Nombre d'objets retrouvés par type (2019)",
        y = "Type d'objet",
        x = "Nombre d'objets perdus en unité") +
   theme_minimal() +
@@ -743,8 +748,6 @@ obj_trouves_clean2 <- obj_trouves_clean %>%
   select(-enregistrement, -UIC)
 ```
 
-**Quelles sont les chances de retrouver un objet perdu ?**
-
 ## 3. Probabilité de retrouver un objet perdu
 
 Pour cette première probabilité nous allons faire un calcul simple :
@@ -759,8 +762,6 @@ proba_commune
 ```
 
 Je trouve la probabilité relativement élevée car pas très éloignée du 50%. Peut-être aussi que le postulat personnel avant le calcul était relativement pessimiste.
-
-**Quelles sont les chances de retrouver un objet en fonction de son type ?**
 
 ## 4. Probabilité de retrouver un objet selon son type
 
@@ -804,12 +805,11 @@ Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et
 
 Il serait aussi intéressant de voir que ces statistiques sont fondées sur les objets qui sont perdus en train ou en gare et ceux qui sont ramenés en gare par d'autres voyageurs ou agents. Les vols ne sont donc pas forcément comptabiliser. Je pense qu'avec plus d'informations, nous pourrions ajouter un critère de vol ou perte selon l'objet. Malheureusement les données ne sont pas assez détaillées, mais nous pourrions peut-être deviner une tendance en croisant d'autres études portant sur le sujet.
 
-## 5. Afflux d'objets selon le mois ?
+## 5. Afflux d'objets selon le mois
 
 Nous allons maintenant traiter l'ensemble du jeu de données des objets perdus pour voir s'il y a un motif qui pourrait faire croire que certains mois sont plus propices à la perte d'objets.
 
 ```{r}
-
 obj_perdus_date <- obj_perdus_clean2 %>% 
   select(date) %>%
   mutate(date = as.Date(date))
@@ -819,17 +819,19 @@ obj_perdus_date2 <- obj_perdus_date %>%
   filter(year(date) != 2024)
   
 obj_perdus_date2 %>%
-  ggplot(aes(x=datem, fill=after_stat(count)))  +
+  ggplot(aes(x = datem, fill = after_stat(count)))  +
   facet_grid(rows =vars(year(date))) +
   geom_bar() +
   scale_fill_continuous(type = "viridis", option ="turbo") +
   labs(title = "Nombre d'objets perdus par mois et par année",
        y = "Nombre d'objets perdus",
-       x = "Mois",) +
+       x = "Mois",
+       fill ="Quantité d'objets perdus") +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = rel(2)),
-    axis.text.y = element_text(size = rel(0.5))
+    plot.title = element_text(size = rel(1.25)),
+    axis.text.y = element_text(size = rel(0.5)),
+    legend.title = element_text(size = rel(0.7))
     )
 ```
 
@@ -851,15 +853,19 @@ obj_perdus_date_type2 %>%
   ggplot(aes(x=datem, fill=type))  +
   facet_grid(rows = vars(year(date))) +
   geom_bar() +
-  labs(title = "Nombre d'objets perdus par mois et par année", y = "Nombre d'objets perdus", x = "Mois") +
+  labs(title = "Nombre d'objets perdus par mois (2023)", y = "Nombre d'objets perdus", x = "Mois", fill ="Type d'objets") +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = rel(2)),
+    legend.key.size = unit(3, 'mm'),
+    legend.key.height = unit(3, 'mm'),
+    legend.key.width = unit(3, 'mm'),
+    plot.title = element_text(size = rel(1.25)),
+    legend.text = element_text(size = rel(0.5)),
     axis.text.y = element_text(size = rel(0.5))
     )
 ```
 
-## 6. Perte d'objet selon la gare ?
+## 6. Perte d'objet selon la gare
 
 Nous finissons le traitement des données pour essayer de déceler si le risque de perte est plus important selon la gare. L'étude ne sera faite que sur une année car les données de voyageurs sont année par année.
 
@@ -888,7 +894,7 @@ obj_gares %>%
        x = "Gare") +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = rel(1)),
+    plot.title = element_text(size = rel(1.25)),
     axis.text.x = element_text(
       size = rel(0.65),
       angle = 45,
