@@ -898,28 +898,40 @@ Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalit
 
 ## Notre avis sur le projet
 
-Louis : Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.
+"Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.", Louis
+
+“Ce projet m’a permis de découvrir le langage R au travers d’un projet pertinent visant à explorer le fonctionnement, la cible et les ressources d’un OIV français : la SNCF. Parfaire mes compétences en Dataviz a également développé ma rigueur et mon intérêt pour cette discipline, tant sur le plan technique que sur l’étude qui en faite appliquée aux sciences humaines et sociales. Dans sa globalité, j’ai beaucoup apprécié travailler cette matière et je trouve qu’elle couvre parfaitement bien tous les éléments attendus en la choisissant. Néanmoins, j’aurai bien aimé revenir un peu plus sur l’utilisation de Tableau largement utilisé dans le contexte d’une entreprise. Au final, bilan très positif de cette expérience que je recommande fortement à toutes les personnes qui veulent monter en compétences dans ce domaine.”, Maxence
 
 # Annexe
 
 Répartition par partie :
 
-Introduction : Louis et Maxence
-Découverte : Maxence
-Voyageurs : Âge (Wang), CSP et Motif de déplacement (Mathis)
-Objets : Louis
-Conclusion : Louis
-Relecture : Maxence et Louis
-PowerPoint : Maxence et Louis
-Soutenance : Louis
-Tableau : Mathis
-Shiny App : Wang
+-   Introduction : Louis et Maxence
+
+-   Découverte : Maxence
+
+-   Voyageurs : Âge (Wang), CSP et Motif de déplacement (Mathis)
+
+-   Objets : Louis
+
+-   Conclusion : Louis
+
+-   Relecture : Maxence et Louis
+
+-   PowerPoint : Maxence et Louis
+
+-   Soutenance : Louis Tableau : Mathis
+
+-   Shiny App : Wang
 
 Répartition par personnes :
 
-Louis : Introduction, Objets, Conclusion, Relecture, Powerpoint, Soutenance
-Maxence : Introduction, Découverte, relecture, PowerPoint
-Wang : Voyageurs (Âge), Shiny App
-Mathis : Voyageurs (CSP, Motif), Tableau
+-   Louis : Introduction, Objets, Conclusion, Relecture, Powerpoint, Soutenance
+
+-   Maxence : Introduction, Découverte, Relecture, PowerPoint
+
+-   Wang : Voyageurs (Âge), Shiny App
+
+-   Mathis : Voyageurs (CSP, Motif), Tableau
 
 Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
