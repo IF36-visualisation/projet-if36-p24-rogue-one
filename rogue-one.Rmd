@@ -900,4 +900,26 @@ Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalit
 
 Louis : Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.
 
+# Annexe
+
+Répartition par partie :
+
+Introduction : Louis et Maxence
+Découverte : Maxence
+Voyageurs : Âge (Wang), CSP et Motif de déplacement (Mathis)
+Objets : Louis
+Conclusion : Louis
+Relecture : Maxence et Louis
+PowerPoint : Maxence et Louis
+Soutenance : Louis
+Tableau : Mathis
+Shiny App : Wang
+
+Répartition par personnes :
+
+Louis : Introduction, Objets, Conclusion, Relecture, Powerpoint, Soutenance
+Maxence : Introduction, Découverte, relecture, PowerPoint
+Wang : Voyageurs (Âge), Shiny App
+Mathis : Voyageurs (CSP, Motif), Tableau
+
 Copyright : [Mathis Girod](https://github.com/girodmat), [Maxence Jaulin](https://github.com/maxencejaulin), [Louis Prodhon](https://github.com/Grexiem), [Wang Zezhong](https://github.com/RubiesWzz)
