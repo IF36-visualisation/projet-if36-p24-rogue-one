@@ -185,26 +185,26 @@ Dans cette partie, nous découvrirons le jeu de données.
 
 **Visualisations réalisées**
 
-1.  Fréquentation des gares
-2.  Carte de la fréquentation des gares en France Métropolitaine
-
-[TODO] à compléter
+1.  Fréquentation des gares (2022)
+2.  Positionnement des gares en France Métropolitaine (2022)
+3.  Fréquentation globale par département (2022)
+4.  Fréquentation des gares d'un même département (77) (2022)
 
 > L'ensemble des visualisations sont réalisées avec les données de l'année **2022**, car ce sont les données les plus récentes à notre disposition.
 
-*À quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? À quel point Paris a une place importante dans le réseau des autres territoires ?*
+*À quoi ressemble le réseau SNCF en France ? Quels sont les départements les mieux équipés ? À quel point Paris a une place importante dans le réseau des autres territoires ? Le nombre de voyageurs est-il bien reparti entre les gares d'un même département ?*
 
-## 1. Fréquentation des gares
+## 1. Fréquentation des gares (2022)
 
-Tout d'abord, voici un petit tour d'horizon du dataset **Frequentation**.
+Tout d'abord, voici un petit tour d'horizon du dataset **Fréquentation**.
 
 ```{r}
 head(frequentation_clean)
 ```
 
-Nous avons choisi d'utiliser des données discrètes (nombre de voyageurs) en abscisse et nominales (gares) en ordonnée. Afin de constater les différences entre les gares, une comparaison basée sur un bar chart a été réalisée ci-dessous.
+Pour notre première visualisation, nous avons choisi d'utiliser des données discrètes (nombre de voyageurs) en abscisse et nominales (gares) en ordonnée. Nous avons réalisé une comparaison grâce à un bar chart pour étudier les différences de fréquentation entre les gares les plus utilisées (plus pertinent selon nous).
 
-De plus, afin d'obtenir un classement des gares les plus fréquentées, nous avons choisi de filtrer le dataset pour ne garder que les gares au dessus d'un seuil de 20.000.000 individus. Ce filtre nous permet de faire ressortir les gares les plus fréquentées uniquement.
+Afin d'obtenir un classement des gares les plus fréquentées, nous avons choisi de filtrer le dataset pour ne garder que les gares au dessus d'un seuil de 20.000.000 individus.
 
 ```{r}
 freq <- frequentation_clean %>%
@@ -216,29 +216,27 @@ ggplot(data = freq, mapping = aes(x=Voyageurs,y=Gare)) +
   geom_point() +
   xlim(20000000,250000000) +
   theme_minimal() +
-  labs(title = "Fréquentation par gare (2022)",
+  labs(title = "Fréquentation par gare les plus fréquentées (2022)",
        subtitle = "< minimum 20.000.000 de voyageurs >",
        x = "Nombre de voyageurs",
        y = "Gares")
 ```
 
-**Analyse** On remarque que les gares avec le plus de fréquentation sont les gares parisiennes. En termes de positionnement, nous retrouvons : Gare du Nord (1), Gare Saint-Lazare (2), Gare de Lyon (3), Gare Montparnasse (4). D'autres gares se démarquent mais restent sensiblement proches les unes des autres.
+**Analyse.** On remarque que les gares avec le plus de fréquentation sont les gares parisiennes. Au classement, nous retrouvons : Gare du Nord (1), Gare Saint-Lazare (2), Gare de Lyon (3), Gare Montparnasse (4). D'autres gares se démarquent mais restent sensiblement proches les unes des autres.
 
-Cette visualisation n'est pas étonnante si l'on utilise régulièrement le réseau RATP et SNCF en Ile de France. En effet, la grande majorité des trajets partent de Paris et arrivent sur Paris.
+Cette visualisation n'est pas suprenante si l'on utilise régulièrement le réseau RATP et SNCF en région parisienne. En effet, la grande majorité des trajets partent de Paris et arrivent sur Paris.
 
 Gare du Nord semble être la gare la plus fréquentée du réseau. En faisant des recherches, on apprend qu'elle permet des départs vers le Royaume-Uni (Londres-St-Pancras), la Belgique (Bruxelles-Midi) ou encore les Pays-Bas (Amsterdam-Centraal) *(Figure 1)*. La population est généralement importante dans ces grandes villes et capitales européennes, ce qui explique également la fréquentation de Gare du Nord que ce soit pour des trajets professionnels ou touristiques.
 
 ![](images/carte-reseau-sncf.png "Carte des destinations en France et en Europe (2022)"){width="500"}
 
-Figure 1. Carte des destinations en France et en Europe (2022)
+**Figure 1.** Carte des destinations en France et en Europe (2022). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
-Source : <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
+## 2. Positionnement des gares en France Métropolitaine (2022)
 
-## 2. Carte de la fréquentation des gares en France Métropolitaine
+Pour poursuivre notre découverte du réseau ferroviaire, nous avons choisi de représenter la fréquentation des gares sur une carte de France Métropolitaine. Avec cette visualisation spatiale, on peut comprendre plus facilement les enjeux liés aux flux de voyageurs.
 
-Pour poursuivre notre découverte du réseau SNCF, nous avons choisi de représenter la fréquentation des gares sur une carte de France Métropolitaine. Avec cette visualisation cartographique, on peut comprendre plus spatialement les enjeux liés aux flux de voyageurs.
-
-Pour représenter cela, on utilise des données discrètes (longitude, latitude, nombre de voyageurs) et ordinales (année) sur une carte. Etant donné qu'il s'agit d'une carte, on place la longitude en abscisse et la latitude en ordonnée. De plus, on a ajouté de la couleur afin de faire ressortir des gares qui n'ont plus vraiment de fréquentation en 2022.
+Pour représenter cela, on utilise des données discrètes (longitude, latitude, nombre de voyageurs) et ordinales (année) sur une carte. Etant donné qu'il s'agit d'une carte, on place la longitude en abscisse et la latitude en ordonnée.
 
 ```{r}
 gares_2022 <- gares_freq_clean %>%
@@ -249,37 +247,24 @@ ggplot(data = france) +
   geom_point(data = gares_freq_clean, aes(x = Longitude, y = Latitude), color = "peachpuff4", alpha = 0.5, size = 0.3) +
   theme_minimal() +
   labs(title = "Disposition des gares (2022)",
+       subtitle = "<Vue Spatiale>",
        x = "Longitude",
        y = "Latitude")
 ```
 
-**Analyse** Au premier abord, on remarque que les gares tracent d'elles même, sur la carte, la majeur partie du réseau ferroviaire français *(Figure 2)*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
+**Analyse.** Au premier abord, on remarque que les points, représentant les gares, tracent d'eux-même des lignes sur la carte. Ces dernières représentent les lignes du réseau ferroviaire français, comme on peut le vérifier sur la *Figure 2*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
 
-On remarque que la fréquentation des gares s'articule autour de quatre principaux espaces : l'espace parisien (Paris), l'espace Nord (Lille), l'espace Est (Strasbourg), l'espace lyonnais (Lyon). Comme nous le pensions, la fréquentation des gares est plus importante autour des grandes villes. Avec cette profondeur supplémentaire, cela nous permet de formuler de nouvelles conjectures : la population en périphérie des grandes villes fréquente généralement les gares du réseau pour des motifs professionnels (population active).
+On remarque que la fréquentation des gares s'articule autour de quatre principaux espaces : l'espace Parisien (Paris), l'espace Nord (Lille), l'espace Est (Strasbourg), l'espace Lyonnais (Lyon). Comme nous le pensions, la fréquentation des gares est plus importante autour des grandes villes. Avec cette profondeur supplémentaire, cela nous permet de formuler de nouvelles conjectures : la population en périphérie des grandes villes fréquente généralement les gares du réseau pour des motifs professionnels (population active).
 
 Cette visualisation complète notre première analyse : Paris est le centre du réseau ferroviaire français, *"tout passe par Paris"*. Cette règle s'applique également avec le réseau autoroutier français.
 
-![](images/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)")*Figure 2. Carte du réseau SNCF en France (2020)*
+![](images/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020).**Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
-**Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
+## 3. Fréquentation globale par département (2022)
 
-# Voyageurs
+Réalisons maintenant une analyse multiscalaire afin d'avoir d'en avoir une meilleure vue d'ensemble et compréhension de la fréquentation de ce réseau.
 
-Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
-
-**Visualisations réalisées**
-
-1.  Nombre de voyageurs total par département (2022)
-2.  Répartition du nombre de voyageurs dans les gares d'un même département.Exemple département (77)
-3.  Explorer la répartition par âge des passagers
-4.  Catégorie socio professionnelle
-5.  Nombre de voyageurs par année
-
-Dans un premier temps, nous analysons le nombre de voyageurs par département, pour nous intéresser ensuite à la proportion de voyageurs dans les gares au sein d'un même département.
-
-*Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?*
-
-## 1. Nombre de voyageurs total par département (2022)
+Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentées du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (Département). Une visualisation avec un bar chart nous permet de faire cette comparaison.
 
 ```{r}
 
@@ -300,7 +285,7 @@ ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
 
 ```
 
-Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart de la fréquentation. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes.
+**Analyse.** Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart de la fréquentation. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes.
 
 On peut également créer une visualisation qui permettrait de connaitre la fréquentation de chacune des régions.
 
@@ -315,12 +300,11 @@ departements_data <- departements_geojson %>%
   left_join(freq_departement, by = "Département")
 
 ggplot(data = departements_data) +
-  geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation des gares par département en France (2022)") +
+  geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation globale des départements en France (2022)",
+     subtitle = "<Vue spatiale>") +
   theme_minimal() +
   theme(legend.position = "right")
 ```
-
-Justification
 
 ```{r}
 departements_data_idf <- departements_geojson %>%
@@ -331,12 +315,15 @@ departements_data_idf <- departements_geojson %>%
 ggplot(data = departements_data_idf)  +
   geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) + 
   scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") +
-  labs(title = "Fréquentation des gares d'Ile de France par département (2022)") +
+  labs(title = "Fréquentation des gares d'Ile de France par département (2022)",
+       subtitle = "<Vue spatiale>") +
   theme_minimal() +
   theme(legend.position = "right")
 ```
 
-## 2. Répartition du nombre de voyageurs dans les gares d'un même département.Exemple département (77)
+## 4. Fréquentation des gares d'un même département (77)
+
+F
 
 Grâce à cette visusalisation, on peut connaître les gares les plus importantes en termes de fréquentation dans chacun des départements.
 
@@ -350,9 +337,10 @@ gares_77 <- frequentation_clean %>%
 ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
   geom_bar(stat = "identity", width = 0.5) +
   labs(title = "Fréquentation des gares du département 77 (2022)",
+       subtitle = "<Vue Globale>",
        x = "Nombre de passagers",
        y = "Gare") +
-  theme(axis.text.x = element_text(size = 8))
+  theme(axis.text.y = element_text(size = 4))
 
 
 ```
@@ -374,13 +362,25 @@ ggplot(data = departements_data_idf)  +
   geom_sf(fill = "white", color = "black") +
   geom_point(data = gares_77_clean, aes(x = Longitude, y = Latitude, size = Voyageurs), color = "peachpuff4", alpha = 0.7) +
   scale_size_continuous(range = c(1,7)) +
-  labs(title = "Fréquentation des gares du département 77 (2022)") +
+  labs(title = "Fréquentation des gares du département 77 (2022)",
+       subtitle = "<Vue Spatiale>") +
   theme_minimal()
 ```
 
-**Quel est le voyageur moyen de la SNCF ?**
+# Voyageurs
 
-## 3. Explorer la répartition par âge des passagers
+Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
+
+**Visualisations réalisées**
+
+1.  Explorer la répartition par âge des passagers
+2.  Catégorie socio professionnelle
+3.  Motif de déplacement
+4.  Nombre de voyageurs par année
+
+*Quel est le voyageur moyen de la SNCF ?*
+
+## 1. Explorer la répartition par âge des passagers
 
 En raison de quelques problèmes dans l'ensemble de données, tels que des codes UIC incohérents et des variations dans les années de recensement et les données des stations, nous allons nous concentrer exclusivement sur la répartition par âge pour les années 2015, 2016 et 2017.
 
@@ -439,7 +439,7 @@ ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Gro
   theme_minimal()
 ```
 
-## 4. Catégorie socio professionnelle
+## 2. Catégorie socio professionnelle
 
 Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio professionnelles.
 
@@ -469,7 +469,7 @@ ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_m
   theme(axis.text.y = element_text(size = rel(0.7)))
 ```
 
-## 5. Motif de déplacement
+## 3. Motif de déplacement
 
 Ici nous nous intéressons aux motifs de déplacement des voyageurs de la SNCF.
 
@@ -533,7 +533,7 @@ ggplot(motif_comparaison, aes(x = `Motif du déplacement`, y = Pourcentage_moyen
 
 ```
 
-## 6. Nombre de voyageurs par année
+## 4. Nombre de voyageurs par année
 
 Réalisons un graphique simple qui nous montre le nombre de voyageurs total par année.
 

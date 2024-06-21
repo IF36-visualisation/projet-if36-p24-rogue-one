@@ -105,9 +105,9 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
   > Visualisation : Carte
 
   - Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
-  > Type de données :
-  > Raisonnement :
-  > Visualisation : Bar Chart
+  > Type de données : Quantitative (Discrètes), Géospatiales
+  > Raisonnement : Visualisation numérique et spatiale
+  > Visualisation : Bar Chart, Carte
 
 **Voyageurs**
 
