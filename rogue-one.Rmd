@@ -267,7 +267,6 @@ Réalisons maintenant une analyse multiscalaire afin d'avoir d'en avoir une meil
 Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentées du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (Département). Une visualisation avec un bar chart nous permet de faire cette comparaison.
 
 ```{r}
-
 freq_departement <- frequentation_clean %>%
   filter(Année == "2022")
 
@@ -323,11 +322,11 @@ ggplot(data = departements_data_idf)  +
 
 ## 4. Fréquentation des gares d'un même département (77)
 
-F
+Après avoir étudié l'échelle régionale, on peut s'intéresser à la fréquentation des gares au sein d'un même département.
 
-Grâce à cette visusalisation, on peut connaître les gares les plus importantes en termes de fréquentation dans chacun des départements.
+Il serait intéressant de réaliser une première visualisation permettant de classer les gares de ce département (77). Cela permettrait de faire ressortir les plus utilisées. Ensuite, une visualisation spatiale permettrait de les représenter spatialement au sein de ce même département.
 
-Dans le cas du département 77 et du premier jet de visualisation, on observe que la gare de Melun est très fréquentée comparé aux autres gares.
+On utilise pour la première visualisation des données discrètes (Voyageurs) en abscisse et nominales (Gare) en ordonnée. Pour réaliser cela, on prend appui sur un bar chart puisque l'on souhaite comparer les gares du département.
 
 ```{r}
 gares_77 <- frequentation_clean %>%
@@ -345,8 +344,11 @@ ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
 
 ```
 
-\
-Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
+**Analyse.** Au sein du département 77, on remarque plusieurs choses. Tout d'abord, il y a des disparités évidentes entre les gares. Cette disparité peut être lié dans un premier temps à un facteur d'habitants par km². On vérifie avec Melun (gare la plus frequentée du département) et Nemours-Saint-Pierre (gare beaucoup moins fréquentée). Selon l'INSEE, la densité de Melun
+
+On peut supposer que les gares les plus proches de Paris sont les plus fréquentées. En effet, plus une gare semble éloignée de Paris moins elle est frequentée. Verifions-le maintenant avec une visualisation spatiale.
+
+des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
