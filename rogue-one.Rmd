@@ -347,13 +347,12 @@ gares_77 <- frequentation_clean %>%
   filter(Département == "77") %>%
   filter(Année == "2022")
 
-ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Repartition des voyageurs dans les gares du département 77 en 2022",
-       x = "Gare",
-       y = "Nombre de passagers") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(title = "Fréquentation des gares du département 77 (2022)",
+       x = "Nombre de passagers",
+       y = "Gare") +
+  theme(axis.text.x = element_text(size = 8))
 
 
 ```
@@ -362,6 +361,22 @@ ggplot(gares_77, aes(x = Gare, y = Voyageurs)) +
 Au sein du 77, on remarque des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
+
+```{r}
+departements_data_idf <- departements_geojson %>%
+  rename(Département = "code") %>%
+  filter(Département %in% c("77"))
+
+gares_77_clean <- gares_freq_clean %>%
+  filter(Département %in% c("77"))
+
+ggplot(data = departements_data_idf)  +
+  geom_sf(fill = "white", color = "black") +
+  geom_point(data = gares_77_clean, aes(x = Longitude, y = Latitude, size = Voyageurs), color = "peachpuff4", alpha = 0.7) +
+  scale_size_continuous(range = c(1,7)) +
+  labs(title = "Fréquentation des gares du département 77 (2022)") +
+  theme_minimal()
+```
 
 **Quel est le voyageur moyen de la SNCF ?**
 

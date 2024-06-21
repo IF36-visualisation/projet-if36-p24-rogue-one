@@ -90,9 +90,9 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
 **Découverte**
 
 - A quoi ressemble le réseau SNCF en France ?
-  > Type de données : Quantitative (Discrètes)
+  > Type de données : Quantitative (Discrètes), Géospatiales
   > Raisonnement : Visualisation spatiale
-  > Visualisation : Carte, graphes
+  > Visualisation : Carte
 
 - Quels sont les départements les mieux équipés (infrastructures de gare) ?
   > Type de données : Quantitative (Discrètes)
@@ -100,16 +100,16 @@ L'ensemble des données énoncées plus en haut nous paraissent pertinentes dans
   > Visualisation : Bar Chart
 
 - A quel point Paris a une place importante dans le réseau des autres territoires ?
+  > Type de données : Quantitative (Discrètes), Géospatiales
+  > Raisonnement : Visualisation spatiale
+  > Visualisation : Carte
+
+  - Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
   > Type de données :
   > Raisonnement :
-  > Visualisation : 
+  > Visualisation : Bar Chart
 
 **Voyageurs**
-
-- Le nombre de voyageurs est-il bien repartis entre les gares d'un même département ?
-  > Type de données :
-  > Raisonnement :
-  > Visualisation : 
 
 - Quel est le voyageur moyen de la SNCF ?
   > Type de données :
