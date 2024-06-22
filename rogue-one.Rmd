@@ -503,6 +503,10 @@ Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les 
 
 *Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?*
 
+`Nous étudierons ici la question : Quel est le voyageur moyen de la SNCF ?`
+
+> `On s'attend à obtenir une personne d'âge moyen (30 ans) qui se déplace pour le travail et qui est cadre.`
+
 ## 1. Exploration de la répartition par âge des passagers
 
 En raison de quelques problèmes dans l'ensemble de données, tels que des codes UIC incohérents et des variations dans les années de recensement et les données des stations, nous allons nous concentrer exclusivement sur la répartition par âge pour les années 2015, 2016 et 2017.
@@ -564,7 +568,7 @@ ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Gro
 
 ## 2. Exploration de la répartition par CSP
 
-Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio professionnelles.
+Il est également intéressant de recueillir des informations sur le voyageur moyen de la SNCF, En premier lieu nous allons voir les différentes catégories socio-professionnelles.
 
 PS : Le Pourcentage correspond au pourcentage par rapport au CSP d'une gare.
 
@@ -582,21 +586,23 @@ profil_moyen
 Regroupement des CSP par pourcentages.
 
 ```{r}
-ggplot(profil_moyen, aes(x = reorder(CSP, -Pourcentage_moyen), y = Pourcentage_moyen)) +
+ggplot(profil_moyen, aes(x = reorder(CSP, Pourcentage_moyen), y = Pourcentage_moyen)) +
   geom_bar(stat = "identity") +
   coord_flip() + 
   labs(title = "Profil Moyen du Voyageur SNCF par CSP",
        x = "Catégorie Socio-Professionnelle",
        y = "Pourcentage Moyen") +
   theme_minimal() +
-  theme(axis.text.y = element_text(size = rel(0.7)))
+  theme(title = element_text(size = rel(0.8)),
+        axis.text.y = element_text(size = rel(0.7))
+        )
 ```
 
 ## 3. Exploration de la répartition par motif de déplacement
 
 Ici nous nous intéressons aux motifs de déplacement des voyageurs de la SNCF.
 
-En premier lieu nous regardons le motif de déplacement global qui ressort le plus parmis toutes les gares.
+En premier lieu, nous regardons le motif de déplacement global qui ressort le plus parmis toutes les gares.
 
 ```{r}
 motif_moyen <- motif_depl %>%
@@ -609,7 +615,7 @@ print(motif_moyen)
 
 ```{r}
 ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen), y = Pourcentage_moyen)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_bar(stat = "identity", fill = "steelblue", width = rel(0.5)) +
   coord_flip() + 
   labs(
     title = "Profil Moyen du Voyageur SNCF par Motif de Déplacement",
@@ -617,6 +623,7 @@ ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen),
     y = "Pourcentage Moyen"
   ) +
   theme_minimal() +
+  theme(title = element_text(size = rel(0.8))) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
   scale_x_discrete(limits = rev(levels(motif_moyen$`Motif du déplacement`)))
 ```
@@ -632,22 +639,19 @@ motif_comparaison <- filtered_data %>%
   summarise(Pourcentage_moyen = mean(POURCENTAGE, na.rm = TRUE)) %>%
   arrange(`Gare enquêtée`, desc(Pourcentage_moyen))
 
-# affichage du graphique 
-ggplot(motif_comparaison, aes(x = `Motif du déplacement`, y = Pourcentage_moyen, fill = `Gare enquêtée`)) +
+ggplot(motif_comparaison, aes(x = Pourcentage_moyen, y = `Motif du déplacement`, fill = `Gare enquêtée`)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(
-    title = "Comparaison des Motifs de Déplacement par Gare",
-    x = "Motif de Déplacement",
-    y = "Pourcentage Moyen",
+    title = "Comparaison des motifs de déplacement par gare (2010 à 2017)",
+    x = "Pourcentage Moyen",
+    y = "Motif de Déplacement",
     fill = "Gare"
   ) +
   theme_minimal() +
   theme(
-    plot.title = element_text( size = 8, face = "bold"),
-    axis.title.x = element_text(size = 8),
-    axis.title.y = element_text(size = 8),
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 7),
-    axis.text.y = element_text(size = 8),
+    plot.title = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(1)),
+    axis.title.y = element_text(size = rel(1)),
     legend.title = element_text(size = 8),
     legend.text = element_text(size = 7)
   ) +
@@ -868,6 +872,10 @@ obj_trouves_clean2 <- obj_trouves_clean %>%
 
 ## 3. Probabilité de retrouver un objet perdu
 
+`Nous étudierons ici : Quelles sont les chances de retrouver un objet perdu ?`
+
+> `On pense que beaucoup d'objets ne sont jamais retrouvés par leur propriétaire. Nous n'avons pas d'idée de la proportion que cela représente.`
+
 Pour cette première probabilité nous allons faire un calcul simple :
 
 (Nombre d'objets retrouvés / Nombre d'objets perdus) \*100
@@ -881,7 +889,13 @@ proba_commune
 
 Je trouve la probabilité relativement élevée car pas très éloignée du 50%. Peut-être aussi que le postulat personnel avant le calcul était relativement pessimiste.
 
+> `Réponse à la question : La probabilité semble être très élevée. Nous n'avons pas eu assez d'informations quant aux conditions de récupération des objets par leur propriétaire.`
+
 ## 4. Probabilité de retrouver un objet selon son type
+
+`Nous tenterons de donner une réponse à la question suivante : Quelles sont les chances de retrouver un objet en fonction de sa nature ?`
+
+> `On pense que les vélos sont plus retrouvés que d'autres types d'objets comme des petits accessoires (écouteurs, montres, bijoux etc...)`
 
 Afin d'avoir une probabilité selon le type il faut donc que nous effectuons la même opération que précédemment avec comme paramètre le type de l'objet.
 
@@ -923,9 +937,15 @@ Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et
 
 Il serait aussi intéressant de voir que ces statistiques sont fondées sur les objets qui sont perdus en train ou en gare et ceux qui sont ramenés en gare par d'autres voyageurs ou agents. Les vols ne sont donc pas forcément comptabiliser. Je pense qu'avec plus d'informations, nous pourrions ajouter un critère de vol ou perte selon l'objet. Malheureusement les données ne sont pas assez détaillées, mais nous pourrions peut-être deviner une tendance en croisant d'autres études portant sur le sujet.
 
+> `Réponse à la question : Plus un objet semble de grande taille, plus celui-ci semble être retrouvé par son propriétaire.`
+
 ## 5. Afflux d'objets selon le mois
 
 Nous allons maintenant traiter l'ensemble du jeu de données des objets perdus pour voir s'il y a un motif qui pourrait faire croire que certains mois sont plus propices à la perte d'objets.
+
+`Ainsi, la question suivante nous a particulièrement intéressée  : Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?`
+
+> `On imagine ces dernières années une utilisation plus importante des mobilités douces et donc du train pour diminuer l'impact carbone. Le nombre d'usagers du train augmente pouvant accroître également le nombre d'objets perdus.`
 
 ```{r}
 obj_perdus_date <- obj_perdus_clean2 %>% 
@@ -958,6 +978,8 @@ On distingue clairement un nombre élevé d'objets tout d'abord lors de la derni
 On peut en conclure, qu'en terme de nombre de pertes pur, le mois de juillet est le plus à risque. Mais il semble aussi important de noter qu'il y a sûrement une corrélation avec le nombre de voyageurs. Ce qu'il faudrait c'est le taux de pertes par voyageurs. Cependant, avec les données que nous avons actuellement nous ne pouvons pas savoir.
 
 On pourrait aussi argumenter que les vacanciers pourraient contrebalancer les travailleurs qui n'ont donc pas les mêmes mois de fréquentations. Les données ne sont pas assez précises pour indiquer s'il y a une recrudescence de pertes en juillet, (et principalement les mois d'été).
+
+> `Réponse à la question : Au vu de la croissance d'objets perdus importante de l'année dernière, on peut s'attendre à avoir plus d'objets perdus cet été (2024) que l'année précédente (2023).`
 
 ```{r}
 obj_perdus_date_type <- obj_perdus_clean2 %>% 
@@ -997,6 +1019,10 @@ D'autres objets à l'inverse ne dépendent pas nécessairement de la période de
 
 Nous finissons le traitement des données pour essayer de déceler si le risque de perte est plus important selon la gare. L'étude ne sera faite que sur une année car les données de voyageurs sont année par année.
 
+`Nous étudierons ici : Y-a-t-il plus de chances de perdre un objet selon la gare ?`
+
+> `Nous n'avons pas vraiment d'idée pour repondre à cette question. Nous allons donc observer le résultat de nos visualisations.`
+
 ```{r}
 obj_perdus_clean_gare <- obj_perdus_clean %>%
   filter(date < ymd(20230101)) %>% 
@@ -1033,6 +1059,8 @@ obj_gares %>%
 
 Afin d'améliorer la visualisation, on ne voit ici que les gares dont le taux de perte par voyageur est au-dessus de 0.005 %. On peut voir ici qu'il vaut mieux éviter la gare de Granville où la probabilité de perte d'objet est supérieure à 0.07%. Cependant ce nombre est important à recontextualiser. Cela signifie que sur 10 000 voyageurs, 7 ont perdu un objet. Ce nombre reste assez faible. Et donc la plupart des gares vues ici sont plutôt sur l'ordre de 1 sur 10 000.
 
+> `Réponse à la question : D'après notre visualisation, il semblerait qu'il y ait effectivement des gares à éviter pour ne pas perdre ses objets. Ici Granville apparait comme la gare à éviter selon notre étude.`
+
 ------------------------------------------------------------------------
 
 # Conclusion
@@ -1051,7 +1079,7 @@ Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalit
 
 "Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.", Louis
 
-“Ce projet m’a permis de découvrir le langage R au travers d’un projet pertinent visant à explorer le fonctionnement, la cible et les ressources d’un OIV français : la SNCF. Parfaire mes compétences en Dataviz a également développé ma rigueur et mon intérêt pour cette discipline, tant sur le plan technique que sur l’étude qui en faite appliquée aux sciences humaines et sociales. Dans sa globalité, j’ai beaucoup apprécié travailler cette matière et je trouve qu’elle couvre parfaitement bien tous les éléments attendus en la choisissant. Néanmoins, j’aurai bien aimé revenir un peu plus sur l’utilisation de Tableau largement utilisé dans le contexte d’une entreprise. Au final, bilan très positif de cette expérience que je recommande fortement à toutes les personnes qui veulent monter en compétences dans ce domaine.”, Maxence
+“Ce projet m’a permis de découvrir le langage R au travers d’un projet pertinent visant à explorer le fonctionnement, la cible et les ressources d’un OIV français : la SNCF. Parfaire mes compétences en Dataviz a également développé ma rigueur et mon intérêt pour cette discipline, tant sur le plan technique que sur l’étude qui en faite appliquée aux sciences humaines et sociales. **La compétence serait pour moi la** **manipulation de graphiques pour faire ressortir des connaissances (insights)**. **Néanmoins, j’aurai bien aimé peut-être utiliser Tableau un peu plus dans la partie projet.** Au final, bilan très positif de cette expérience que je recommande fortement à toutes les personnes qui veulent monter en compétences dans ce domaine.”, Maxence
 
 # Annexe
 
