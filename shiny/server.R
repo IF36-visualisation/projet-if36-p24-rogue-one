@@ -93,7 +93,7 @@ function(input, output, session) {
     ggplot(data = departements_data) +
       geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
       scale_fill_viridis_c (option = "turbo", limits = c(0,1000000000), na.value="black") +
-      labs(title = paste("Fréquentation des gares par département en France (", input$annees, ")", sep = "")) +
+      labs(title = paste("Fréquentation des gares par département en France (", input$annees, ")", sep = ""), fill = "Nombre total de voyageurs") +
       theme_minimal() +
       theme(legend.position = "right")
   })
@@ -113,7 +113,7 @@ function(input, output, session) {
     ggplot(data = departements_data) +
       geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
       scale_fill_viridis_c(option = "turbo", limits = c(0,1000000000), na.value="black") +
-      labs(title = paste("Fréquentation des gares de ", input$region, " (", input$annees, ")", sep = "")) +
+      labs(title = paste("Fréquentation des gares de ", input$region, " (", input$annees, ")", sep = ""), subtitle = paste("< Vue spatiale avec zoom sur", input$region, ">"), fill = "Nombre total de voyageurs") +
       theme_minimal() +
       theme(legend.position = "right")
   })
@@ -128,11 +128,11 @@ function(input, output, session) {
     
     ggplot(freq_departement, aes(x = Total_passagers, y = reorder(Département, Total_passagers))) +
       geom_bar(stat = "identity") +
-      labs(title = paste("Nombre de voyageurs total par département (", input$annees, ")", sep = ""),
-           subtitle = paste("Minumum ",input$min_passagers," de voyageurs", sep = ""),
+      labs(title = paste("Fréquentation des gares par département (", input$annees, ")", sep = ""),
+           subtitle = paste("< minimum ",input$min_passagers," de voyageurs >", sep = ""),
            x = "Nombre total de passagers",
            y = "Département") +
-      theme(axis.text.y = element_text(size = 8))
+      theme(axis.text.y = element_text(size = rel(1)), title = element_text(size = rel(1.25)))
   })
   output$objetsPlot <- renderPlot({
     req(input$type_objet, input$annees)
@@ -168,11 +168,12 @@ function(input, output, session) {
       ggplot(aes(x=datem, fill=type))  +
       facet_grid(rows = vars(year(date))) +
       geom_bar() +
-      labs(title = "Nombre d'objets perdus par type, par mois et par année", y = "Nombre d'objets perdus", x = "Mois") +
+      labs(title = paste("Nombre d'objets perdus par type, par mois et par année (", input$annees, ")", sep = ""), y = "Nombre d'objets perdus", x = "Mois", fill = "Type d'objets") +
       theme_minimal() +
       theme(
-        plot.title = element_text(size = rel(2)),
-        axis.text.y = element_text(size = rel(0.5))
+        plot.title = element_text(size = rel(1.5)),
+        axis.text.y = element_text(size = rel(1.5)),
+        legend.text = element_text(size = rel(1.25))
       )
     
   })

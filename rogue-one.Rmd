@@ -22,7 +22,7 @@ L'objectif de ce projet est de fournir des interprétations basées sur les visu
 
 Nous avons donc choisi d'étudier sept jeux de données (7) issues du site [Data SNCF](https://data.sncf.com). Ce sont des données collectées par la SNCF parmi les différentes catégories disponible sur le site (voir ci-dessous).
 
-![](images/categories-donnees.png "Catégories de données SNCF")
+![](images/figure/categories-donnees.png "Catégories de données SNCF")
 
 Ces données concernent des objets possedés par la SNCF (gares, objets) mais aussi des enquêtes réalisées sur des individus anonymement (fréquentation, voyageurs). Les données sont liées à une période temporelle précise de **2017 à 2022**.
 
@@ -33,7 +33,7 @@ Ces données concernent des objets possedés par la SNCF (gares, objets) mais au
 Le nombre d'observations varie selon chaque jeu de données. Pour plus de détail, nous avons détaillé précisement le nombre d'observations dont nous disposions.
 
 | --- | Nom du dataset                                                                                | Nombre d'observations | Lien                                                                                                                                       | Description                                   |
-|-----------|---------------|-----------|-------------------------|-----------|
+|---------------|---------------|---------------|---------------|---------------|
 | 01  | dataset1-gares-de-voyageurs.csv                                                               | 2.862                 | [Dataset1](https://data.sncf.com/explore/dataset/gares-de-voyageurs/export/)                                                               | Jeu de données sur les gares de voyageurs     |
 | 02  | dataset2-frequentation-gares.csv                                                              | 21.147                | [Dataset2](https://data.sncf.com/explore/dataset/frequentation-gares/export/)                                                              | Jeu de données sur la fréquentation des gares |
 | 03  | dataset3-motif-deplacement.csv                                                                | 284                   | [Dataset3](https://data.sncf.com/explore/dataset/motif-deplacement/export/)                                                                | Jeu de données sur les motifs de déplacement  |
@@ -49,7 +49,7 @@ Au sein de ces données nous constatons que toutes s'orchestrent autour d'une do
 Nous avons décidé d'utiliser **17 variables** pour notre projet provenant des jeux de données bruts ou alors d'attributs crées par nos soins.
 
 | --- | Nom de la variable      | Type     | Format              | Dataset (Origine) | Description                                                    |
-|----------|----------|----------|----------|----------|-----------------------|
+|------------|------------|------------|------------|------------|------------|
 | 01  | gare                    | Nominale | String              | 1,2,3,4,5,6,7     | Nom de la gare                                                 |
 | 02  | departement             | Ordinale | NN                  | 1                 | Numéro du département                                          |
 | 03  | zone                    | Nominale | {A,B,C}             | 1                 | Lettre correspondant à la zone géographique                    |
@@ -231,7 +231,7 @@ Cette visualisation n'est pas suprenante si l'on utilise régulièrement le rés
 
 Gare du Nord semble être la gare la plus fréquentée du réseau. En faisant des recherches, on apprend qu'elle permet des départs vers le Royaume-Uni (Londres-St-Pancras), la Belgique (Bruxelles-Midi) ou encore les Pays-Bas (Amsterdam-Centraal) *(Figure 1)*. La population est généralement importante dans ces grandes villes et capitales européennes, ce qui explique également la fréquentation de Gare du Nord que ce soit pour des trajets professionnels ou touristiques.
 
-![](images/carte-reseau-sncf.png "Carte des destinations en France et en Europe (2022)"){width="500"}
+![](images/figure/carte-reseau-sncf.png "Carte des destinations en France et en Europe (2022)"){width="500"}
 
 **Figure 1.** Carte des destinations en France et en Europe (2022). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
@@ -259,7 +259,7 @@ ggplot(data = france) +
 
 Cette visualisation complète notre première analyse : Paris est le centre du réseau ferroviaire français, *"tout passe par Paris"*. Cette règle s'applique également avec le réseau autoroutier français.
 
-![](images/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
+![](images/figure/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
 ## 3. Fréquentation globale par département (2022)
 
@@ -287,28 +287,13 @@ ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
 
 **Analyse.** On voit avec cette visualisation qu'il y a une très grande différence entre certains départements. Cette différence est surement expliquée en partie par le phénomène d'urbanisation et d'étalement urbain (regroupement autour de Paris et des grandes villes). Ici, on a ordonné les départements selon leur numéro afin de mieux comprendre la visualisation qui se veut globale. Bien que la lecture des départements soit un peu difficile, elle permet de comprendre des distinctions. On remarque assez facilement que les départements autour de 75 et 93 sont très fréquentés.
 
-Faisons un zoom sur ces départements et organisons les du plus fréquentés au moins fréquentés en fixant une limite minimum de 5 millions de voyageurs au total sur l'année 2022.
+Faisons un zoom sur ces départements et organisons les du plus fréquentés au moins fréquentés en fixant une limite minimum de 15 millions de voyageurs au total sur l'année 2022. Voici donc ci-dessous une capture générée par Shiny App qui permet de faire varier les paramètres : année et nombre minimum de voyageurs dans les gares.
 
-```{r}
-freq_departement_plus <- frequentation_clean %>%
-  filter(Voyageurs > 5000000) %>%
-  filter(Année == "2022")
+![](images/shiny/voyageurs_par_departement.png "Fréquentation des gares par département <minimum 10 millions de voyageurs> (2022)")
 
-freq_departement_plus <- freq_departement_plus %>%
-  group_by(Département) %>%
-  summarize(Total_passagers = sum(Voyageurs))
+**Figure 3.** Capture Shiny App : Fréquentation des gares par département (2022), minimum 15.000.000 de voyageurs.
 
-ggplot(freq_departement_plus, aes(x = Total_passagers, y = reorder(Département, Total_passagers))) +
-  geom_bar(stat = "identity") +
-  labs(title = "Fréquentation des gares par département (2022)",
-       subtitle = "< minimum 5.000.000 de voyageurs >",
-       x = "Nombre total de passagers",
-       y = "Département") +
-  theme(axis.text.y = element_text(size = 6))
-
-```
-
-**Analyse.** On constate que Paris est largement en tête de la fréquentation (département 75), suivi des départements de la région Ile-de-France (dans l'ordre : 93, 95, 92, 78, 91, 94). Le Rhône, région lyonnaise, (69) est devant le département 77 qui fait pourtant parti de la région Ile-de-France. Le Rhône (Lyon) semble donc avoir une importance dans le réseau ferroviaire français. On peut également se demander pourquoi le 77, est-il le département le moins fréquenté d'Ile-de-France? Enfin, on aurait pu également appliquer nos précédentes observations aux départements les moins fréquentés.
+**Analyse.** On constate que Paris est largement en tête de la fréquentation (département 75), suivi des départements de la région Ile-de-France (dans l'ordre : 93, 95, 78, 92, 91, 77, 94). Le Rhône, région lyonnaise, (69) est le département le plus fréquentée après la région Ile-de-France. Le Rhône (Lyon) semble donc avoir une importance dans le réseau ferroviaire français. Enfin, on aurait pu également appliquer nos précédentes observations aux départements les moins fréquentés.
 
 On affiche donc maintenant un regroupement de la fréquentation des gares des départements selon les régions françaises afin de confirmer nos observations précédentes.
 
@@ -341,7 +326,7 @@ freq_region <- freq_region %>%
 ggplot(freq_region, aes(x = Région, y = Total_Passagers_Region)) +
   geom_bar(stat = "identity") +
   labs(title = "Fréquentation des gares par région (2022)",
-       subtitle = "<Vue globale>",
+       subtitle = "< Vue globale >",
        x = "Région",
        y = "Nombre total de passagers") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -393,6 +378,14 @@ ggplot(data = departements_data_idf)  +
 ```
 
 **Analyse.** On fait les mêmes conclusions que celle de la visualisation précédente. Paris est essentiel dans le réseau ferroviaire français. La partie Sud-Ouest et Ouest de l'Ile-de-France semble moins fréquentée. Afin d'avoir une meilleure vision de cela, on peut explorer ce département au travers de nouvelles visualisations.
+
+Est-ce qu'un réseau en étoile vers la plus grande ville de la région s'applique également pour les autres régions ? C'est ce que nous avons voulu voir dans le cas de la région Grand-Est. La capture ci-dessous a été générée dynamiquement avec Shiny App.
+
+![](images/shiny/grand_est_carte.png "Fréquentation des gares du Grand-Est par département (2022)")
+
+**Figure 4.** Capture Shiny App : Fréquentation des gares du Grand-Est (2022).
+
+**Analyse.** On remarque ici qu'il y a plus de fréquentation dans les gares du département de Strasbourg (67). Bien qu'il puisse y avoir des disparités à l'intérieur de son département, Strasbourg semble bien être le centre de sa région : le Grand-Est.
 
 ## 4. Fréquentation des gares d'un même département (77 et 69) (2022)
 
@@ -812,7 +805,7 @@ En voyant que la gare n'est pas présente non plus, on peut juger ce rendu comme
 
 Nous allons maintenant essayer de comprendre ce qu'est ce code UIC et s'il y a une relation entre les codes UIC des pertes et des objets trouvés.
 
-Nous allons donc comparer les 2 listes de code UIC
+Nous allons donc comparer les 2 listes de code UIC.
 
 ```{r}
 liste_UIC_perdus <- obj_perdus_trouves %>%
@@ -965,6 +958,16 @@ obj_perdus_date_type2 %>%
     axis.text.y = element_text(size = rel(0.5))
     )
 ```
+
+Une visualisation intéressante serait de regarder les objets et affaires vestimentaires perdus pour une période. Nous avons donc utilisé Shiny App pour générer dynamiquement la visualisation ci-dessous. On étudie sur cette dernière l'année 2022.
+
+![](images/shiny/objets_perdus_type.png "Vêtements perdus par type selon le mois (2022)")
+
+**Figure 5.** Capture Shiny App : Nombre d'objets perdus par type, par mois et par année (2022).
+
+Au vu de la visualisation obtenue, on constate que les parapluies sont plus perdus au mois de Novembre (11). Cela peut s'expliquer donc par les conditions météorologiques de la période. En effet, il a plus tendance à pleuvoir en Novembre qu'au mois de Juillet. D'ailleurs, à la période estivale (Juillet-Août), très peu de parapluies sont perdus par les usagers des transports ferroviaires car il ne pleut que très peu en Eté.
+
+D'autres objets à l'inverse ne dépendent pas nécessairement de la période de l'année (pas de saison spécifique). On peut voir que les bijoux et les montres par exemple sont perdus dans les mêmes quantités tout au long de l'année.
 
 ## 6. Perte d'objet selon la gare
 
