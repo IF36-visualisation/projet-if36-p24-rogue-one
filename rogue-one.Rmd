@@ -1099,9 +1099,13 @@ Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalit
 
 ## Notre avis sur le projet
 
+"J'ai beaucoup apprécié ce projet qui permet vraiment de comprendre comment fonctionne une dataviz dans son ensemble. Il permet une vraie exploration du langage R et de R studio, et un développement de l'esprit de synthèse. Malheureusement, nous manquions de données pour certaines visualisations.", Mathis
+
+“Ce projet m’a permis de découvrir le langage R au travers d’un projet pertinent visant à explorer le fonctionnement, la cible et les ressources d’un OIV français : la SNCF. Parfaire mes compétences en Dataviz a également développé ma rigueur et mon intérêt pour cette discipline, tant sur le plan technique que sur l’étude qui en faite, appliquée aux sciences humaines et sociales. La compétence principale retenue de ce projet serait pour moi la manipulation de graphiques afin de tenter d'en faire ressortir des connaissances (insights). Néanmoins, j’aurai bien aimé utiliser Tableau un peu plus dans la partie projet. Au final, bilan très positif de cette expérience que je recommande fortement à toutes les personnes qui veulent monter en compétences dans ce domaine.”, Maxence
+
 "Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.", Louis
 
-“Ce projet m’a permis de découvrir le langage R au travers d’un projet pertinent visant à explorer le fonctionnement, la cible et les ressources d’un OIV français : la SNCF. Parfaire mes compétences en Dataviz a également développé ma rigueur et mon intérêt pour cette discipline, tant sur le plan technique que sur l’étude qui en faite appliquée aux sciences humaines et sociales. **La compétence serait pour moi la** **manipulation de graphiques pour faire ressortir des connaissances (insights)**. **Néanmoins, j’aurai bien aimé peut-être utiliser Tableau un peu plus dans la partie projet.** Au final, bilan très positif de cette expérience que je recommande fortement à toutes les personnes qui veulent monter en compétences dans ce domaine.”, Maxence
+"Grâce à ce projet, j'ai acquis une compréhension plus approfondie des principes de la visualisation des données étudiés en cours. Ce projet m'a permis d'explorer en profondeur le langage R et R Studio. En traitant les données des dernières années de la SNCF, j'ai appris à extraire des informations précieuses des données et à les présenter de manière efficace. Bien que nous ayons rencontré certaines difficultés en raison du manque de données pour certains graphiques, ces défis m'ont également poussé à accorder une plus grande importance à la collecte et à l'organisation des données.", Wang
 
 ------------------------------------------------------------------------
 
