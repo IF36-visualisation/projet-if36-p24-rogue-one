@@ -109,9 +109,11 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 ```
 
+------------------------------------------------------------------------
+
 # Nettoyage des données
 
-Le **nettoyage des données** est la première étapes de notre projet. C'est ici que nous allons créer de nouvelles tables, modifier les jeux de données existants (supprimer ou renommer les colonnes existantes). *`[TODO] Ajouter des explications sur la complexité de nos données`*
+Le **nettoyage des données** est la première étapes de notre projet. C'est ici que nous allons créer de nouvelles tables, modifier les jeux de données existants (supprimer ou renommer les colonnes existantes).
 
 Afin de travailler proprement, nous avons réaliser les étapes suivantes :
 
@@ -125,9 +127,9 @@ Afin de travailler proprement, nous avons réaliser les étapes suivantes :
 
 > Exemple : Code Postal en code_postal
 
-*`[TODO] Ajouter les tables modifiées`*
-
 ## Importation des jeux de données
+
+Les données sont importées dans R dans leur forme brute. On les manipule ensuite afin de créer nos propres tableaux.
 
 ```{r}
 gares <- read_delim(file = "data/dataset1-gares-de-voyageurs.csv", delim=";")
@@ -180,9 +182,11 @@ obj_trouves_clean <- obj_trouves %>%
   rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
 ```
 
+La section suivante concernera l'**Exploration de ces données**. On y détaillera les 3 grands axes que sont la Découverte, les Voyageurs et les Objets.
+
 ------------------------------------------------------------------------
 
-# Découverte
+# Exploration : Découverte
 
 Dans cette partie, nous découvrirons le jeu de données **Fréquentation**.
 
@@ -490,7 +494,9 @@ Dans un contexte entreprise, on pourrait cibler en priorité les gares des grand
 
 -   Au sein des départements les gares les plus proches de la région parisienne semblent être les plus utilisées. Plus généralement, les gares en périphérie des grandes villes sont les plus fréquentées des départements après la ville en question.
 
-# Voyageurs
+------------------------------------------------------------------------
+
+# Exploration : Voyageurs
 
 Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les voyageurs, nous avons choisi de nous intéresser aux différents profils qui utilisent les trains des réseaux ferrés de France.
 
@@ -559,7 +565,7 @@ age_passenger_totals_long <- age_passenger_totals_long %>%
   mutate(Percentage = (Total_Passengers / Total_Passengers_Year) * 100)
 ggplot(age_passenger_totals_long, aes(x = Année, y = Percentage, fill = Age_Group)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Pourcentage de passagers par groupe d'âge et année",
+  labs(title = "Profil moyen du voyageur par groupe d'âge et année (2015 à 2017)",
        x = "Année",
        y = "Pourcentage (%)",
        fill = "Groupes d'âge") +
@@ -589,7 +595,7 @@ Regroupement des CSP par pourcentages.
 ggplot(profil_moyen, aes(x = reorder(CSP, Pourcentage_moyen), y = Pourcentage_moyen)) +
   geom_bar(stat = "identity") +
   coord_flip() + 
-  labs(title = "Profil Moyen du Voyageur SNCF par CSP",
+  labs(title = "Profil moyen du voyageur par CSP (2010 à 2017)",
        x = "Catégorie Socio-Professionnelle",
        y = "Pourcentage Moyen") +
   theme_minimal() +
@@ -618,17 +624,25 @@ ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen),
   geom_bar(stat = "identity", fill = "steelblue", width = rel(0.5)) +
   coord_flip() + 
   labs(
-    title = "Profil Moyen du Voyageur SNCF par Motif de Déplacement",
+    title = "Profil moyen du voyageur par motif de déplacement (2010 à 2017)",
     x = "Motif de Déplacement",
     y = "Pourcentage Moyen"
   ) +
   theme_minimal() +
-  theme(title = element_text(size = rel(0.8))) +
+  theme(title = element_text(size = rel(0.72))) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
   scale_x_discrete(limits = rev(levels(motif_moyen$`Motif du déplacement`)))
 ```
 
+Enfin, nous aurions pu réaliser également un nuage de points afin d'observer des clusters significatifs pour compléter notre analyse de la question.
+
+> `Réponse à la question : Le voyageur moyen est jeune (<30 ans). Il travaille en tant qu'ouvrier, employé ou cadre, chef d'entreprise. Il effectue des trajets entre son domicile et son travail.`
+
 On aimerait savoir si le motif de déplacement principal change en fonction de la gare.
+
+`Nous avons donc proposé d'étudier la question : Comment ce voyageur diffère en fonction des gares ?`
+
+> `Nous n'avons pas d'attente particulière sur cette question.`
 
 ```{r}
 filtered_data <- motif_depl %>%
@@ -659,6 +673,10 @@ ggplot(motif_comparaison, aes(x = Pourcentage_moyen, y = `Motif du déplacement`
 
 
 ```
+
+Il est à noter que nous n'avons sélectionné que des gares de grandes villes dans cette visualisation. Il aurait été peut être judicieux de comparer cela avec des gares plus rurales. On aurait pu vérifier également certaines tendances, comme par exemple celles des vacances et des loisirs qui devrait être beaucoup plus important dans les villes ensoilleilées.
+
+> `Réponse à la question : Le motif de déplacement semble changer entre les gares.`
 
 ## 4. Nombre de voyageurs par année
 
@@ -714,7 +732,9 @@ Maintenant intéressons nous aux nombres de voyageurs par segmentation DRG.
 #  theme_minimal()
 ```
 
-# Objets
+------------------------------------------------------------------------
+
+# Explorations : Objets
 
 Dans cette partie, nous voulons nous intéresser plus particulièrement aux objets.
 
@@ -1065,21 +1085,25 @@ Afin d'améliorer la visualisation, on ne voit ici que les gares dont le taux de
 
 # Conclusion
 
-Grâce aux données récupérées et leur traitement, nous avons pu découvrir une vision nationale (métropolitaine) du réseau ferroviaire ainsi que comprendre quel est le profil du voyageur et ses bagages.
+Grâce aux données récupérées et leur traitement, nous avons pu découvrir une vision nationale (métropolitaine) du réseau ferroviaire. Nous avons également pu comprendre quel semble être le profil du voyageur moyen et les objets les plus perdus/retrouvés par ce dernier.
 
-Au travers de ces données, nous pouvons apercevoir 2 réseaux en étoiles imbriqués. Un premier au niveau national qui se focalise sur l'Île-de-France, et un second au sein de l'ïle-de-France qui se focalise sur Paris.
+Au travers de la première partie axée sur la découverte, nous pouvons apercevoir deux réseaux en étoiles imbriqués. Un premier au niveau national qui se focalise sur l'Île-de-France, et un second au sein de l'ïle-de-France qui se focalise sur Paris.
 
-Les données bien que maigres sur les voyageurs, permettent de mettre en avant un groupe de voyageurs hétéroclite. On distingue tout de même plus de jeunes que dans la population française et les motifs de déplacement sont principalement pour le travail ou bien les vacances.
+Ensuite, les données, bien que maigres sur les voyageurs, permettent de mettre en avant un groupe de voyageurs hétéroclite. On distingue tout de même plus de jeunes que dans la population française et les motifs de déplacement sont principalement pour le travail ou bien les vacances.
 
-La dernière analyse effectuée a été faite sur les objets et leur perte. On distingue donc des pertes plus importantes au moment de l'été et principalement en Juillet. On distingue aussi une récupération des objets plus probable si l'objet est volumineux et/ou coûteux. Les objets les plus souvent perdus en ordre décroissant sont les bagages puis les objets électroniques, les porte-feuilles et les vêtements.
+Enfin, la dernière analyse effectuée a été faite sur les objets et leur perte. On distingue donc des pertes plus importantes au moment de l'été et principalement en Juillet. On distingue aussi une récupération des objets plus probable si l'objet est volumineux et/ou coûteux. Les objets les plus souvent perdus en ordre décroissant sont les bagages puis les objets électroniques, les porte-feuilles et les vêtements.
 
-Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalité de cette analyse. Cependant il serait bête de ne pas voir dans cette analyse une opportunité pour des entreprises de comprendre les clients potentiels (cibles) dans les gares (secteurs) avec leurs habitudes de consommation (produit).
+Ce sujet peut ouvrir sur de nouveaux axes et continuer ceux déjà proposés. On pourrait récolter plus de données sur les voyageurs et pousser bien plus loin notre analyse. La difficulté a résidé dans le fait de n'avoir que très peu d'observations pour réellement analyser correctement le voyageur moyen. Enfin, la suite de l'analyse pourrait se trouver vers des compléments quant à la propreté et de la satisfaction des clients en gare. Cela permettrait d'ouvrir de nouvelles voies quand à l'amélioration de la qualité de l'expérience client des voyageurs avec les services proposés en gare.
+
+Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalité de cette analyse. Cependant, il serait judicieux de voir cette analyse comme une opportunité pour des entreprises de comprendre les clients potentiels (cibles) dans les gares (secteurs) avec leurs habitudes de consommation (produit).
 
 ## Notre avis sur le projet
 
 "Ce projet m'a permis de pousser mon esprit de synthèse pour mettre en avant seulement les graphiques et les informations importantes. J'aurais bien aimé ajouter encore plus de données telles que la répartition de la population française, l'âge et le CSP de celle-ci.", Louis
 
 “Ce projet m’a permis de découvrir le langage R au travers d’un projet pertinent visant à explorer le fonctionnement, la cible et les ressources d’un OIV français : la SNCF. Parfaire mes compétences en Dataviz a également développé ma rigueur et mon intérêt pour cette discipline, tant sur le plan technique que sur l’étude qui en faite appliquée aux sciences humaines et sociales. **La compétence serait pour moi la** **manipulation de graphiques pour faire ressortir des connaissances (insights)**. **Néanmoins, j’aurai bien aimé peut-être utiliser Tableau un peu plus dans la partie projet.** Au final, bilan très positif de cette expérience que je recommande fortement à toutes les personnes qui veulent monter en compétences dans ce domaine.”, Maxence
+
+------------------------------------------------------------------------
 
 # Annexe
 
