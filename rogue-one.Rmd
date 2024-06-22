@@ -257,8 +257,6 @@ ggplot(data = france) +
 
 **Analyse.** Au premier abord, on remarque que les points, représentant les gares, tracent d'eux-même des lignes sur la carte. Ces dernières représentent les lignes du réseau ferroviaire français, comme on peut le vérifier sur la *Figure 2*. Cette visualisation est donc toujours assez proche de la réalité en 2022.
 
-On remarque que la fréquentation des gares s'articule autour de quatre principaux espaces : l'espace Parisien (Paris), l'espace Nord (Lille), l'espace Est (Strasbourg), l'espace Lyonnais (Lyon). Comme nous le pensions, la fréquentation des gares est plus importante autour des grandes villes. Avec cette profondeur supplémentaire, cela nous permet de formuler de nouvelles conjectures : la population en périphérie des grandes villes fréquente généralement les gares du réseau pour des motifs professionnels (population active).
-
 Cette visualisation complète notre première analyse : Paris est le centre du réseau ferroviaire français, *"tout passe par Paris"*. Cette règle s'applique également avec le réseau autoroutier français.
 
 ![](images/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020).**Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
@@ -279,15 +277,15 @@ freq_departement <- freq_departement %>%
 
 ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
   geom_bar(stat = "identity") +
-  labs(title = "Nombre de voyageurs total par département (2022)",
-       subtitle = "< Vue Globale avec classement ordinal > ",
+  labs(title = "Fréquentation des gares par département (2022)",
+       subtitle = "< Vue globale avec classement ordinal > ",
        x = "Nombre total de passagers",
        y = "Département") +
   theme(axis.text.y = element_text(size = 4))
 
 ```
 
-**Analyse.** On voit avec cette visualisation qu'il y a une très grande différence entre certains départements. Cette différence est surement expliquée en partie par le phénomène d'urbanisation et d'étalement urbain (regroupement autour de Paris et des grandes villes). Ici, on a ordonné les départements selon leur numéro afin de mieux comprendre la visualisation qui se veut globale. Bien que la lecture des départements soit un peu difficile, elle permet de comprendre des distinctions. On remarque assez facilement que les départements autour de 75 et 92 sont très fréquentés.
+**Analyse.** On voit avec cette visualisation qu'il y a une très grande différence entre certains départements. Cette différence est surement expliquée en partie par le phénomène d'urbanisation et d'étalement urbain (regroupement autour de Paris et des grandes villes). Ici, on a ordonné les départements selon leur numéro afin de mieux comprendre la visualisation qui se veut globale. Bien que la lecture des départements soit un peu difficile, elle permet de comprendre des distinctions. On remarque assez facilement que les départements autour de 75 et 93 sont très fréquentés.
 
 Faisons un zoom sur ces départements et organisons les du plus fréquentés au moins fréquentés en fixant une limite minimum de 5 millions de voyageurs au total sur l'année 2022.
 
@@ -302,7 +300,7 @@ freq_departement_plus <- freq_departement_plus %>%
 
 ggplot(freq_departement_plus, aes(x = Total_passagers, y = reorder(Département, Total_passagers))) +
   geom_bar(stat = "identity") +
-  labs(title = "Nombre de voyageurs total par département (2022)",
+  labs(title = "Fréquentation des gares par département (2022)",
        subtitle = "< minimum 5.000.000 de voyageurs >",
        x = "Nombre total de passagers",
        y = "Département") +
@@ -310,7 +308,7 @@ ggplot(freq_departement_plus, aes(x = Total_passagers, y = reorder(Département,
 
 ```
 
-**Analyse.** On constate que Paris est largement en tête de la fréquentation (département 75), suivi des départements de la région Ile-de-France (93, 95, 92, 78, 91, 94). Le Rhône, région lyonnaise, (69) est devant le département 77 qui fait pourtant parti de la région Ile-de-France. Le Rhône (Lyon) semble donc avoir une importance dans le réseau ferroviaire français. On peut également se demander pourquoi le 77, est-il le département le moins fréquenté d'Ile-de-France? Enfin, on aurait pu également appliquer nos précédentes observations aux départements les moins fréquentés.
+**Analyse.** On constate que Paris est largement en tête de la fréquentation (département 75), suivi des départements de la région Ile-de-France (dans l'ordre : 93, 95, 92, 78, 91, 94). Le Rhône, région lyonnaise, (69) est devant le département 77 qui fait pourtant parti de la région Ile-de-France. Le Rhône (Lyon) semble donc avoir une importance dans le réseau ferroviaire français. On peut également se demander pourquoi le 77, est-il le département le moins fréquenté d'Ile-de-France? Enfin, on aurait pu également appliquer nos précédentes observations aux départements les moins fréquentés.
 
 On affiche donc maintenant un regroupement de la fréquentation des gares des départements selon les régions françaises afin de confirmer nos observations précédentes.
 
@@ -342,18 +340,17 @@ freq_region <- freq_region %>%
 
 ggplot(freq_region, aes(x = Région, y = Total_Passagers_Region)) +
   geom_bar(stat = "identity") +
-  labs(title = "Nombre de voyageurs total par région (2022)",
-       subtitle = "<Vue Globale>",
+  labs(title = "Fréquentation des gares par région (2022)",
+       subtitle = "<Vue globale>",
        x = "Région",
        y = "Nombre total de passagers") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ```
 
-**Analyse.** Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75,77, 78, 91, 92, 93, 94) concentre la plupart des voyageurs. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes à l'année. Nous réalisons ensuite une visualisation spatiale de cette région pour l'observer plus précisement.
+**Analyse.** Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75, 77, 78, 91, 92, 93, 94, 95) concentre la plupart des voyageurs. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes à l'année.
 
-Nous a
-
-Plus grande différence avec la couleur
+Nous réalisons ensuite une visualisation spatiale de ces départements pour observer plus précisement les différences entre chacun. On utilisera donc des couleurs avec un gradient afin de mieux constater les distinctions entre les départements.
 
 ```{r}
 url <- "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
@@ -364,11 +361,19 @@ departements_data <- departements_geojson %>%
   left_join(freq_departement, by = "Département")
 
 ggplot(data = departements_data) +
-  geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation globale des départements en France (2022)",
-     subtitle = "<Vue spatiale>") +
+  geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation des gares en France par département (2022)",
+     subtitle = "< Vue spatiale globale >",
+     fill = "Nombre total de voyageurs") +
   theme_minimal() +
   theme(legend.position = "right")
+
 ```
+
+**Analyse.** Les différences sont flagrandes dans le cas de la région Ile-de-France. L'échelle de gradient de ce graphique montre la grande inégalité du réseau : Paris a une fréquentation démesurée si bien que les autres départements ne restent que dans les couleurs froides. Cependant, on remarque que la fréquentation des gares des départements s'articule autour de quatre principaux espaces : l'espace Parisien (Paris), l'espace Nord (Lille), l'espace Est (Strasbourg), l'espace Lyonnais (Lyon). Comme nous le pensions, la fréquentation des gares est plus importante autour des grandes villes. De plus, on pourrait le vérifier mais ces résultats donnent une idée approximative de la répartition de la population en France.
+
+Avec cette profondeur supplémentaire, cela nous permet de formuler de nouvelles hypothèses. On pourrait se demander si la population en périphérie des grandes villes fréquente généralement les gares du réseau pour des motifs professionnels, du tourisme ou simplement pour la vie quotidienne. De la même façon, est ce de la fréquentation des gares est dûe à des trajets entre régions et départements ?
+
+Pour finir cette section, on propose de faire un zoom sur la région parisienne.
 
 ```{r}
 departements_data_idf <- departements_geojson %>%
@@ -380,16 +385,18 @@ ggplot(data = departements_data_idf)  +
   geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) + 
   scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") +
   labs(title = "Fréquentation des gares d'Ile de France par département (2022)",
-       subtitle = "<Vue spatiale>") +
+       subtitle = "< Vue spatiale avec zoom sur IDF >", 
+       fill = "Nombre total de voyageurs") +
   theme_minimal() +
   theme(legend.position = "right")
+
 ```
+
+**Analyse.** On fait les mêmes conclusions que celle de la visualisation précédente. Paris est essentiel dans le réseau ferroviaire français. La partie Sud-Ouest et Ouest de l'Ile-de-France semble moins fréquentée. Afin d'avoir une meilleure vision de cela, on peut explorer ce département au travers de nouvelles visualisations.
 
 ## 4. Fréquentation des gares d'un même département (77) (2022)
 
-Après avoir étudié l'échelle régionale, on peut s'intéresser à la fréquentation des gares au sein d'un même département.
-
-Il serait intéressant de réaliser une première visualisation permettant de classer les gares de ce département (77). Cela permettrait de faire ressortir les plus utilisées. Ensuite, une visualisation spatiale permettrait de les représenter spatialement au sein de ce même département.
+Après avoir étudié l'échelle nationale et régionale, on peut s'intéresser à la fréquentation des gares au sein d'un même département. Il serait intéressant de réaliser une première visualisation permettant de classer les gares de ce département (77). Cela permettrait de faire ressortir les plus utilisées. Ensuite, une visualisation spatiale permettrait de les placer spatialement au sein de ce même département et de voir leur importance.
 
 On utilise pour la première visualisation des données discrètes (Voyageurs) en abscisse et nominales (Gare) en ordonnée. Pour réaliser cela, on prend appui sur un bar chart puisque l'on souhaite comparer les gares du département.
 
@@ -405,7 +412,6 @@ ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
        x = "Nombre de passagers",
        y = "Gare") +
   theme(axis.text.y = element_text(size = 4))
-
 
 ```
 
@@ -429,9 +435,10 @@ ggplot(data = departements_data_idf)  +
   geom_sf(fill = "white", color = "black") +
   geom_point(data = gares_77_clean, aes(x = Longitude, y = Latitude, size = Voyageurs), color = "peachpuff4", alpha = 0.7) +
   scale_size_continuous(range = c(1,7)) +
+  theme_minimal() +
   labs(title = "Fréquentation des gares du département 77 (2022)",
-       subtitle = "<Vue Spatiale>") +
-  theme_minimal()
+       subtitle = "<Vue Spatiale>")
+
 ```
 
 # Voyageurs
