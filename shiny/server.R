@@ -40,6 +40,7 @@ frequentation_clean <- frequentation %>%
   rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG") %>%
   mutate(UIC = as.character(UIC)) %>%
   mutate(UIC = substr(UIC, 3, 8)) %>%
+  mutate(Code_Postal = str_pad(Code_Postal, width = 5, side = "left", pad = "0")) %>%
   mutate(Département = substr(Code_Postal, 1, 2))
 
 age_voya_clean <- age_voya %>%
@@ -91,7 +92,7 @@ function(input, output, session) {
     
     ggplot(data = departements_data) +
       geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-      scale_fill_viridis_c (option = "turbo", limits = c(0,800000000), na.value="black") +
+      scale_fill_viridis_c (option = "turbo", limits = c(0,1000000000), na.value="black") +
       labs(title = paste("Fréquentation des gares par département en France (", input$annees, ")", sep = "")) +
       theme_minimal() +
       theme(legend.position = "right")
@@ -111,7 +112,7 @@ function(input, output, session) {
     
     ggplot(data = departements_data) +
       geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) +
-      scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") +
+      scale_fill_viridis_c(option = "turbo", limits = c(0,1000000000), na.value="black") +
       labs(title = paste("Fréquentation des gares de ", input$region, " (", input$annees, ")", sep = "")) +
       theme_minimal() +
       theme(legend.position = "right")
@@ -128,7 +129,7 @@ function(input, output, session) {
     ggplot(freq_departement, aes(x = Total_passagers, y = reorder(Département, Total_passagers))) +
       geom_bar(stat = "identity") +
       labs(title = paste("Nombre de voyageurs total par département (", input$annees, ")", sep = ""),
-           subtitle = "<Vue Globale>",
+           subtitle = paste("Minumum ",input$min_passagers," de voyageurs", sep = ""),
            x = "Nombre total de passagers",
            y = "Département") +
       theme(axis.text.y = element_text(size = 8))
