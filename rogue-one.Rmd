@@ -1107,6 +1107,8 @@ Dans le cadre de ce rapport, nous n'avons pas forcément mis en avant la finalit
 
 "Grâce à ce projet, j'ai acquis une compréhension plus approfondie des principes de la visualisation des données étudiés en cours. Ce projet m'a permis d'explorer en profondeur le langage R et R Studio. En traitant les données des dernières années de la SNCF, j'ai appris à extraire des informations précieuses des données et à les présenter de manière efficace. Bien que nous ayons rencontré certaines difficultés en raison du manque de données pour certains graphiques, ces défis m'ont également poussé à accorder une plus grande importance à la collecte et à l'organisation des données.", Wang
 
+"Grâce à ce projet, j'ai acquis une compréhension plus approfondie des principes de la visualisation des données étudiés en cours. Ce projet m'a permis d'explorer en profondeur le langage R et R Studio. En traitant les données des dernières années de la SNCF, j'ai appris à extraire des informations précieuses des données et à les présenter de manière efficace. Bien que nous ayons rencontré certaines difficultés en raison du manque de données pour certains graphiques, ces défis m'ont également poussé à accorder une plus grande importance à la collecte et à l'organisation des données.", WANG
+
 ------------------------------------------------------------------------
 
 # Annexe
