@@ -239,6 +239,10 @@ Gare du Nord semble être la gare la plus fréquentée du réseau. En faisant de
 
 Pour poursuivre notre découverte du réseau ferroviaire, nous avons choisi de représenter la fréquentation des gares sur une carte de France Métropolitaine. Avec cette visualisation spatiale, on peut comprendre plus facilement les enjeux liés aux flux de voyageurs.
 
+`Nous étudierons ici : À quoi ressemble le réseau SNCF en France ?`
+
+> `On s'attend à avoir un réseau en étoile vers Paris.`
+
 Pour représenter cela, on utilise des données discrètes (longitude, latitude, nombre de voyageurs) et ordinales (année) sur une carte. Etant donné qu'il s'agit d'une carte, on place la longitude en abscisse et la latitude en ordonnée.
 
 ```{r}
@@ -261,9 +265,15 @@ Cette visualisation complète notre première analyse : Paris est le centre du r
 
 ![](images/figure/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
+> `Réponse à la question : Le réseau ferroviaire de la SNCF est bien en étoile comme le confirme la visualisation obtenue.`
+
 ## 3. Fréquentation globale par département (2022)
 
 Réalisons maintenant une analyse multiscalaire afin d'avoir une meilleure vue d'ensemble et compréhension de la fréquentation de ce réseau.
+
+`Nous verrons donc ici : Quels sont les départements les mieux équipés ?`
+
+> `On s'attend à retrouver Paris en tête de tous les départements, suivi des départements d'Ile-de-France (autour de Paris).`
 
 Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentés du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (Département). Une visualisation avec un bar chart nous permet de faire une comparaison entre les départements. Nous afficherons les départements selon leur numéro de département, classés dans ce même ordre.
 
@@ -294,6 +304,8 @@ Faisons un zoom sur ces départements et organisons les du plus fréquentés au 
 **Figure 3.** Capture Shiny App : Fréquentation des gares par département (2022), minimum 15.000.000 de voyageurs.
 
 **Analyse.** On constate que Paris est largement en tête de la fréquentation (département 75), suivi des départements de la région Ile-de-France (dans l'ordre : 93, 95, 78, 92, 91, 77, 94). Le Rhône, région lyonnaise, (69) est le département le plus fréquentée après la région Ile-de-France. Le Rhône (Lyon) semble donc avoir une importance dans le réseau ferroviaire français. Enfin, on aurait pu également appliquer nos précédentes observations aux départements les moins fréquentés.
+
+> `Réponse à la question : Les départements les mieux équipés sont donc les départements d'Ile-de-France.`
 
 On affiche donc maintenant un regroupement de la fréquentation des gares des départements selon les régions françaises afin de confirmer nos observations précédentes.
 
@@ -334,6 +346,10 @@ ggplot(freq_region, aes(x = Région, y = Total_Passagers_Region)) +
 ```
 
 **Analyse.** Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75, 77, 78, 91, 92, 93, 94, 95) concentre la plupart des voyageurs. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes à l'année. On peut également souligner que le réseau SNCF désert la gare de Monaco-Monte-Carlo qui n'est pas comptabilisé dans les régions françaises. Nous avons donc dû l'intégrer manuellement.
+
+`Nous répondrons ici à la question : À quel point Paris a une place importante dans le réseau des autres territoires ?`
+
+> `On s'attend à ce que Paris surpasse les autres territoires français, au vue des élements que nous avons pu trouver au-dessus.`
 
 Nous réalisons ensuite une visualisation spatiale de ces départements pour observer plus précisement les différences entre chacun. On utilisera donc des couleurs avec un gradient afin de mieux constater les distinctions entre les départements.
 
@@ -379,6 +395,8 @@ ggplot(data = departements_data_idf)  +
 
 **Analyse.** On fait les mêmes conclusions que celle de la visualisation précédente. Paris est essentiel dans le réseau ferroviaire français. La partie Sud-Ouest et Ouest de l'Ile-de-France semble moins fréquentée. Afin d'avoir une meilleure vision de cela, on peut explorer ce département au travers de nouvelles visualisations.
 
+> `Réponse à la question : Paris a donc bien une place importante dans le réseau ferroviaire français.`
+
 Est-ce qu'un réseau en étoile vers la plus grande ville de la région s'applique également pour les autres régions ? C'est ce que nous avons voulu voir dans le cas de la région Grand-Est. La capture ci-dessous a été générée dynamiquement avec Shiny App.
 
 ![](images/shiny/grand_est_carte.png "Fréquentation des gares du Grand-Est par département (2022)")
@@ -390,6 +408,10 @@ Est-ce qu'un réseau en étoile vers la plus grande ville de la région s'appliq
 ## 4. Fréquentation des gares d'un même département (77 et 69) (2022)
 
 Après avoir étudié l'échelle nationale et régionale, on peut s'intéresser à la fréquentation des gares au sein d'un même département. Il serait intéressant de réaliser une première visualisation permettant de classer les gares de ce département (77). Cela permettrait de faire ressortir les plus utilisées. Ensuite, une visualisation spatiale permettrait de les placer spatialement au sein de ce même département et de voir leur importance.
+
+`Enfin, nous étudierons la question : Le nombre de voyageurs est-il bien reparti entre les gares d'un même département ?`
+
+> `On s'attend à avoir quelques disparités évidentes entre la fréquentation des gares d'un même département.`
 
 On utilise pour la première visualisation des données discrètes (Voyageurs) en abscisse et nominales (Gare) en ordonnée. Pour réaliser cela, on prend appui sur un bar chart puisque l'on souhaite comparer les gares du département.
 
@@ -433,6 +455,8 @@ ggplot(data = departements_data_idf)  +
 ```
 
 **Analyse.** Le résultat est sans appel. Toutes les gares en bordure du département concentrent plus de fréquentation que les gares de campagne, plus éloignées de Paris. Cela nous ramène également à l'étalement urbain et la concentration de la population proche de Paris dont nous avions parlé un peu plus haut.
+
+> `Réponse à la question : Le nombre de voyageurs n'est donc pas réparti de la même manière au sein des départements.`
 
 Complément : On réalise la même visualisation que précédemment mais pour le département du Rhône.
 
