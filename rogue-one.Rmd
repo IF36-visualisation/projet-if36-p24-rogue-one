@@ -1,6 +1,6 @@
 ---
 title: "Rogue One"
-author: "JAULIN Maxence, PRODHON Louis, GIROD Mathis, WANG Zezhong"
+author: "GIROD Mathis, JAULIN Maxence, PRODHON Louis, WANG Zezhong"
 output:
   html_document: default
   pdf_document: default
@@ -111,7 +111,7 @@ library(rnaturalearthdata)
 
 # Nettoyage des données
 
-Le **nettoyage des données** est la première étapes de notre projet. C'est ici que nous allons créer de nouvelles tables, modifier les jeux de données existants (supprimer ou renommer les colonnes existantes). *[TODO] Ajouter des explications sur la complexité de nos données*
+Le **nettoyage des données** est la première étapes de notre projet. C'est ici que nous allons créer de nouvelles tables, modifier les jeux de données existants (supprimer ou renommer les colonnes existantes). *`[TODO] Ajouter des explications sur la complexité de nos données`*
 
 Afin de travailler proprement, nous avons réaliser les étapes suivantes :
 
@@ -125,7 +125,7 @@ Afin de travailler proprement, nous avons réaliser les étapes suivantes :
 
 > Exemple : Code Postal en code_postal
 
-*[TODO] Rajouter des données les tables modifiées ici*
+*`[TODO] Ajouter les tables modifiées`*
 
 ## Importation des jeux de données
 
@@ -180,16 +180,18 @@ obj_trouves_clean <- obj_trouves %>%
   rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
 ```
 
+------------------------------------------------------------------------
+
 # Découverte
 
 Dans cette partie, nous découvrirons le jeu de données **Fréquentation**.
 
 **Visualisations réalisées**
 
-1.  Fréquentation des gares (2022)
-2.  Positionnement des gares en France Métropolitaine (2022)
-3.  Fréquentation globale par département (2022)
-4.  Fréquentation des gares d'un même département (77) (2022)
+1.  Fréquentation des gares
+2.  Positionnement des gares en France Métropolitaine
+3.  Fréquentation globale par département
+4.  Fréquentation des gares d'un même département (77)
 
 > L'ensemble des visualisations sont réalisées avec les données de l'année **2022**, car ce sont les données les plus récentes à notre disposition.
 
@@ -220,7 +222,7 @@ ggplot(data = freq, mapping = aes(x=Voyageurs,y=Gare)) +
   labs(title = "Fréquentation par gare les plus fréquentées (2022)",
        subtitle = "< minimum 20.000.000 de voyageurs >",
        x = "Nombre de voyageurs",
-       y = "Gares")
+       y = "Gare")
 ```
 
 **Analyse.** On remarque que les gares avec le plus de fréquentation sont les gares parisiennes. Au classement, nous retrouvons : Gare du Nord (1), Gare Saint-Lazare (2), Gare de Lyon (3), Gare Montparnasse (4). D'autres gares se démarquent mais restent sensiblement proches les unes des autres.
@@ -265,7 +267,7 @@ Cette visualisation complète notre première analyse : Paris est le centre du r
 
 Réalisons maintenant une analyse multiscalaire afin d'avoir une meilleure vue d'ensemble et compréhension de la fréquentation de ce réseau.
 
-Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentés du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (Département). Une visualisation avec un bar chart nous permet de faire la comparaison entre les départements.
+Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentés du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (Département). Une visualisation avec un bar chart nous permet de faire une comparaison entre les départements. Nous afficherons les départements selon leur numéro de département, classés dans ce même ordre.
 
 ```{r}
 freq_departement <- frequentation_clean %>%
@@ -278,14 +280,39 @@ freq_departement <- freq_departement %>%
 ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
   geom_bar(stat = "identity") +
   labs(title = "Nombre de voyageurs total par département (2022)",
-       subtitle = "<Vue Globale>",
+       subtitle = "< Vue Globale avec classement ordinal > ",
        x = "Nombre total de passagers",
        y = "Département") +
   theme(axis.text.y = element_text(size = 4))
 
 ```
 
-**Analyse.** On voit avec cette visualisation qu'il y a une très grande différence entre certains départements. Cette différence est surement expliquée en partie par le phénomène d'urbanisation et d'étalement urbain (regroupement autour de Paris et des grandes villes). Ici, on a ordonné les départements selon un ordre ascendant afin de mieux comprendre la visualisation qui se veut globale. Bien que la lecture des départements soit un peu difficile, elle permet de comprendre les distinctions.
+**Analyse.** On voit avec cette visualisation qu'il y a une très grande différence entre certains départements. Cette différence est surement expliquée en partie par le phénomène d'urbanisation et d'étalement urbain (regroupement autour de Paris et des grandes villes). Ici, on a ordonné les départements selon leur numéro afin de mieux comprendre la visualisation qui se veut globale. Bien que la lecture des départements soit un peu difficile, elle permet de comprendre des distinctions. On remarque assez facilement que les départements autour de 75 et 92 sont très fréquentés.
+
+Faisons un zoom sur ces départements et organisons les du plus fréquentés au moins fréquentés en fixant une limite minimum de 5 millions de voyageurs au total sur l'année 2022.
+
+```{r}
+freq_departement_plus <- frequentation_clean %>%
+  filter(Voyageurs > 5000000) %>%
+  filter(Année == "2022")
+
+freq_departement_plus <- freq_departement_plus %>%
+  group_by(Département) %>%
+  summarize(Total_passagers = sum(Voyageurs))
+
+ggplot(freq_departement_plus, aes(x = Total_passagers, y = reorder(Département, Total_passagers))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Nombre de voyageurs total par département (2022)",
+       subtitle = "< minimum 5.000.000 de voyageurs >",
+       x = "Nombre total de passagers",
+       y = "Département") +
+  theme(axis.text.y = element_text(size = 6))
+
+```
+
+**Analyse.** On constate que Paris est largement en tête de la fréquentation (département 75), suivi des départements de la région Ile-de-France (93, 95, 92, 78, 91, 94). Le Rhône, région lyonnaise, (69) est devant le département 77 qui fait pourtant parti de la région Ile-de-France. Le Rhône (Lyon) semble donc avoir une importance dans le réseau ferroviaire français. On peut également se demander pourquoi le 77, est-il le département le moins fréquenté d'Ile-de-France? Enfin, on aurait pu également appliquer nos précédentes observations aux départements les moins fréquentés.
+
+On affiche donc maintenant un regroupement de la fréquentation des gares des départements selon les régions françaises afin de confirmer nos observations précédentes.
 
 ```{r}
 freq_region <- frequentation_clean %>%
