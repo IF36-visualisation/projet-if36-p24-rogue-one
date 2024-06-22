@@ -191,7 +191,7 @@ Dans cette partie, nous découvrirons le jeu de données **Fréquentation**.
 1.  Fréquentation des gares
 2.  Positionnement des gares en France Métropolitaine
 3.  Fréquentation globale par département
-4.  Fréquentation des gares d'un même département (77)
+4.  Fréquentation des gares d'un même département (77 et 69)
 
 > L'ensemble des visualisations sont réalisées avec les données de l'année **2022**, car ce sont les données les plus récentes à notre disposition.
 
@@ -394,7 +394,7 @@ ggplot(data = departements_data_idf)  +
 
 **Analyse.** On fait les mêmes conclusions que celle de la visualisation précédente. Paris est essentiel dans le réseau ferroviaire français. La partie Sud-Ouest et Ouest de l'Ile-de-France semble moins fréquentée. Afin d'avoir une meilleure vision de cela, on peut explorer ce département au travers de nouvelles visualisations.
 
-## 4. Fréquentation des gares d'un même département (77) (2022)
+## 4. Fréquentation des gares d'un même département (77 et 69) (2022)
 
 Après avoir étudié l'échelle nationale et régionale, on peut s'intéresser à la fréquentation des gares au sein d'un même département. Il serait intéressant de réaliser une première visualisation permettant de classer les gares de ce département (77). Cela permettrait de faire ressortir les plus utilisées. Ensuite, une visualisation spatiale permettrait de les placer spatialement au sein de ce même département et de voir leur importance.
 
@@ -415,11 +415,11 @@ ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
 
 ```
 
-**Analyse.** Au sein du département 77, on remarque plusieurs choses. Tout d'abord, il y a des disparités évidentes entre les gares. Cette disparité peut être lié dans un premier temps à un facteur d'habitants par km². On vérifie avec Melun (gare la plus frequentée du département) et Nemours-Saint-Pierre (gare beaucoup moins fréquentée). Selon l'INSEE, la densité de Melun est de 5175.2 habitants par km² tandis que Nemours-Saint-Pierre est de 250.1 habitants par km².
+**Analyse.** Au sein du département 77, on remarque plusieurs choses. Tout d'abord, il y a des disparités évidentes entre les gares. Cette disparité peut être lié dans un premier temps à un facteur d'habitants par km². On vérifie avec Melun, gare la plus frequentée du département, et Nemours-Saint-Pierre, gare beaucoup moins fréquentée. Selon l'INSEE, la densité de Melun est de 5175.2 habitants par km² tandis que Nemours-Saint-Pierre est de 250.1 habitants par km² (en 2020). Ainsi, la ville de Melun concentre beaucoup plus d'habitants et donc plus de fréquentation dans sa gare.
 
-On peut supposer que les gares les plus proches de Paris sont les plus fréquentées. En effet, plus une gare semble éloignée de Paris moins elle est frequentée. Verifions-le maintenant avec une visualisation spatiale.
+On peut également expliquer la fréquentation de Melun par le passage du RER D qui ne passe pas dans tout le département. On a aussi la ligne R qui désert tout la partie basse du département dont Melun. Le fait de disposer d'un accès aux lignes de transport parisiennes rend la gare attractive pour les voyageurs. De nombreuses navettes et bus comme le Seine-et-Marne Express vont jusqu'à la gare de Melun ce qui contribue à augmenter sa fréquentation. Enfin, généralement quand il y a des travaux sur les lignes ferroviaires du département, Melun est la seule gare où les transports permettent de monter sur Paris.
 
-On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
+Enfin, pour conclure la première partie de notre analyse, nous pouvons supposer que les gares les plus proches géographiquement de Paris sont les gares les plus fréquentées. En effet, plus une gare semble éloignée de Paris moins elle est frequentée. Verifions-le maintenant avec une visualisation spatiale.
 
 ```{r}
 departements_data_idf <- departements_geojson %>%
@@ -439,9 +439,9 @@ ggplot(data = departements_data_idf)  +
 
 ```
 
-**Analyse.**
+**Analyse.** Le résultat est sans appel. Toutes les gares en bordure du département concentrent plus de fréquentation que les gares de campagne, plus éloignées de Paris. Cela nous ramène également à l'étalement urbain et la concentration de la population proche de Paris dont nous avions parlé un peu plus haut.
 
-Complément : On réalise la même visualisation mais pour le département du Rhône.
+Complément : On réalise la même visualisation que précédemment mais pour le département du Rhône.
 
 ```{r}
 departements_data_rhone <- departements_geojson %>%
@@ -461,7 +461,9 @@ ggplot(data = departements_data_rhone)  +
 
 ```
 
-**Analyse.** On remarque que
+**Analyse.** On remarque que Lyon est la gare la plus fréquentée du département. Très légèrement autour, on constate que les gares périphériques de Lyon sont plus fréquentées en moyenne que celles en dehors de la banlieue lyonnaise. Cela semble donc valider l'hypothèse que les gares les plus proches des grandes villes sont plus utilisées.
+
+Dans un contexte entreprise, on pourrait cibler en priorité les gares des grandes villes et celles en périphérie afin d'affecter des effectifs pour le contrôle, le ménage ou le renseignement.
 
 **Synthèse.** Ce qu'il faut retenir de cette section **Découverte** :
 
@@ -469,7 +471,7 @@ ggplot(data = departements_data_rhone)  +
 
 -   A l'échelle régionale, la région parisienne est incontestée en termes de fréquentation, bien que d'autres régions s'imposent plus ou moins à leur niveau : Lyon, Strasbourg, Lille pour les plus grandes puis Bordeaux, Marseille, Toulouse, Nantes, Rennes.
 
--   Au sein des départements les gares les plus proches de la région parisienne semblent être les plus utilisées.
+-   Au sein des départements les gares les plus proches de la région parisienne semblent être les plus utilisées. Plus généralement, les gares en périphérie des grandes villes sont les plus fréquentées des départements après la ville en question.
 
 # Voyageurs
 
