@@ -48,25 +48,25 @@ Au sein de ces données nous constatons que toutes s'orchestrent autour d'une do
 
 Nous avons décidé d'utiliser **17 variables** pour notre projet provenant des jeux de données bruts ou alors d'attributs crées par nos soins.
 
-| --- | Nom de la variable      | Type     | Format              | Dataset (Origine) | Description                                                    |
+| --- | Nom de la variable        | Type     | Format              | Dataset (Origine) | Description                                                    |
 |------------|------------|------------|------------|------------|------------|
-| 01  | gare                    | Nominale | String              | 1,2,3,4,5,6,7     | Nom de la gare                                                 |
-| 02  | departement             | Ordinale | NN                  | 1                 | Numéro du département                                          |
-| 03  | zone                    | Nominale | {A,B,C}             | 1                 | Lettre correspondant à la zone géographique                    |
-| 04  | latitude                | Continue | M"S'NS              | 1                 | Latitude de l'objet gare                                       |
-| 05  | longitude               | Continue | M"S'NS              | 1                 | Longitude de l'objet gare                                      |
-| 06  | annee                   | Ordinale | YYYY                | 2,3,4             | Année correspondante                                           |
-| 07  | timing_reception        | Discrète | YYYY-MM-DD-HH-MM-SS | 6,7               | Réception de l'objet perdu                                     |
-| 08  | nb_voyageurs            | Discrète | Integer             | 2                 | Nombre de voyageurs                                            |
-| 09  | age                     | Ordinale | String              | 5                 | Age d'un voyageur                                              |
-| 10  | pourcentage_age         | Continue | \%                  | 5                 | Pourcentage sur l'âge des voyageurs                            |
-| 11  | csp                     | Nominale | String              | 4                 | Catégorie socio-professionnel d'un voyageur                    |
-| 12  | pourcentage_csp         | Continue | \%                  | 4                 | Pourcentage sur la catégorie socio-professionnel des voyageurs |
-| 13  | motif_deplacement       | Nominale | String              | 3                 | Motif de déplacement d'un voyageur                             |
-| 14  | pourcentage_deplacement | Continue | \%                  | 3                 | Pourcentage sur le motif de déplacement des voyageurs          |
-| 15  | nature_objet            | Nominale | String              | 6,7               | Nature de l'objet                                              |
-| 16  | categorie_objet         | Nominale | String              | 6,7               | Catégorie de l'objet                                           |
-| 17  | code_uic                | Nominale | NNNNNNNNNN          | 6,7               | Code UIC de la gare                                            |
+| 01  | gare                      | Nominale | String              | 1,2,3,4,5,6,7     | Nom de la gare                                                 |
+| 02  | departement               | Ordinale | NN                  | 1                 | Numéro du département                                          |
+| 03  | zone                      | Nominale | {A,B,C}             | 1                 | Lettre correspondant à la zone géographique                    |
+| 04  | latitude                  | Continue | M"S'NS              | 1                 | Latitude de l'objet gare                                       |
+| 05  | longitude                 | Continue | M"S'NS              | 1                 | Longitude de l'objet gare                                      |
+| 06  | annee                     | Ordinale | YYYY                | 2,3,4             | Année correspondante                                           |
+| 07  | timing_reception          | Discrète | YYYY-MM-DD-HH-MM-SS | 6,7               | Réception de l'objet perdu                                     |
+| 08  | nb_voyageurs              | Discrète | Integer             | 2                 | Nombre de voyageurs                                            |
+| 09  | age                       | Ordinale | String              | 5                 | Age d'un voyageur                                              |
+| 10  | pourcentage_age           | Continue | \%                  | 5                 | Pourcentage sur l'âge des voyageurs                            |
+| 11  | csp                       | Nominale | String              | 4                 | Catégorie socio-professionnel d'un voyageur                    |
+| 12  | pourcentage_csp           | Continue | \%                  | 4                 | Pourcentage sur la catégorie socio-professionnel des voyageurs |
+| 13  | motif_deplacement         | Nominale | String              | 3                 | Motif de déplacement d'un voyageur                             |
+| 14  | pourcentage\_ deplacement | Continue | \%                  | 3                 | Pourcentage sur le motif de déplacement des voyageurs          |
+| 15  | nature_objet              | Nominale | String              | 6,7               | Nature de l'objet                                              |
+| 16  | categorie_objet           | Nominale | String              | 6,7               | Catégorie de l'objet                                           |
+| 17  | code_uic                  | Nominale | NNNNNNNNNN          | 6,7               | Code UIC de la gare                                            |
 
 **Variables particulières**
 
@@ -147,7 +147,7 @@ obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv",
 gares_clean <- gares %>%
   separate("Position géographique", into = c("Latitude", "Longitude"), sep = ", ") %>%
   mutate(across(c(Latitude, Longitude), as.numeric)) %>%
-  rename(Gare = "Nom", Code_Postal = "Code commune", Zones_vac = "Segment DRG")
+  rename(Gare = "Nom", Code_Postal = "Code commune", DRG = "Segment DRG")
 
 frequentation_clean <- frequentation %>%
   rename_with(.cols = contains("Non"), 
@@ -158,7 +158,7 @@ frequentation_clean <- frequentation %>%
                names_to = c(".value", "Année"), 
                names_sep = " ")%>%
   mutate(Année = as.numeric(Année))%>%
-  rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", Zones_vac = "Segmentation DRG")%>%
+  rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", DRG = "Segmentation DRG")%>%
   mutate(UIC = as.character(UIC)) %>%
   mutate(UIC = substr(UIC, 3, 8)) %>%
   mutate(Code_Postal = str_pad(Code_Postal, width = 5, side = "left", pad = "0")) %>%
@@ -359,7 +359,7 @@ Nous réalisons ensuite une visualisation spatiale de ces départements pour obs
 
 ```{r}
 url <- "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
-departements_geojson <- st_read(url)
+departements_geojson <- st_read(url, quiet = TRUE)
 
 departements_data <- departements_geojson %>%
   rename(Département = "code") %>%
@@ -685,52 +685,60 @@ Réalisons un graphique simple qui nous montre le nombre de voyageurs total par 
 Apercu du dataset fréquentations
 
 ```{r}
-head(frequentation)
+head(frequentation_clean)
 ```
 
 ```{r}
 
-#total_par_annee <- frequentation %>%
-#  summarise(
-#    Total_2022 = sum(`passagers2022`, na.rm = TRUE),
-#    Total_2021 = sum(`Total Voyageurs 2021`, na.rm = TRUE),
-#    Total_2020 = sum(`Total Voyageurs 2020`, na.rm = TRUE),
-#    Total_2019 = sum(`Total Voyageurs 2019`, na.rm = TRUE),
-#    Total_2018 = sum(`Total Voyageurs 2018`, na.rm = TRUE),
-#    Total_2017 = sum(`Total Voyageurs 2017`, na.rm = TRUE),
-#    Total_2016 = sum(`Total Voyageurs 2016`, na.rm = TRUE),
-#    Total_2015 = sum(`Total Voyageurs 2015`, na.rm = TRUE)
-#  )
+total_par_annee <- frequentation_clean %>%
+  group_by(Année) %>%
+  summarise(Total_Voyageurs = sum(Voyageurs))
 
-#data_long <- pivot_longer(total_par_annee, cols = everything(), names_to = "Annee", values_to = "Total")
 
-#ggplot(data_long, aes(x = Annee, y = Total, group = 1)) +
-#  geom_line() +  
-#  geom_point() +  
-#  labs(title = "Nombre total de voyageurs par année",
-#       x = "Année",
-#       y = "Nombre total de voyageurs") +
-#  theme_minimal()
+ggplot(total_par_annee, aes(x = Année, y = Total_Voyageurs, group = 1)) +
+  ylim(0,3000000000) +
+  geom_line() +  
+  geom_point() +  
+  labs(title = "Nombre total de voyageurs par année",
+       x = "Année",
+       y = "Nombre total de voyageurs") +
+  theme_minimal()
 ```
 
 On voit rapidement qu'il y a un "trou" du à la période COVID 2020.
 
-Maintenant intéressons nous aux nombres de voyageurs par segmentation DRG.
+Maintenant intéressons nous aux nombres de voyageurs par segment DRG.
 
 ```{r}
-#data_segmentation <- frequentation %>%
-#  group_by(`Segmentation DRG`) %>%
-#  summarise(Total_2022 = sum(`passagers2022`, na.rm = TRUE)) %>%
-#  na.omit()
-#head(data_segmentation)
+data_segmentation <- frequentation_clean %>%
+  filter(Année == 2022) %>%
+  group_by(DRG) %>%
+  summarise(Total_Voyageurs = sum(Voyageurs)) %>%
+  na.omit()
 
-#ggplot(data_segmentation, aes(x = `Segmentation DRG`, y = Total_2022, fill = `Segmentation DRG`)) +
-#  geom_bar(stat = "identity") +
-#  labs(title = "Répartition des voyageurs par segmentation DRG en 2022",
-#       x = "Segmentation DRG",
-#       y = "Nombre total de voyageurs") +
-#  theme_minimal()
+ggplot(data_segmentation, aes(x = DRG, y = Total_Voyageurs, fill = DRG)) +
+  geom_bar(stat = "identity") +
+  ylim(0,2000000000) +
+  labs(title = "Répartition des voyageurs par segment DRG en 2022",
+       x = "Segment DRG",
+       y = "Nombre total de voyageurs",
+       fill = "Segment DRG") +
+  theme_minimal()
 ```
+
+Pour comprendre la différence entre les ségmentation que l'on voit ci-dessus, il faut d'abord comprendre quelle gare est reliée à quelle segment DRG. Le SNCF nous donne cette définition :
+
+**Catégorie A** : gares de voyageurs d’intérêt national. Ces gares sont celles dont la fréquentation par des voyageurs des services nationaux et internationaux de voyageurs est au moins égale à 250 000 voyageurs par an ou dont ces mêmes voyageurs représentent 100% des voyageurs.
+
+**Catégorie B** : gares de voyageurs d’intérêt régional. Le périmètre de gestion correspond, dans chaque région, à l’ensemble des gares n’appartenant pas à la catégorie A mais dont la fréquentation totale est au moins égale à 100 000 voyageurs par an.
+
+**Catégorie C** : gares de voyageurs d’intérêt local. Leur périmètre de gestion correspond, dans chaque région, à l’ensemble des gares de cette catégorie. La redevance est fixée, par région, pour l’ensemble des gares de cette catégorie.
+
+Cette catégorisation nous conforme dans l'idée que la majorité des voyageurs ne s'arrête que très rarement sur des gares d'intérêt locale. La plupart se trouve dans des villes petites ou moyennes se trouvant sur une ligne unique ou très peu de ligne.
+
+Cependant même si le chiffre paraît petit en comparaison des autres, les gares de la catégorie C voient passer presque 57 millions de voyageurs sur 2022. On doit aussi dénombrer énormément de gares car la limite maximale de la catégorie C est 100 000 voyageurs annuels. On peut donc considérer plus de 570 gares font partie de cette catégorie au minimum.
+
+En voyant l'échelle on peut donc mettre en perspective que les catégories A et B n'ont pas une différence flagrante, sûrement dûe à la population d'Île-de-France qui doit contribuer énormément aux chiffres de la catégorie B. En prenant en compte les résultats des premières visualisations sur les gares les plus fréquentées, on peut assumer que le nombre de gares de la catégorie A doit être moindre en comparaison à la catégorie B et C.
 
 ------------------------------------------------------------------------
 
