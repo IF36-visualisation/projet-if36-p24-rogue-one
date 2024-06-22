@@ -259,7 +259,7 @@ ggplot(data = france) +
 
 Cette visualisation complète notre première analyse : Paris est le centre du réseau ferroviaire français, *"tout passe par Paris"*. Cette règle s'applique également avec le réseau autoroutier français.
 
-![](images/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020).**Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
+![](images/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
 ## 3. Fréquentation globale par département (2022)
 
@@ -415,11 +415,9 @@ ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
 
 ```
 
-**Analyse.** Au sein du département 77, on remarque plusieurs choses. Tout d'abord, il y a des disparités évidentes entre les gares. Cette disparité peut être lié dans un premier temps à un facteur d'habitants par km². On vérifie avec Melun (gare la plus frequentée du département) et Nemours-Saint-Pierre (gare beaucoup moins fréquentée). Selon l'INSEE, la densité de Melun
+**Analyse.** Au sein du département 77, on remarque plusieurs choses. Tout d'abord, il y a des disparités évidentes entre les gares. Cette disparité peut être lié dans un premier temps à un facteur d'habitants par km². On vérifie avec Melun (gare la plus frequentée du département) et Nemours-Saint-Pierre (gare beaucoup moins fréquentée). Selon l'INSEE, la densité de Melun est de 5175.2 habitants par km² tandis que Nemours-Saint-Pierre est de 250.1 habitants par km².
 
 On peut supposer que les gares les plus proches de Paris sont les plus fréquentées. En effet, plus une gare semble éloignée de Paris moins elle est frequentée. Verifions-le maintenant avec une visualisation spatiale.
-
-des disparités entre les gares. Des gares comme celle de Melun ou Chartrette concentre toute la fréquentation au détriment de gares comme Bois-le-Roi.
 
 On peut expliquer cela notamment après quelques recherches car en effet le RER D désert Melun à la différence de petites gares comme celle de Bois-le-Roi.
 
@@ -440,6 +438,38 @@ ggplot(data = departements_data_idf)  +
        subtitle = "<Vue Spatiale>")
 
 ```
+
+**Analyse.**
+
+Complément : On réalise la même visualisation mais pour le département du Rhône.
+
+```{r}
+departements_data_rhone <- departements_geojson %>%
+  rename(Département = "code") %>%
+  filter(Département %in% c("69"))
+
+gares_69_clean <- gares_freq_clean %>%
+  filter(Département %in% c("69"))
+
+ggplot(data = departements_data_rhone)  +
+  geom_sf(fill = "white", color = "black") +
+  geom_point(data = gares_69_clean, aes(x = Longitude, y = Latitude, size = Voyageurs), color = "peachpuff4", alpha = 0.7) +
+  scale_size_continuous(range = c(1,6)) +
+  theme_minimal() +
+  labs(title = "Fréquentation des gares du département 69 (2022)",
+       subtitle = "<Vue Spatiale>")
+
+```
+
+**Analyse.** On remarque que
+
+**Synthèse.** Ce qu'il faut retenir de cette section **Découverte** :
+
+-   A l'échelle nationale, Paris est au centre du réseau ferroviaire français.
+
+-   A l'échelle régionale, la région parisienne est incontestée en termes de fréquentation, bien que d'autres régions s'imposent plus ou moins à leur niveau : Lyon, Strasbourg, Lille pour les plus grandes puis Bordeaux, Marseille, Toulouse, Nantes, Rennes.
+
+-   Au sein des départements les gares les plus proches de la région parisienne semblent être les plus utilisées.
 
 # Voyageurs
 
