@@ -147,7 +147,7 @@ obj_trouves <- read_delim(file = "data/dataset7-objets-trouves-restitution.csv",
 gares_clean <- gares %>%
   separate("Position géographique", into = c("Latitude", "Longitude"), sep = ", ") %>%
   mutate(across(c(Latitude, Longitude), as.numeric)) %>%
-  rename(Gare = "Nom", Code_Postal = "Code commune", DRG = "Segment DRG")
+  rename(Gare = "Nom", code_postal = "Code commune", DRG = "Segment DRG")
 
 frequentation_clean <- frequentation %>%
   rename_with(.cols = contains("Non"), 
@@ -158,11 +158,11 @@ frequentation_clean <- frequentation %>%
                names_to = c(".value", "Année"), 
                names_sep = " ")%>%
   mutate(Année = as.numeric(Année))%>%
-  rename(Gare = "Nom de la gare", UIC = "Code UIC", Code_Postal = "Code postal", DRG = "Segmentation DRG")%>%
+  rename(Gare = "Nom de la gare", UIC = "Code UIC", code_postal = "Code postal", DRG = "Segmentation DRG")%>%
   mutate(UIC = as.character(UIC)) %>%
   mutate(UIC = substr(UIC, 3, 8)) %>%
-  mutate(Code_Postal = str_pad(Code_Postal, width = 5, side = "left", pad = "0")) %>%
-  mutate(Département = substr(Code_Postal, 1, 2))
+  mutate(code_postal = str_pad(code_postal, width = 5, side = "left", pad = "0")) %>%
+  mutate(departement = substr(code_postal, 1, 2))
 
 age_voya_clean <- age_voya %>%
   rename(Gare = `Gare enquêtée`)%>%
@@ -279,17 +279,17 @@ Réalisons maintenant une analyse multiscalaire afin d'avoir une meilleure vue d
 
 > `On s'attend à retrouver Paris en tête de tous les départements, suivi des départements d'Ile-de-France (autour de Paris).`
 
-Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentés du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (Département). Une visualisation avec un bar chart nous permet de faire une comparaison entre les départements. Nous afficherons les départements selon leur numéro de département, classés dans ce même ordre.
+Tout d'abord, on réalise une première vue globale pour faire ressortir les départements les plus fréquentés du réseau. On utilise pour cela des données discrètes en abscisse (Total_passagers) et ordinale en ordonnée (departement). Une visualisation avec un bar chart nous permet de faire une comparaison entre les départements. Nous afficherons les départements selon leur numéro de département, classés dans ce même ordre.
 
 ```{r}
 freq_departement <- frequentation_clean %>%
   filter(Année == "2022")
 
 freq_departement <- freq_departement %>%
-  group_by(Département) %>%
+  group_by(departement) %>%
   summarize(Total_passagers = sum(Voyageurs))
 
-ggplot(freq_departement, aes(x = Total_passagers, y = Département)) +
+ggplot(freq_departement, aes(x = Total_passagers, y = departement)) +
   geom_bar(stat = "identity") +
   labs(title = "Fréquentation des gares par département (2022)",
        subtitle = "< Vue globale avec classement ordinal > ",
@@ -318,7 +318,7 @@ freq_region <- frequentation_clean %>%
   filter(Année == "2022")
 
 correspondance <- data.frame(
-  Département = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", 
+  departement = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", 
                   "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", 
                   "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", 
                   "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", 
@@ -329,17 +329,17 @@ correspondance <- data.frame(
                   "82", "83", "84", "85", "86", "87", "88", "89", "90", "91",
                   "92", "93", "94", "95", "98"),
   
-  Région = c("Auvergne-Rhône-Alpes", "Hauts-de-France", "Auvergne-Rhône-Alpes", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Auvergne-Rhône-Alpes", "Grand Est", "Occitanie", "Grand Est", "Occitanie", "Occitanie", "Provence-Alpes-Côte d'Azur", "Normandie", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Centre-Val de Loire", "Nouvelle-Aquitaine", "Bourgogne-Franche-Comté", "Bretagne", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Bourgogne-Franche-Comté", "Auvergne-Rhône-Alpes", "Normandie", "Centre-Val de Loire", "Bretagne", "Occitanie", "Occitanie", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Occitanie", "Bretagne", "Centre-Val de Loire", "Auvergne-Rhône-Alpes", "Bourgogne-Franche-Comté","Nouvelle-Aquitaine", "Centre-Val de Loire", "Auvergne-Rhône-Alpes", "Auvergne-Rhône-Alpes","Pays de la Loire", "Centre-Val de Loire", "Occitanie", "Nouvelle-Aquitaine", "Occitanie", "Pays de la Loire", "Normandie", "Grand Est", "Grand Est", "Pays de la Loire", "Grand Est", "Grand Est", "Bretagne", "Grand Est", "Bourgogne-Franche-Comté", "Hauts-de-France", "Hauts-de-France", "Normandie", "Hauts-de-France", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Occitanie", "Occitanie", "Occitanie", "Grand Est", "Grand Est", "Auvergne-Rhône-Alpes", "Bourgogne-Franche-Comté", "Bourgogne-Franche-Comté", "Pays de la Loire", "Auvergne-Rhône-Alpes", "Auvergne-Rhône-Alpes", "Île-de-France", "Normandie", "Île-de-France", "Nouvelle-Aquitaine", "Hauts-de-France", "Occitanie", "Occitanie", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Pays de la Loire", "Provence-Alpes-Côte d'Azur", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Grand Est", "Bourgogne-Franche-Comté", "Île-de-France", "Île-de-France", "Île-de-France", "Île-de-France", "Île-de-France", "Monaco")
+  region = c("Auvergne-Rhône-Alpes", "Hauts-de-France", "Auvergne-Rhône-Alpes", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Auvergne-Rhône-Alpes", "Grand Est", "Occitanie", "Grand Est", "Occitanie", "Occitanie", "Provence-Alpes-Côte d'Azur", "Normandie", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Centre-Val de Loire", "Nouvelle-Aquitaine", "Bourgogne-Franche-Comté", "Bretagne", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Bourgogne-Franche-Comté", "Auvergne-Rhône-Alpes", "Normandie", "Centre-Val de Loire", "Bretagne", "Occitanie", "Occitanie", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Occitanie", "Bretagne", "Centre-Val de Loire", "Auvergne-Rhône-Alpes", "Bourgogne-Franche-Comté","Nouvelle-Aquitaine", "Centre-Val de Loire", "Auvergne-Rhône-Alpes", "Auvergne-Rhône-Alpes","Pays de la Loire", "Centre-Val de Loire", "Occitanie", "Nouvelle-Aquitaine", "Occitanie", "Pays de la Loire", "Normandie", "Grand Est", "Grand Est", "Pays de la Loire", "Grand Est", "Grand Est", "Bretagne", "Grand Est", "Bourgogne-Franche-Comté", "Hauts-de-France", "Hauts-de-France", "Normandie", "Hauts-de-France", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Occitanie", "Occitanie", "Occitanie", "Grand Est", "Grand Est", "Auvergne-Rhône-Alpes", "Bourgogne-Franche-Comté", "Bourgogne-Franche-Comté", "Pays de la Loire", "Auvergne-Rhône-Alpes", "Auvergne-Rhône-Alpes", "Île-de-France", "Normandie", "Île-de-France", "Nouvelle-Aquitaine", "Hauts-de-France", "Occitanie", "Occitanie", "Provence-Alpes-Côte d'Azur", "Provence-Alpes-Côte d'Azur", "Pays de la Loire", "Provence-Alpes-Côte d'Azur", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Nouvelle-Aquitaine", "Grand Est", "Bourgogne-Franche-Comté", "Île-de-France", "Île-de-France", "Île-de-France", "Île-de-France", "Île-de-France", "Monaco")
 )
 
 freq_region <- freq_region %>%
-  left_join(correspondance, by = "Département")
+  left_join(correspondance, by = "departement")
 
 freq_region <- freq_region %>%
-  group_by(Région) %>%
+  group_by(region) %>%
   summarize(Total_Passagers_Region = sum(Voyageurs))
 
-ggplot(freq_region, aes(x = Région, y = Total_Passagers_Region)) +
+ggplot(freq_region, aes(x = region, y = Total_Passagers_Region)) +
   geom_bar(stat = "identity") +
   labs(title = "Fréquentation des gares par région (2022)",
        subtitle = "< Vue globale >",
@@ -362,8 +362,8 @@ url <- "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/de
 departements_geojson <- st_read(url, quiet = TRUE)
 
 departements_data <- departements_geojson %>%
-  rename(Département = "code") %>%
-  left_join(freq_departement, by = "Département")
+  rename(departement = "code") %>%
+  left_join(freq_departement, by = "departement")
 
 ggplot(data = departements_data) +
   geom_sf(aes(fill = Total_passagers), color = "white", size = 0.1) + scale_fill_viridis_c(option = "turbo", limits = c(0,800000000), na.value="black") + labs(title = "Fréquentation des gares en France par département (2022)",
@@ -382,9 +382,9 @@ Pour finir cette section, on propose de faire un zoom sur la région parisienne.
 
 ```{r}
 departements_data_idf <- departements_geojson %>%
-  rename(Département = "code") %>%
-  filter(Département %in% c("75","77","78","91","92","93","94","95")) %>%
-  left_join(freq_departement, by = "Département")
+  rename(departement = "code") %>%
+  filter(departement %in% c("75","77","78","91","92","93","94","95")) %>%
+  left_join(freq_departement, by = "departement")
 
 ggplot(data = departements_data_idf)  +
   geom_sf(aes(fill = Total_passagers), color = "grey50", size = 0.1) + 
@@ -421,7 +421,7 @@ On utilise pour la première visualisation des données discrètes (Voyageurs) e
 
 ```{r}
 gares_77 <- frequentation_clean %>%
-  filter(Département == "77") %>%
+  filter(departement == "77") %>%
   filter(Année == "2022")
 
 ggplot(gares_77, aes(x = Voyageurs, y = reorder(Gare, Voyageurs))) +
@@ -442,11 +442,11 @@ Enfin, pour conclure la première partie de notre analyse, nous pouvons supposer
 
 ```{r}
 departements_data_idf <- departements_geojson %>%
-  rename(Département = "code") %>%
-  filter(Département %in% c("77"))
+  rename(departement = "code") %>%
+  filter(departement %in% c("77"))
 
 gares_77_clean <- gares_freq_clean %>%
-  filter(Département %in% c("77"))
+  filter(departement %in% c("77"))
 
 ggplot(data = departements_data_idf)  +
   geom_sf(fill = "white", color = "black") +
@@ -466,11 +466,11 @@ Complément : On réalise la même visualisation que précédemment mais pour le
 
 ```{r}
 departements_data_rhone <- departements_geojson %>%
-  rename(Département = "code") %>%
-  filter(Département %in% c("69"))
+  rename(departement = "code") %>%
+  filter(departement %in% c("69"))
 
 gares_69_clean <- gares_freq_clean %>%
-  filter(Département %in% c("69"))
+  filter(departement %in% c("69"))
 
 ggplot(data = departements_data_rhone)  +
   geom_sf(fill = "white", color = "black") +
@@ -684,6 +684,10 @@ Réalisons un graphique simple qui nous montre le nombre de voyageurs total par 
 
 Apercu du dataset fréquentations
 
+`Nous avons donc proposé d'étudier la question : Quel impact sur les voyageurs a eu la pandémie de Covid ?`
+
+> `Nous supposons que la fréquentation était très très faible sur 2020`
+
 ```{r}
 head(frequentation_clean)
 ```
@@ -707,7 +711,13 @@ ggplot(total_par_annee, aes(x = Année, y = Total_Voyageurs, group = 1)) +
 
 On voit rapidement qu'il y a un "trou" du à la période COVID 2020.
 
+> `Réponse à la question : On distingue que la baisse a été de moitié en 2020. Le réseau a eu besoin de 2 ans pour revenir à la normale.`
+
 Maintenant intéressons nous aux nombres de voyageurs par segment DRG.
+
+`Nous avons donc proposé d'étudier la question : Quelle fréquentation y a t il selon le type de gare ?`
+
+> `Nous nous attendons à énormément de voyageurs dans les très grandes gares et beaucoup moins dans les autres`
 
 ```{r}
 data_segmentation <- frequentation_clean %>%
@@ -739,6 +749,8 @@ Cette catégorisation nous conforme dans l'idée que la majorité des voyageurs 
 Cependant même si le chiffre paraît petit en comparaison des autres, les gares de la catégorie C voient passer presque 57 millions de voyageurs sur 2022. On doit aussi dénombrer énormément de gares car la limite maximale de la catégorie C est 100 000 voyageurs annuels. On peut donc considérer plus de 570 gares font partie de cette catégorie au minimum.
 
 En voyant l'échelle on peut donc mettre en perspective que les catégories A et B n'ont pas une différence flagrante, sûrement dûe à la population d'Île-de-France qui doit contribuer énormément aux chiffres de la catégorie B. En prenant en compte les résultats des premières visualisations sur les gares les plus fréquentées, on peut assumer que le nombre de gares de la catégorie A doit être moindre en comparaison à la catégorie B et C.
+
+> `Réponse à la question : Les voyageurs sont très souvent présents dans des grandes gares. Cependant, il y a tout de même 57 millions de voyageurs passant par les petites gares. Il y a quasiment autant de voyageurs dans les gares moyennes et nationales. Cela fait echo aux motifs de déplacement.`
 
 ------------------------------------------------------------------------
 
@@ -938,7 +950,6 @@ occurences_perdus <- table(type_obj_perdus)
 occurences_trouves <- table(type_obj_trouves)
 probas_types <- occurences_trouves / occurences_perdus * 100
 probas_types <- as.data.frame.table(probas_types)
-colnames(probas_types)
 
 probas_types %>% 
   mutate(type_obj1 = fct_reorder(type_obj_trouves,Freq)) %>%
@@ -965,13 +976,13 @@ Plus de 50 points distinguent la fréquence de retour des vélos, trotinettes et
 
 Il serait aussi intéressant de voir que ces statistiques sont fondées sur les objets qui sont perdus en train ou en gare et ceux qui sont ramenés en gare par d'autres voyageurs ou agents. Les vols ne sont donc pas forcément comptabiliser. Je pense qu'avec plus d'informations, nous pourrions ajouter un critère de vol ou perte selon l'objet. Malheureusement les données ne sont pas assez détaillées, mais nous pourrions peut-être deviner une tendance en croisant d'autres études portant sur le sujet.
 
-> `Réponse à la question : Plus un objet semble de grande taille, plus celui-ci semble être retrouvé par son propriétaire.`
+> `Réponse à la question : Plus un objet semble de grande taille, plus celui-ci semble être retrouvé par son propriétaire. Les objets nécessaires sont aussi plus souvent retrouvés : articles médicaux, porte-monnaies`
 
 ## 5. Afflux d'objets selon le mois
 
 Nous allons maintenant traiter l'ensemble du jeu de données des objets perdus pour voir s'il y a un motif qui pourrait faire croire que certains mois sont plus propices à la perte d'objets.
 
-`Ainsi, la question suivante nous a particulièrement intéressée  : Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?`
+`Ainsi, la question suivante nous a particulièrement intéressée : Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?`
 
 > `On imagine ces dernières années une utilisation plus importante des mobilités douces et donc du train pour diminuer l'impact carbone. Le nombre d'usagers du train augmente pouvant accroître également le nombre d'objets perdus.`
 
@@ -1007,7 +1018,7 @@ On peut en conclure, qu'en terme de nombre de pertes pur, le mois de juillet est
 
 On pourrait aussi argumenter que les vacanciers pourraient contrebalancer les travailleurs qui n'ont donc pas les mêmes mois de fréquentations. Les données ne sont pas assez précises pour indiquer s'il y a une recrudescence de pertes en juillet, (et principalement les mois d'été).
 
-> `Réponse à la question : Au vu de la croissance d'objets perdus importante de l'année dernière, on peut s'attendre à avoir plus d'objets perdus cet été (2024) que l'année précédente (2023).`
+> `Réponse à la question : Au vu de la croissance d'objets perdus importante de l'année dernière, on peut s'attendre à avoir plus d'objets perdus cet été (2024) que l'année précédente (2023). Le mois le plus important est celui de Juillet`
 
 ```{r}
 obj_perdus_date_type <- obj_perdus_clean2 %>% 
@@ -1039,7 +1050,7 @@ Une visualisation intéressante serait de regarder les objets et affaires vestim
 
 **Figure 5.** Capture Shiny App : Nombre d'objets perdus par type, par mois et par année (2022).
 
-Au vu de la visualisation obtenue, on constate que les parapluies sont plus perdus au mois de Novembre (11). Cela peut s'expliquer donc par les conditions météorologiques de la période. En effet, il a plus tendance à pleuvoir en Novembre qu'au mois de Juillet. D'ailleurs, à la période estivale (Juillet-Août), très peu de parapluies sont perdus par les usagers des transports ferroviaires car il ne pleut que très peu en Eté.
+Au vu de la visualisation obtenue, on constate que les parapluies sont plus perdus au mois de Novembre (11). Cela peut s'expliquer donc par les conditions météorologiques de la période. En effet, il a plus tendance à pleuvoir en Novembre qu'au mois de Juillet. D'ailleurs, à la période estivale (Juillet-Août), très peu de parapluies sont perdus par les usagers des transports ferroviaires car il ne pleut que très peu en été.
 
 D'autres objets à l'inverse ne dépendent pas nécessairement de la période de l'année (pas de saison spécifique). On peut voir que les bijoux et les montres par exemple sont perdus dans les mêmes quantités tout au long de l'année.
 
@@ -1049,7 +1060,7 @@ Nous finissons le traitement des données pour essayer de déceler si le risque 
 
 `Nous étudierons ici : Y-a-t-il plus de chances de perdre un objet selon la gare ?`
 
-> `Nous n'avons pas vraiment d'idée pour repondre à cette question. Nous allons donc observer le résultat de nos visualisations.`
+> `Nous imaginons que des gares très grandes (spatialement) ont plus de chances d'avoir des pertes d'objets.`
 
 ```{r}
 obj_perdus_clean_gare <- obj_perdus_clean %>%
@@ -1087,7 +1098,7 @@ obj_gares %>%
 
 Afin d'améliorer la visualisation, on ne voit ici que les gares dont le taux de perte par voyageur est au-dessus de 0.005 %. On peut voir ici qu'il vaut mieux éviter la gare de Granville où la probabilité de perte d'objet est supérieure à 0.07%. Cependant ce nombre est important à recontextualiser. Cela signifie que sur 10 000 voyageurs, 7 ont perdu un objet. Ce nombre reste assez faible. Et donc la plupart des gares vues ici sont plutôt sur l'ordre de 1 sur 10 000.
 
-> `Réponse à la question : D'après notre visualisation, il semblerait qu'il y ait effectivement des gares à éviter pour ne pas perdre ses objets. Ici Granville apparait comme la gare à éviter selon notre étude.`
+> `Réponse à la question : D'après notre visualisation, il semblerait qu'il y ait effectivement des gares à éviter pour ne pas perdre ses objets. Ici Granville apparait comme la gare à éviter selon notre étude. La taille d'une gare ne semble pas être un critère.`
 
 ------------------------------------------------------------------------
 
