@@ -2,11 +2,13 @@
 title: "Rogue One"
 author: "GIROD Mathis, JAULIN Maxence, PRODHON Louis, WANG Zezhong"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ![](images/entete-rapportIF36.png "Entête")
+
+------------------------------------------------------------------------
 
 # Introduction
 
@@ -96,17 +98,17 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE
 )
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(tibble)
-library(readr)
-library(lubridate)
-library(forcats)
-library(stringr)
-library(sf)
-library(rnaturalearth)
-library(rnaturalearthdata)
+suppressMessages(library(ggplot2))
+suppressMessages(library(dplyr))
+suppressMessages(library(tidyr))
+suppressMessages(library(tibble))
+suppressMessages(library(readr))
+suppressMessages(library(lubridate))
+suppressMessages(library(forcats))
+suppressMessages(library(stringr))
+suppressMessages(library(sf))
+suppressMessages(library(rnaturalearth))
+suppressMessages(library(rnaturalearthdata))
 ```
 
 ------------------------------------------------------------------------
@@ -129,7 +131,7 @@ Afin de travailler proprement, nous avons réaliser les étapes suivantes :
 
 ## Importation des jeux de données
 
-Les données sont importées dans R dans leur forme brute. On les manipule ensuite afin de créer nos propres tableaux.
+Les données sont importées dans R dans leur forme brute. On les manipule ensuite afin de créer nos propres tableaux. La section suivante concernera l'**Exploration de ces données**. On y détaillera les 3 grands axes que sont la Découverte, les Voyageurs et les Objets.
 
 ```{r}
 gares <- read_delim(file = "data/dataset1-gares-de-voyageurs.csv", delim=";")
@@ -181,8 +183,6 @@ obj_perdus_clean <- obj_perdus %>%
 obj_trouves_clean <- obj_trouves %>%
   rename(date = "Date", date_restit = "Date et heure de restitution", gare = "Gare", UIC = "Code UIC", nature = "Nature d'objets", type = "Type d'objets", enregistrement = "Type d'enregistrement")
 ```
-
-La section suivante concernera l'**Exploration de ces données**. On y détaillera les 3 grands axes que sont la Découverte, les Voyageurs et les Objets.
 
 ------------------------------------------------------------------------
 
@@ -243,7 +243,7 @@ Gare du Nord semble être la gare la plus fréquentée du réseau. En faisant de
 
 Pour poursuivre notre découverte du réseau ferroviaire, nous avons choisi de représenter la fréquentation des gares sur une carte de France Métropolitaine. Avec cette visualisation spatiale, on peut comprendre plus facilement les enjeux liés aux flux de voyageurs.
 
-`Nous étudierons ici : À quoi ressemble le réseau SNCF en France ?`
+> `Nous étudierons ici : À quoi ressemble le réseau SNCF en France ?`
 
 > `On s'attend à avoir un réseau en étoile vers Paris.`
 
@@ -267,7 +267,7 @@ ggplot(data = france) +
 
 Cette visualisation complète notre première analyse : Paris est le centre du réseau ferroviaire français, *"tout passe par Paris"*. Cette règle s'applique également avec le réseau autoroutier français.
 
-![](images/figure/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="959"}**Figure 2.** Carte du réseau SNCF en France (2020). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
+![](images/figure/carte-reseau-sncf-france2020.png "Carte du réseau SNCF en France (2020)"){width="600"} **Figure 2.** Carte du réseau SNCF en France (2020). **Source :** <https://www.sncf-connect.com/aide/le-reseau-sncf-en-france-et-en-europe>
 
 > `Réponse à la question : Le réseau ferroviaire de la SNCF est bien en étoile comme le confirme la visualisation obtenue.`
 
@@ -275,7 +275,7 @@ Cette visualisation complète notre première analyse : Paris est le centre du r
 
 Réalisons maintenant une analyse multiscalaire afin d'avoir une meilleure vue d'ensemble et compréhension de la fréquentation de ce réseau.
 
-`Nous verrons donc ici : Quels sont les départements les mieux équipés ?`
+> `Nous verrons donc ici : Quels sont les départements les mieux équipés ?`
 
 > `On s'attend à retrouver Paris en tête de tous les départements, suivi des départements d'Ile-de-France (autour de Paris).`
 
@@ -349,9 +349,9 @@ ggplot(freq_region, aes(x = region, y = Total_Passagers_Region)) +
 
 ```
 
-**Analyse.** Comme le constat fait un peu plus haut, on observe que la région Ile de France (composée des départements 75, 77, 78, 91, 92, 93, 94, 95) concentre la plupart des voyageurs. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes à l'année. On peut également souligner que le réseau SNCF désert la gare de Monaco-Monte-Carlo qui n'est pas comptabilisé dans les régions françaises. Nous avons donc dû l'intégrer manuellement.
+**Analyse.** Comme le constat fait un peu plus haut, on observe que la région Île-de-France (composée des départements 75, 77, 78, 91, 92, 93, 94, 95) concentre la plupart des voyageurs. Ce constat est tout à fait correct étant donné que la région concentre environ 12 millions de personnes à l'année. On peut également souligner que le réseau SNCF désert la gare de Monaco-Monte-Carlo qui n'est pas comptabilisé dans les régions françaises. Nous avons donc dû l'intégrer manuellement.
 
-`Nous répondrons ici à la question : À quel point Paris a une place importante dans le réseau des autres territoires ?`
+> `Nous répondrons ici à la question : À quel point Paris a une place importante dans le réseau des autres territoires ?`
 
 > `On s'attend à ce que Paris surpasse les autres territoires français, au vue des élements que nous avons pu trouver au-dessus.`
 
@@ -413,7 +413,7 @@ Est-ce qu'un réseau en étoile vers la plus grande ville de la région s'appliq
 
 Après avoir étudié l'échelle nationale et régionale, on peut s'intéresser à la fréquentation des gares au sein d'un même département. Il serait intéressant de réaliser une première visualisation permettant de classer les gares de ce département (77). Cela permettrait de faire ressortir les plus utilisées. Ensuite, une visualisation spatiale permettrait de les placer spatialement au sein de ce même département et de voir leur importance.
 
-`Enfin, nous étudierons la question : Le nombre de voyageurs est-il bien reparti entre les gares d'un même département ?`
+> `Enfin, nous étudierons la question : Le nombre de voyageurs est-il bien reparti entre les gares d'un même département ?`
 
 > `On s'attend à avoir quelques disparités évidentes entre la fréquentation des gares d'un même département.`
 
@@ -509,7 +509,7 @@ Dans cette partie, nous étudierons les voyageurs. Afin de mieux comprendre les 
 
 *Quel est le voyageur moyen de la SNCF ? Comment ce voyageur diffère en fonction des gares ? Quel est la relation entre les motifs de voyage des passagers et leur répartition par âge et par profession ?*
 
-`Nous étudierons ici la question : Quel est le voyageur moyen de la SNCF ?`
+> `Nous étudierons ici la question : Quel est le voyageur moyen de la SNCF ?`
 
 > `On s'attend à obtenir une personne d'âge moyen (30 ans) qui se déplace pour le travail et qui est cadre.`
 
@@ -629,7 +629,7 @@ ggplot(motif_moyen, aes(x = reorder(`Motif du déplacement`, Pourcentage_moyen),
     y = "Pourcentage Moyen"
   ) +
   theme_minimal() +
-  theme(title = element_text(size = rel(0.72))) +
+  theme(plot.title = element_text(size = rel(0.7))) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
   scale_x_discrete(limits = rev(levels(motif_moyen$`Motif du déplacement`)))
 ```
@@ -640,7 +640,7 @@ Enfin, nous aurions pu réaliser également un nuage de points afin d'observer d
 
 On aimerait savoir si le motif de déplacement principal change en fonction de la gare.
 
-`Nous avons donc proposé d'étudier la question : Comment ce voyageur diffère en fonction des gares ?`
+> `Nous avons donc proposé d'étudier la question : Comment ce voyageur diffère en fonction des gares ?`
 
 > `Nous n'avons pas d'attente particulière sur cette question.`
 
@@ -663,11 +663,11 @@ ggplot(motif_comparaison, aes(x = Pourcentage_moyen, y = `Motif du déplacement`
   ) +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = rel(0.9)),
+    plot.title = element_text(size = rel(0.7)),
     axis.title.x = element_text(size = rel(1)),
     axis.title.y = element_text(size = rel(1)),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 7)
+    legend.title = element_text(size = 7),
+    legend.text = element_text(size = 6)
   ) +
   scale_fill_manual(values = c("Bordeaux Saint-Jean" = "steelblue", "Paris Est" = "darkorange", "Grenoble" = "forestgreen"))
 
@@ -684,7 +684,7 @@ Réalisons un graphique simple qui nous montre le nombre de voyageurs total par 
 
 Apercu du dataset fréquentations
 
-`Nous avons donc proposé d'étudier la question : Quel impact sur les voyageurs a eu la pandémie de Covid ?`
+> `Nous avons donc proposé d'étudier la question : Quel impact sur les voyageurs a eu la pandémie de Covid ?`
 
 > `Nous supposons que la fréquentation était très très faible sur 2020`
 
@@ -715,7 +715,7 @@ On voit rapidement qu'il y a un "trou" du à la période COVID 2020.
 
 Maintenant intéressons nous aux nombres de voyageurs par segment DRG.
 
-`Nous avons donc proposé d'étudier la question : Quelle fréquentation y a t il selon le type de gare ?`
+> `Nous avons donc proposé d'étudier la question : Quelle fréquentation y a t il selon le type de gare ?`
 
 > `Nous nous attendons à énormément de voyageurs dans les très grandes gares et beaucoup moins dans les autres`
 
@@ -794,7 +794,7 @@ Nous voulons effectuer plusieurs réductions sur ce jeu de données. Tout d'abor
 obj_perdus_2019 <- obj_perdus_clean %>%
   filter(date < ymd(20200101)) %>% 
   filter(date > ymd(20190101))
-count(obj_perdus_2019)
+count(obj_perdus_2019)$n
 ```
 
 Nous avons donc maintenant 185 065 entrées dans notre dataframe.
@@ -820,43 +820,54 @@ Sans surprise, les objets les plus couramment perdus sont donc dans l'ordre :
 
 -   Vêtements
 
+Combien d'objets perdus ont une gare affiliée
+
 ```{r}
 obj_perdus_trouves <- obj_perdus_2019 %>%
   filter(is.na(gare) == FALSE)
 
-count(obj_perdus_trouves)
+count(obj_perdus_trouves)$n
 ```
+
+Nous allons maintenant nous concentrés sur ces objets car cela indique qu'ils ont sûrement été rendus dans la gare.
 
 ```{r}
 obj_perdus_trouves %>% 
   ggplot(aes(y=fct_rev(fct_infreq(type)))) +
   geom_bar(fill="blue4") +
-  labs(title = "Nombre d'objets retrouvés par type (2019)",
+  labs(title = "Nombre d'objets perdus en gare par type (2019)",
        y = "Type d'objet",
        x = "Nombre d'objets perdus en unité") +
   theme_minimal() +
-  theme(axis.text.y = element_text(size = rel(0.8)))
+  theme(
+    plot.title = element_text(size = rel(0.9)),
+    axis.text.y = element_text(size = rel(0.8))
+    )
 ```
 
 ## 2. Objets restitués
 
 Nous allons ensuite parcourir le dataset 7 : obj_trouves
 
+Combien y a-t-il d'objets rendus :
+
 ```{r}
 obj_trouves_2019 <- obj_trouves_clean %>%
   select(-enregistrement) %>%
   filter(date < ymd(20200101)) %>% 
   filter(date > ymd(20190101))
-count(obj_trouves_2019)
+count(obj_trouves_2019)$n
 ```
 
-On découvre donc qu'il y a plus d'objets trouvés que d'objets perdus rendus. Cela veut donc dire que tous les objets récupérés ne sont pas forcément déclarés comme perdus au préalable.
+On découvre donc qu'il y a plus du double d'objets perdus.
+
+Comptons les objets rendus avec un UIC :
 
 ```{r}
 obj_trouves_rendus <- obj_trouves_2019 %>%
   filter(is.na(UIC) == FALSE)
 
-count(obj_trouves_rendus)
+count(obj_trouves_rendus)$n
 
 ```
 
@@ -880,11 +891,10 @@ liste_UIC_perdus <- obj_perdus_trouves %>%
   select(UIC)
 liste_UIC_trouves <- obj_trouves_rendus %>%
   select(UIC)
-count(intersect(liste_UIC_perdus, liste_UIC_trouves))
-count(setdiff(liste_UIC_perdus,liste_UIC_trouves))
+count(intersect(liste_UIC_perdus, liste_UIC_trouves))$n
 ```
 
-Il semble que seulement 146 code UIC différents et après quelques recherches en ligne, le code UIC est l'ID des gares. Donc cette colonne ne nous est pas forcément utile.
+Il semble que seulement 145 code UIC différents et après quelques recherches en ligne, le code UIC est l'ID des gares. Donc cette colonne ne nous est pas forcément utile.
 
 Nous allons donc maintenant essayer de mettre en relation plutôt les dates entre les 2 datasets :
 
@@ -894,7 +904,6 @@ liste_date_perdus <- obj_perdus_trouves %>%
 liste_date_trouves <- obj_trouves_rendus %>%
   select(date)
 intersect(liste_date_perdus, liste_date_trouves)
-setdiff(liste_date_perdus,liste_date_trouves)
 ```
 
 Nous avons donc seulement 302 dates en commun entre les 2 jeux de données ce qui est très faible. On peut donc supposer que les 2 datasets ne sont pas liés et les dates ne correspondent pas. On peut supposer que la date des objets perdus provient du questionnaire de perte que les voyageurs remplissent, tandis que la date des objets trouvés provient du formulaire remplit par les agents SNCF.
@@ -912,7 +921,7 @@ obj_trouves_clean2 <- obj_trouves_clean %>%
 
 ## 3. Probabilité de retrouver un objet perdu
 
-`Nous étudierons ici : Quelles sont les chances de retrouver un objet perdu ?`
+> `Nous étudierons ici : Quelles sont les chances de retrouver un objet perdu ?`
 
 > `On pense que beaucoup d'objets ne sont jamais retrouvés par leur propriétaire. Nous n'avons pas d'idée de la proportion que cela représente.`
 
@@ -924,7 +933,7 @@ Cela s'exprime ainsi :
 
 ```{r}
 proba_commune <- (count(obj_trouves_2019) / count(obj_perdus_2019) * 100)
-proba_commune
+proba_commune[1,1]
 ```
 
 Je trouve la probabilité relativement élevée car pas très éloignée du 50%. Peut-être aussi que le postulat personnel avant le calcul était relativement pessimiste.
@@ -933,7 +942,7 @@ Je trouve la probabilité relativement élevée car pas très éloignée du 50%.
 
 ## 4. Probabilité de retrouver un objet selon son type
 
-`Nous tenterons de donner une réponse à la question suivante : Quelles sont les chances de retrouver un objet en fonction de sa nature ?`
+> `Nous tenterons de donner une réponse à la question suivante : Quelles sont les chances de retrouver un objet en fonction de sa nature ?`
 
 > `On pense que les vélos sont plus retrouvés que d'autres types d'objets comme des petits accessoires (écouteurs, montres, bijoux etc...)`
 
@@ -961,7 +970,7 @@ probas_types %>%
        x = "Type d'objet",) +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = rel(2)),
+    plot.title = element_text(size = rel(1.5)),
     axis.text.x = element_text(
       size = rel(0.65),
       face = "italic",
@@ -982,7 +991,7 @@ Il serait aussi intéressant de voir que ces statistiques sont fondées sur les 
 
 Nous allons maintenant traiter l'ensemble du jeu de données des objets perdus pour voir s'il y a un motif qui pourrait faire croire que certains mois sont plus propices à la perte d'objets.
 
-`Ainsi, la question suivante nous a particulièrement intéressée : Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?`
+> `Ainsi, la question suivante nous a particulièrement intéressée : Doit-on s'attendre à un afflux d'objets perdus plus important dans les mois de Juillet-Août 2024 plus important que les dernières années ?`
 
 > `On imagine ces dernières années une utilisation plus importante des mobilités douces et donc du train pour diminuer l'impact carbone. Le nombre d'usagers du train augmente pouvant accroître également le nombre d'objets perdus.`
 
@@ -1058,7 +1067,7 @@ D'autres objets à l'inverse ne dépendent pas nécessairement de la période de
 
 Nous finissons le traitement des données pour essayer de déceler si le risque de perte est plus important selon la gare. L'étude ne sera faite que sur une année car les données de voyageurs sont année par année.
 
-`Nous étudierons ici : Y-a-t-il plus de chances de perdre un objet selon la gare ?`
+> `Nous étudierons ici : Y-a-t-il plus de chances de perdre un objet selon la gare ?`
 
 > `Nous imaginons que des gares très grandes (spatialement) ont plus de chances d'avoir des pertes d'objets.`
 
